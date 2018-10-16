@@ -1,0 +1,12 @@
+@import '~semantic-ui-css/semantic.css';
+
+.pagina-login {
+  display: flex!important;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  .inicio-sesion {
+    width: 400px;
+  }
+}
