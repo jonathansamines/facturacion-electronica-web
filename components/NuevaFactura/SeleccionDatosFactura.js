@@ -3,15 +3,15 @@ import debounce from 'lodash/debounce';
 import { Formik } from 'formik';
 import { Form, Select, Button } from 'semantic-ui-react';
 import NuevoCliente from './NuevoCliente';
+import NuevoVendedor from './NuevoVendedor';
 import servicio from './../../lib/servicio-api';
 
 class SeleccionCliente extends React.Component {
   state = {
-    busqueda: '',
     clientes: [],
     vendedores: [],
-    crearVendedor: false,
-    crearCliente: false,
+    nuevoVendedor: null,
+    nuevoCliente: null,
   }
 
   buscarCliente = debounce((event, data) => {
@@ -39,30 +39,59 @@ class SeleccionCliente extends React.Component {
   }, 200)
 
   crearCliente = (event, { value }) => {
-    this.setState({ crearVendedor: true });
+    this.setState({ nuevoCliente: { nombre: value } });
   }
 
   cancelarCreacionCliente = () => {
-    this.setState({ crearCliente: false });
+    this.setState({ nuevoCliente: null });
   }
 
   seleccionarInformacion = (values, actions) => {
-    const cliente = this.state.clientes.find((cliente) => cliente.id_cliente === values.id_cliente) || null;
-    const vendedor = this.state.vendedores.find((vendedor) => vendedor.id_vendedor === values.id_vendedor) || null;
+    const { clientes, vendedores } = this.state;
+
+    const cliente = clientes.find((cliente) => cliente.id_cliente === values.id_cliente) || null;
+    const vendedor = vendedores.find((vendedor) => vendedor.id_vendedor === values.id_vendedor) || null;
 
     return this.props.onSeleccion({ cliente, vendedor });
   }
 
-  crearVendedor = () => {
-    this.setState({ crearVendedor: true });
+  agregarCliente = (cliente) => {
+    this.setState(({ clientes }) => ({
+      nuevoCliente: null,
+      clientes: [
+        ...clientes,
+        cliente
+      ]
+    }));
+  }
+
+  agregarVendedor = (vendedor) => {
+    this.setState(({ vendedores }) => ({
+      nuevoVendedor: null,
+      vendedores: [
+        ...vendedores,
+        vendedor
+      ]
+    }));
+  }
+
+  crearVendedor = (event, { value }) => {
+    this.setState({ nuevoVendedor: { nombre: value } });
   }
 
   cancelarCreacionVendedor = () => {
-    this.setState({ crearVendedor: false });
+    this.setState({ nuevoVendedor: null });
   }
 
   render() {
-    const { clientes, vendedores } = this.state;
+    const {
+      clientes,
+      vendedores,
+      nuevoCliente,
+      nuevoVendedor,
+    } = this.state;
+
+    const { sucursales } = this.props;
 
     const opcionesClientes = clientes.map((cliente) => ({
       key: cliente.id_cliente,
@@ -79,9 +108,20 @@ class SeleccionCliente extends React.Component {
     return (
       <>
         {
-          this.state.crearCliente &&
+          nuevoCliente &&
           <NuevoCliente
+            nombreCliente={nuevoCliente.nombre}
+            onClienteCreado={this.agregarCliente}
             onCancelar={this.cancelarCreacionCliente} />
+        }
+
+        {
+          nuevoVendedor &&
+          <NuevoVendedor
+            sucursales={sucursales}
+            nombreVendedor={nuevoVendedor.nombre}
+            onVendedorCreado={this.agregarVendedor}
+            onCancelar={this.cancelarCreacionVendedor} />
         }
 
         <Formik

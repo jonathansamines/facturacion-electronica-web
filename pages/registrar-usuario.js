@@ -140,7 +140,7 @@ class PaginaRegistro extends React.Component {
                 </Segment>
 
                 <Segment textAlign='right' vertical>
-                  <Button basic color='green' type='submit'>Registrar</Button>
+                  <Button color='google plus' type='submit'>Registrar</Button>
                 </Segment>
               </Form>
             )}

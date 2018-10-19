@@ -27,7 +27,6 @@ class PaginaLogin extends React.Component {
           error: false,
         });
 
-        // hard reload, so that session state is generated
         window.location.replace('/');
       })
       .catch(() => {
@@ -108,7 +107,7 @@ class PaginaLogin extends React.Component {
                 </Segment>
 
                 <Segment vertical textAlign='right'>
-                  <Button basic color='google plus' type='submit'>Iniciar Sesión</Button>
+                  <Button color='google plus' type='submit'>Iniciar Sesión</Button>
                 </Segment>
               </Form>
             )}

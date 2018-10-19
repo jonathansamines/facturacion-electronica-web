@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal, Form, Select, Input } from 'semantic-ui-react';
+import { Button, Modal, Form, Select, Message, Input } from 'semantic-ui-react';
 import { Formik } from 'formik';
 import servicio from '../../lib/servicio-api';
 
@@ -17,7 +17,38 @@ class NuevoCliente extends React.Component {
   }
 
   crearCliente = (values, actions) => {
-    return this.props.onCrearUsuario();
+    const cliente = {
+      nit: values.nit,
+      cui: values.cui,
+      id_municipio: values.id_municipio,
+      nombre: values.nombre,
+      apellido: values.apellido,
+      direccion: values.direccion,
+    };
+
+    return servicio
+      .post('/clientes', cliente)
+      .then((respuesta) => {
+        actions.resetForm();
+        actions.setSubmitting(false);
+
+        actions.setStatus({
+          mensaje: 'Cliente creado correctamente',
+          error: false,
+        });
+
+        setTimeout(
+          () => this.props.onClienteCreado(respuesta.data),
+          400
+        );
+      })
+      .catch(() => {
+        actions.setSubmitting(false);
+        actions.setStatus({
+          mensaje: 'Hubo un error al crear el cliente. Vuelva a intentarlo',
+          error: true,
+        });
+      });
   }
 
   cancelar = () => {
@@ -25,6 +56,7 @@ class NuevoCliente extends React.Component {
   }
 
   render () {
+    const { nombreCliente } = this.props;
     const { departamentos } = this.state;
 
     const opcionesDepartamentos = departamentos.map((departamento) => ({
@@ -41,13 +73,14 @@ class NuevoCliente extends React.Component {
             initialValues={({
               cui: '',
               nit: '',
-              nombre: '',
+              nombre: nombreCliente,
               apellido: '',
+              direccion: '',
               id_departamento: null,
               id_municipio: null,
             })}
             onSubmit={this.crearCliente}>
-            {({ values, handleChange, setFieldValue, handleSubmit }) => {
+            {({ values, status, handleChange, setFieldValue, handleSubmit }) => {
               const departamento = departamentos.find((departamento) => departamento.id_departamento === values.id_departamento);
               const municipios = departamento ? departamento.municipios : [];
 
@@ -88,6 +121,13 @@ class NuevoCliente extends React.Component {
                       onChange={handleChange} />
                   </Form.Field>
                   <Form.Field required>
+                    <Input
+                      name='direccion'
+                      placeholder='Dirección de residencia o comercial'
+                      value={values.direccion}
+                      onChange={handleChange} />
+                  </Form.Field>
+                  <Form.Field required>
                     <Select
                       search
                       name='id_departamento'
@@ -107,6 +147,11 @@ class NuevoCliente extends React.Component {
                       value={values.id_municipio}
                       onChange={(event, data) => setFieldValue('id_municipio', data.value)} />
                   </Form.Field>
+                  {
+                    status &&
+                    status.mensaje &&
+                    <Message negative={status.error}>{status.mensaje}</Message>
+                  }
                 </Form>
               );
              }}
