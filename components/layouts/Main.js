@@ -1,6 +1,7 @@
 import './../../styles.scss';
 
 import React from 'react';
+import Link from 'next/link';
 import { Menu, Container, Header } from 'semantic-ui-react';
 
 const style = {
@@ -15,12 +16,19 @@ const Main = ({ children }) => (
     <Menu stackable>
       <Menu.Item>
         <Header as='h3' content='Facturacion electrónica' style={style.h3} textAlign='center' />
-        <img src='/logo.png' />
+        <img src='/static/images/logo.png' />
       </Menu.Item>
-      <Menu.Item>Features</Menu.Item>
-      <Menu.Item>Testimonials</Menu.Item>
-      <Menu.Item>Sign-in</Menu.Item>
+      <Menu.Item>
+        <Link href='/'><a title='Facturas'>Facturas</a></Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link href='/nueva-factura'><a title='Nueva Factura'>Nueva Factura</a></Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link href='/cerrar-sesion'><a title='Lucas Manita'>Lucas Manita</a></Link>
+      </Menu.Item>
     </Menu>
+    {children}
   </Container>
 );
 

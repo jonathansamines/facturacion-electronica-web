@@ -1,6 +1,6 @@
 @import '~semantic-ui-css/semantic.css';
 
-.pagina-login {
+.pagina-simple {
   display: flex!important;
   justify-content: center;
   align-items: center;
@@ -8,5 +8,9 @@
 
   .inicio-sesion {
     width: 400px;
+  }
+
+  .registro-usuario {
+    width: 600px;
   }
 }
