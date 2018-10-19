@@ -27,12 +27,7 @@ class PaginaNuevaFactura extends React.Component {
   state = {
     opciones: null,
     cliente: null,
-    vendedor: {
-      nit: 3894893,
-      nombre: 'El vendedor',
-      apellido: 'confliable',
-      direccion: 'La direccion'
-    }
+    vendedor: null
   }
 
   static async getInitialProps({ req }) {
