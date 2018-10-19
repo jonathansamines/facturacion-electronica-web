@@ -2,34 +2,53 @@ import './../../styles.scss';
 
 import React from 'react';
 import Link from 'next/link';
-import { Menu, Container, Header } from 'semantic-ui-react';
+import { withRouter } from 'next/router';
+import Logo from './../Logo';
+import { Icon, Menu, Container, Header, Segment } from 'semantic-ui-react';
 
-const style = {
-  h3: {
-    marginTop: '2em',
-    padding: '2em 0em',
-  }
-}
+const Main = ({ router, children, usuario }) => {
+  return (
+    <Container>
+      <nav className='menu-principal'>
+        <Menu secondary stackable size='large'>
+          <Menu.Item>
+            <Header as='h2'>
+              <Logo as='a' size='massive' href='/' />
+              <Header.Content>
+                {usuario.empresa.nombre_comercial}
+                <Header.Subheader>
+                  <strong>NIT: </strong>
+                  <span>{usuario.empresa.nit}</span>
+                </Header.Subheader>
+              </Header.Content>
+            </Header>
+          </Menu.Item>
+          <Menu.Menu position='right'>
+            <Menu.Item active={router.pathname === '/'}>
+              <Link href='/'><a title='Facturas'>Facturas</a></Link>
+            </Menu.Item>
+            <Menu.Item active={router.pathname === '/nueva-factura'}>
+              <Link href='/nueva-factura'><a title='Nueva Factura'>Nueva Factura</a></Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Link href='/cerrar-sesion'>
+                <a title={usuario.nombre_usuario}>
+                  <Icon name='user circle' />
+                  {usuario.nombre_usuario}
+                </a>
+              </Link>
+            </Menu.Item>
+          </Menu.Menu>
+        </Menu>
+      </nav>
 
-const Main = ({ children }) => (
-  <Container>
-    <Menu stackable>
-      <Menu.Item>
-        <Header as='h3' content='Facturacion electrónica' style={style.h3} textAlign='center' />
-        <img src='/static/images/logo.png' />
-      </Menu.Item>
-      <Menu.Item>
-        <Link href='/'><a title='Facturas'>Facturas</a></Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link href='/nueva-factura'><a title='Nueva Factura'>Nueva Factura</a></Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link href='/cerrar-sesion'><a title='Lucas Manita'>Lucas Manita</a></Link>
-      </Menu.Item>
-    </Menu>
-    {children}
-  </Container>
-);
+      <main>
+        <Segment vertical color='red'>
+          {children}
+        </Segment>
+      </main>
+    </Container>
+  );
+};
 
-export default Main;
+export default withRouter(Main);

@@ -92,6 +92,7 @@ class NuevoCliente extends React.Component {
                       search
                       name='id_departamento'
                       placeholder='Seleccione un departamento'
+                      noResultsMessage='Departamento no encontrado'
                       options={opcionesDepartamentos}
                       value={values.id_departamento}
                       onChange={(event, data) => setFieldValue('id_departamento', data.value)} />
@@ -101,6 +102,7 @@ class NuevoCliente extends React.Component {
                       search
                       name='id_municipio'
                       placeholder='Seleccione un municipio'
+                      noResultsMessage='Municipio no encontrado'
                       options={opcionesMunicipios}
                       value={values.id_municipio}
                       onChange={(event, data) => setFieldValue('id_municipio', data.value)} />
@@ -115,7 +117,7 @@ class NuevoCliente extends React.Component {
             Cancelar
           </Button>
           <Button
-            color='blue'
+            color='google plus'
             type='submit'
             form='creacion-cliente'>
             Guardar

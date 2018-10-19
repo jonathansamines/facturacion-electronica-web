@@ -105,7 +105,7 @@ class NuevaFactura extends React.Component {
             Cancelar
           </Button>
           <Button
-            color='blue'
+            color='google plus'
             type='submit'
             form='configuracion-factura'>
             Confirmar

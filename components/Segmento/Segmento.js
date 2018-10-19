@@ -6,7 +6,7 @@ const Segmento = (props) => (
     stacked
     compact
     size='large'
-    color='blue'
+    color='red'
     {...props} />
 );
 
