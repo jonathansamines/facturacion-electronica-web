@@ -1,5 +1,6 @@
 import React from 'react';
-import { Segment, List } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+import { List } from 'semantic-ui-react';
 
 const DatosVendedor = ({ vendedor }) => (
   <List relaxed size='medium'>
@@ -13,12 +14,16 @@ const DatosVendedor = ({ vendedor }) => (
     </List.Item>
     <List.Item>
       <List.Header as='strong'>Sucursal: </List.Header>
-      {vendedor.direccion}
+      {vendedor.sucursal.descripcion}
     </List.Item>
     <List.Item>
       <a>Editar vendedor</a>
     </List.Item>
   </List>
 );
+
+DatosVendedor.propTypes = {
+  vendedor: PropTypes.object.isRequired,
+};
 
 export default DatosVendedor;

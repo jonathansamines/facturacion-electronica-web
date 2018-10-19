@@ -1,9 +1,11 @@
 import React from 'react';
 import pProps from 'p-props';
 import Head from 'next/head';
+import Router from 'next/router';
 import Main from './../components/layouts/Main';
 import NuevaFactura from './../components/NuevaFactura';
 import SeleccionDatosFactura from './../components/NuevaFactura/SeleccionDatosFactura';
+import DatosFactura from './../components/NuevaFactura/DatosFactura';
 import DatosCliente from './../components/NuevaFactura/DatosCliente';
 import DatosVendedor from './../components/NuevaFactura/DatosVendedor';
 import servicio, { obtenerUsuarioLogueado } from './../lib/servicio-api'
@@ -40,8 +42,12 @@ class PaginaNuevaFactura extends React.Component {
     });
   }
 
+  cancelarCreacion = () => {
+    return Router.push('/');
+  }
+
   configurarFactura = (opciones) => {
-    this.setState(opciones);
+    this.setState({ opciones });
   }
 
   configurarSeleccion = ({ cliente, vendedor }) => {
@@ -65,7 +71,14 @@ class PaginaNuevaFactura extends React.Component {
           </Segment>
 
           <Segment vertical>
-            <Grid columns={2}>
+            <Grid columns={3}>
+              {
+                opciones &&
+                <Grid.Column>
+                  <DatosFactura opciones={opciones} />
+                </Grid.Column>
+              }
+
               {
                 cliente &&
                 <Grid.Column>
@@ -83,14 +96,18 @@ class PaginaNuevaFactura extends React.Component {
           </Segment>
 
           <Segment vertical>
-            <DetalleFactura />
+            {
+              opciones &&
+              <DetalleFactura moneda={opciones.moneda} />
+            }
           </Segment>
 
           <NuevaFactura
             monedas={monedas}
             sucursales={usuario.empresa.sucursales}
             tiposDocumentos={afiliacionIVA.tipos_documentos}
-            onConfirmacion={this.configurarFactura} />
+            onConfirmacion={this.configurarFactura}
+            onCancelar={this.cancelarCreacion} />
         </Main>
       </>
     );
