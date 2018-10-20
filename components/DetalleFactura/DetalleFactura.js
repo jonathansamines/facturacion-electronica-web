@@ -91,8 +91,7 @@ class DetalleFactura extends React.Component {
           onSubmit={this.agregarProducto}>
           {({ values, setFieldValue, handleSubmit }) => (
             <Form autoComplete='off' onSubmit={handleSubmit}>
-              <Form.Field>
-                <label>Detalle de la Factura</label>
+              <Form.Field width='6'>
                 <SelectorProducto
                   name='id_producto'
                   productos={productosEnCatalogo}
@@ -104,9 +103,7 @@ class DetalleFactura extends React.Component {
             </Form>
           )}
         </Formik>
-        <TablaProductos
-          moneda={moneda}
-          productos={productos} />
+        <TablaProductos moneda={moneda} productos={productos} />
       </>
     );
   }

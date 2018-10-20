@@ -37,17 +37,17 @@ class SelectorVendedor extends React.Component {
 
     return (
       <Select
-          search
-          allowAdditions
-          additionLabel='Crear nuevo vendedor: '
-          name={name}
-          placeholder='Nombre, CF o NIT (un nit valido)'
-          noResultsMessage='Vendedor no encontrado'
-          options={opcionesVendedores}
-          value={vendedorSeleccionado}
-          onAddItem={onAgregar}
-          onSearchChange={this.buscarVendedor}
-          onChange={onSeleccion} />
+        search
+        allowAdditions
+        additionLabel='Crear nuevo vendedor: '
+        name={name}
+        placeholder='Nombre, CF o NIT (un nit valido)'
+        noResultsMessage='Vendedor no encontrado'
+        options={opcionesVendedores}
+        value={vendedorSeleccionado}
+        onAddItem={onAgregar}
+        onSearchChange={this.buscarVendedor}
+        onChange={onSeleccion} />
     );
   }
 }

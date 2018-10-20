@@ -51,38 +51,29 @@ class PaginaNuevaFactura extends React.Component {
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </Head>
         <Main usuario={usuario}>
-          <Segment vertical>
+          <Segment vertical padded>
             <SeleccionDatosFactura
               sucursales={usuario.empresa.sucursales}
               onSeleccion={this.configurarSeleccion} />
           </Segment>
 
-          <Segment vertical>
+          <Segment vertical padded>
             <Grid columns={3}>
-              {
-                opciones &&
-                <Grid.Column>
-                  <DatosFactura opciones={opciones} />
-                </Grid.Column>
-              }
+              <Grid.Column>
+                <DatosFactura opciones={opciones} />
+              </Grid.Column>
 
-              {
-                cliente &&
-                <Grid.Column>
-                  <DatosCliente cliente={cliente} />
-                </Grid.Column>
-              }
+              <Grid.Column>
+                <DatosCliente cliente={cliente} />
+              </Grid.Column>
 
-              {
-                vendedor &&
-                <Grid.Column>
-                  <DatosVendedor vendedor={vendedor} />
-                </Grid.Column>
-              }
+              <Grid.Column>
+                <DatosVendedor vendedor={vendedor} />
+              </Grid.Column>
             </Grid>
           </Segment>
 
-          <Segment vertical>
+          <Segment vertical padded='very'>
             {
               opciones &&
               <DetalleFactura moneda={opciones.moneda} />

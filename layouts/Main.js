@@ -43,7 +43,7 @@ const Main = ({ router, children, usuario }) => {
       </nav>
 
       <main>
-        <Segment stacked color='red'>
+        <Segment stacked padded color='red'>
           {children}
         </Segment>
       </main>

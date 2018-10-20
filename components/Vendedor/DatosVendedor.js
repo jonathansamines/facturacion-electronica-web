@@ -1,24 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Propiedad from '../Propiedad';
 import { List } from 'semantic-ui-react';
 
 const DatosVendedor = ({ vendedor }) => (
   <List relaxed size='medium'>
     <List.Item>
       <List.Header as='strong'>Código: </List.Header>
-      {vendedor.nit}
+      <Propiedad valor={vendedor} propiedad='nit' />
     </List.Item>
     <List.Item>
       <List.Header as='strong'>Vendedor: </List.Header>
-      {vendedor.nombre} {vendedor.apellido}
+      <Propiedad valor={vendedor} propiedad='nombre' />
+      <Propiedad valor={vendedor} propiedad='apellido' fallback='' />
     </List.Item>
     <List.Item>
       <List.Header as='strong'>Sucursal: </List.Header>
-      {vendedor.sucursal.descripcion}
+      <Propiedad valor={vendedor} propiedad='descripcion' />
     </List.Item>
-    <List.Item>
-      <a>Editar vendedor</a>
-    </List.Item>
+    {
+      vendedor &&
+      <List.Item>
+        <a>Editar vendedor</a>
+      </List.Item>
+    }
   </List>
 );
 

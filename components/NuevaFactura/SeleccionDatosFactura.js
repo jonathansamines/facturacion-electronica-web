@@ -106,8 +106,8 @@ class SeleccionDatosFactura extends React.Component {
           onSubmit={this.seleccionarInformacion}>
           {({ setFieldValue, handleSubmit, values }) => (
             <Form onSubmit={handleSubmit}>
-              <Form.Group inline>
-                <Form.Field width='6'>
+              <Form.Group>
+                <Form.Field width='7'>
                   <label>Cliente</label>
                   <SelectorCliente
                     name='id_cliente'
@@ -117,7 +117,7 @@ class SeleccionDatosFactura extends React.Component {
                     onBusqueda={this.actualizarClientes}
                     onSeleccion={(event, data) => setFieldValue('id_cliente', data.value)} />
                 </Form.Field>
-                <Form.Field width='6'>
+                <Form.Field width='7'>
                   <label>Vendedor</label>
                   <SelectorVendedor
                     name='id_vendedor'
@@ -127,8 +127,9 @@ class SeleccionDatosFactura extends React.Component {
                     onBusqueda={this.actualizarVendedores}
                     onSeleccion={(event, data) => setFieldValue('id_vendedor', data.value)} />
                 </Form.Field>
-                <Form.Field width='4'>
-                  <Button color='google plus'>Generar Factura</Button>
+                <Form.Field width='2'>
+                  <label>&nbsp;</label>
+                  <Button color='google plus' fluid>Facturar</Button>
                 </Form.Field>
               </Form.Group>
             </Form>
