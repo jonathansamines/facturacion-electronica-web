@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Table, Form } from 'semantic-ui-react';
 import { Formik } from 'formik';
-import SelectorProducto from '../SelectorProducto';
+import SelectorProducto from './SelectorProducto';
 
 class DetalleFactura extends React.Component {
   state = {

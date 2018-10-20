@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import Main from './../components/layouts/Main';
+import Main from './../layouts/Main';
 import { obtenerUsuarioLogueado } from './../lib/servicio-api'
 
 class App extends React.Component {

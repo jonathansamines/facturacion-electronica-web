@@ -3,14 +3,14 @@ import pProps from 'p-props';
 import Head from 'next/head';
 import Router from 'next/router';
 import { Grid, Segment } from 'semantic-ui-react';
-import Main from './../components/layouts/Main';
+import Main from './../layouts/Main';
 import NuevaFactura from './../components/NuevaFactura';
 import SeleccionDatosFactura from './../components/NuevaFactura/SeleccionDatosFactura';
 import DatosFactura from './../components/NuevaFactura/DatosFactura';
 import DatosCliente from './../components/NuevaFactura/DatosCliente';
 import DatosVendedor from './../components/NuevaFactura/DatosVendedor';
 import { obtenerMonedas, obtenerUsuarioLogueado, obtenerAfiliacionIva } from './../lib/servicio-api'
-import DetalleFactura from '../components/NuevaFactura/DetalleFactura';
+import DetalleFactura from '../components/DetalleFactura';
 
 class PaginaNuevaFactura extends React.Component {
   state = {

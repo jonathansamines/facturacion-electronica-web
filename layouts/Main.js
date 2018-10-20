@@ -1,10 +1,10 @@
-import './../../styles.scss';
+import './../styles.scss';
 
 import React from 'react';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
-import Logo from './../Logo';
 import { Icon, Menu, Container, Header, Segment } from 'semantic-ui-react';
+import Logo from './../components/Logo';
 
 const Main = ({ router, children, usuario }) => {
   return (
