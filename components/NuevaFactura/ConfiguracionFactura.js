@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import { Checkbox, Button, Modal, Form, Select } from 'semantic-ui-react';
+import SelectorMoneda from './../SelectorMoneda';
 
 class ConfiguracionFactura extends React.Component {
   state = {
@@ -37,12 +38,6 @@ class ConfiguracionFactura extends React.Component {
       key: tipoDocumento.id_tipo_documento,
       value: tipoDocumento.id_tipo_documento,
       text: tipoDocumento.descripcion,
-    }));
-
-    const opcionesMoneda = monedas.map((moneda) => ({
-      key: moneda.id_moneda,
-      value: moneda.id_moneda,
-      text: moneda.descripcion,
     }));
 
     const opcionesSucursales = sucursales.map((sucursal) => ({
@@ -81,12 +76,11 @@ class ConfiguracionFactura extends React.Component {
                       onChange={(event, data) => setFieldValue('id_tipo_documento', data.value)} />
                   </Form.Field>
                   <Form.Field required>
-                    <Select
+                    <SelectorMoneda
                       name='id_moneda'
-                      placeholder='Seleccione una moneda'
-                      value={values.id_moneda}
-                      options={opcionesMoneda}
-                      onChange={(event, data) => setFieldValue('id_moneda', data.value)} />
+                      monedaSeleccionada={values.id_moneda}
+                      monedas={monedas}
+                      onSeleccion={(event, data) => setFieldValue('id_moneda', data.value)} />
                   </Form.Field>
                   <Form.Field required>
                     <Select

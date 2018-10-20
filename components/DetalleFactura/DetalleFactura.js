@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
-import { Table, Form } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 import SelectorProducto from './SelectorProducto';
 import ConfirmacionProducto from './ConfirmacionProducto';
+import NuevoProducto from './NuevoProducto';
+import TablaProductos from './TablaProductos';
 
 class DetalleFactura extends React.Component {
   state = {
@@ -42,8 +44,22 @@ class DetalleFactura extends React.Component {
     }
   }
 
+  agregarProductoACatalogo = (producto) => {
+    this.setState(({ productosEnCatalogo }) => ({
+      nuevoProducto: null,
+      productosEnCatalogo: [
+        ...productosEnCatalogo,
+        producto
+      ]
+    }));
+  }
+
   crearProducto = (event, { value }) => {
     this.setState({ nuevoProducto : { descripcion: value } });
+  }
+
+  cancelarCreacionProducto = (event, { value }) => {
+    this.setState({ nuevoProducto : null });
   }
 
   render() {
@@ -58,6 +74,14 @@ class DetalleFactura extends React.Component {
             producto={productoPendiente}
             onConfirmar={this.confirmarProductoPendiente}
             onCancelar={this.cancelarProductoPendiente} />
+        }
+
+        {
+          nuevoProducto &&
+          <NuevoProducto
+            descripcionProducto={nuevoProducto.descripcion}
+            onProductoCreado={this.agregarProductoACatalogo}
+            onCancelar={this.cancelarCreacionProducto} />
         }
 
         <Formik
@@ -80,54 +104,9 @@ class DetalleFactura extends React.Component {
             </Form>
           )}
         </Formik>
-        <Table striped basic='very'>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Código</Table.HeaderCell>
-              <Table.HeaderCell>Descripción</Table.HeaderCell>
-              <Table.HeaderCell>Cantidad</Table.HeaderCell>
-              <Table.HeaderCell>Costo Unitario</Table.HeaderCell>
-              <Table.HeaderCell>Impuestos</Table.HeaderCell>
-              <Table.HeaderCell>Costo Total</Table.HeaderCell>
-              <Table.HeaderCell></Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-
-          <Table.Body>
-            {
-              productos.length === 0 &&
-              <Table.Row>
-                <Table.Cell colSpan='7'>No se han agregado productos a la factura.</Table.Cell>
-              </Table.Row>
-            }
-            {
-              productos.map((producto) => {
-                return (
-                  <Table.Row key={producto.id_producto}>
-                    <Table.Cell>{producto.id_producto}</Table.Cell>
-                    <Table.Cell>{producto.descripcion}</Table.Cell>
-                    <Table.Cell>0</Table.Cell>
-                    <Table.Cell>{moneda.id_moneda} {producto.precio_unitario}</Table.Cell>
-                    <Table.Cell>0.00</Table.Cell>
-                    <Table.Cell>0.00</Table.Cell>
-                    <Table.Cell>
-                      <a>Impuestos  </a>
-                      <a>Eliminar</a>
-                    </Table.Cell>
-                  </Table.Row>
-                );
-              })
-            }
-          </Table.Body>
-
-          <Table.Footer>
-            <Table.Row>
-              <Table.HeaderCell colSpan='7'>
-                3000.00
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Footer>
-        </Table>
+        <TablaProductos
+          moneda={moneda}
+          productos={productos} />
       </>
     );
   }
