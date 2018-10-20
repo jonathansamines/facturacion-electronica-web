@@ -1,10 +1,8 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { Form, Button, Select } from 'semantic-ui-react';
-import NuevoCliente from './NuevoCliente';
-import NuevoVendedor from './NuevoVendedor';
-import SelectorCliente from './../SelectorCliente';
-import SelectorVendedor from './../SelectorVendedor';
+import { Form, Button } from 'semantic-ui-react';
+import { SelectorCliente, NuevoCliente } from '../Cliente';
+import { SelectorVendedor, NuevoVendedor } from '../Vendedor';
 
 class SeleccionDatosFactura extends React.Component {
   state = {

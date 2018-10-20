@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import { Select } from 'semantic-ui-react';
-import { buscarVendedor } from './../lib/servicio-api';
+import { buscarVendedor } from '../../lib/servicio-api';
 
 class SelectorVendedor extends React.Component {
   buscarVendedor = debounce((event, data) => {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { Button, Modal, Form, Message, Input } from 'semantic-ui-react';
-import SelectorDepartamento from './../SelectorDepartamento';
-import SelectorMunicipio from './../SelectorMunicipio';
+import SelectorDepartamento from './SelectorDepartamento';
+import SelectorMunicipio from './SelectorMunicipio';
 import { obtenerDepartamentos, crearCliente } from '../../lib/servicio-api';
 
 class NuevoCliente extends React.Component {

@@ -4,13 +4,11 @@ import Head from 'next/head';
 import Router from 'next/router';
 import { Grid, Segment } from 'semantic-ui-react';
 import Main from './../layouts/Main';
-import NuevaFactura from './../components/NuevaFactura';
-import SeleccionDatosFactura from './../components/NuevaFactura/SeleccionDatosFactura';
-import DatosFactura from './../components/NuevaFactura/DatosFactura';
-import DatosCliente from './../components/NuevaFactura/DatosCliente';
-import DatosVendedor from './../components/NuevaFactura/DatosVendedor';
-import { obtenerMonedas, obtenerUsuarioLogueado, obtenerAfiliacionIva } from './../lib/servicio-api'
-import DetalleFactura from '../components/DetalleFactura';
+import { ConfiguracionFactura, DatosFactura, SeleccionDatosFactura } from './../components/NuevaFactura';
+import { DatosCliente } from './../components/Cliente';
+import { DatosVendedor } from './../components/Vendedor';
+import { DetalleFactura } from '../components/DetalleFactura';
+import { obtenerMonedas, obtenerUsuarioLogueado, obtenerAfiliacionIva } from './../lib/servicio-api';
 
 class PaginaNuevaFactura extends React.Component {
   state = {
@@ -91,7 +89,7 @@ class PaginaNuevaFactura extends React.Component {
             }
           </Segment>
 
-          <NuevaFactura
+          <ConfiguracionFactura
             monedas={monedas}
             sucursales={usuario.empresa.sucursales}
             tiposDocumentos={afiliacionIVA.tipos_documentos}

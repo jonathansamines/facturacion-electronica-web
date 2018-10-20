@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { List, Checkbox } from 'semantic-ui-react';
+import { List } from 'semantic-ui-react';
 
 const DatosFactura = ({ opciones }) => (
   <List relaxed size='medium'>
