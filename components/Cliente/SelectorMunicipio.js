@@ -20,6 +20,8 @@ const SelectorMunicipio = (props) => {
     <Select
       search
       name={name}
+      selectOnBlur={false}
+      selectOnNavigation={false}
       placeholder='Seleccione un municipio'
       noResultsMessage='Municipio no encontrado'
       options={opcionesMunicipios}

@@ -70,6 +70,8 @@ class ConfiguracionFactura extends React.Component {
                   <Form.Field required>
                     <Select
                       name='id_tipo_documento'
+                      selectOnBlur={false}
+                      selectOnNavigation={false}
                       placeholder='Seleccione un tipo de documento (DTE)'
                       value={values.id_tipo_documento}
                       options={opcionesTipoDocumento}
@@ -86,6 +88,8 @@ class ConfiguracionFactura extends React.Component {
                     <Select
                       search
                       name='id_sucursal'
+                      selectOnBlur={false}
+                      selectOnNavigation={false}
                       placeholder='Buscar una sucursal'
                       value={values.id_sucursal}
                       options={opcionesSucursales}

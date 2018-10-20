@@ -20,6 +20,8 @@ const SelectorUnidadMedida = (props) => {
     <Select
       search
       name={name}
+      selectOnBlur={false}
+      selectOnNavigation={false}
       placeholder='Seleccione una unidad de medida'
       noResultsMessage='Unidad de medida no encontrada'
       options={opcionesUnidadesMedida}

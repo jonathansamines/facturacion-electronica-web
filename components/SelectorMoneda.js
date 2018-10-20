@@ -20,6 +20,7 @@ const SelectorMoneda = (props) => {
     <Select
       search
       name={name}
+      selectOnBlur={false}
       placeholder='Seleccione una moneda'
       noResultsMessage='Moneda no encontrada'
       options={opcionesMoneda}

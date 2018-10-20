@@ -20,6 +20,8 @@ const SelectorDepartamento = (props) => {
     <Select
       search
       name={name}
+      selectOnBlur={false}
+      selectOnNavigation={false}
       placeholder='Seleccione un departamento'
       noResultsMessage='Departamento no encontrado'
       options={opcionesDepartamentos}

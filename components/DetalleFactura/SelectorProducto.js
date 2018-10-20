@@ -39,8 +39,11 @@ class SelectorProducto extends React.Component {
       <Select
         search
         allowAdditions
-        additionLabel='Crear nuevo producto: '
         name={name}
+        selectOnBlur={false}
+        selectOnNavigation={false}
+        additionLabel='Crear nuevo producto: '
+        selectOnNavigation={false}
         value={productoSeleccionado}
         placeholder='Buscar producto'
         noResultsMessage='Producto no encontrado en el catalogo'

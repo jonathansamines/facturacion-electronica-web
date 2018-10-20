@@ -28,7 +28,7 @@ const DatosVendedor = ({ vendedor }) => (
 );
 
 DatosVendedor.propTypes = {
-  vendedor: PropTypes.object.isRequired,
+  vendedor: PropTypes.object,
 };
 
 export default DatosVendedor;

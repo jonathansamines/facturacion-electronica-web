@@ -39,8 +39,10 @@ class SelectorCliente extends React.Component {
       <Select
         search
         allowAdditions
-        additionLabel='Crear nuevo cliente: '
         name={name}
+        selectOnBlur={false}
+        selectOnNavigation={false}
+        additionLabel='Crear nuevo cliente: '
         placeholder='Nombre, CF o NIT (un nit valido)'
         noResultsMessage='Cliente no encontrado'
         options={opcionesClientes}

@@ -28,7 +28,7 @@ const DatosCliente = ({ cliente, onClienteEditado }) => (
 );
 
 DatosCliente.propTypes = {
-  cliente: PropTypes.object.isRequired,
+  cliente: PropTypes.object,
   onClienteEditado: PropTypes.func.isRequired,
 };
 

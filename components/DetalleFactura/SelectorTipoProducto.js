@@ -20,6 +20,8 @@ const SelectorTipoProducto = (props) => {
     <Select
       search
       name={name}
+      selectOnBlur={false}
+      selectOnNavigation={false}
       placeholder='Seleccione un tipo de producto'
       noResultsMessage='Tipo de producto no encontrado'
       options={opcionesTiposProducto}
