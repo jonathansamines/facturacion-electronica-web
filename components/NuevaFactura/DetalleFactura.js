@@ -1,26 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
-import { Table, Form, Select } from 'semantic-ui-react';
+import { Table, Form } from 'semantic-ui-react';
 import { Formik } from 'formik';
-import { buscarProducto } from './../../lib/servicio-api';
+import SelectorProducto from '../SelectorProducto';
 
 class DetalleFactura extends React.Component {
   state = {
     productos: [],
     productosEnCatalogo: [],
   }
-
-  buscarProducto = debounce((event, data) => {
-    const busqueda = data.searchQuery;
-
-    if (busqueda !== undefined && busqueda.length > 0) {
-      return buscarProducto({ busqueda })
-        .then((productos) => {
-          this.setState({ productosEnCatalogo: productos });
-        });
-    }
-  }, 200)
 
   agregarProducto = (values, actions) => {
     const producto = this.state.productosEnCatalogo.find((p) => p.id_producto === values.id_producto);
@@ -38,14 +26,15 @@ class DetalleFactura extends React.Component {
     });
   }
 
+  actualizarCatalogoProductos = ({ productos }) => {
+    if (productos) {
+      this.setState({ productosEnCatalogo: productos });
+    }
+  }
+
   render() {
     const { moneda } = this.props;
     const { productos, productosEnCatalogo } = this.state;
-    const opcionesProductos = productosEnCatalogo.map((producto) => ({
-      key: producto.id_producto,
-      value: producto.id_producto,
-      text: producto.descripcion
-    }));
 
     return (
       <>
@@ -54,18 +43,16 @@ class DetalleFactura extends React.Component {
             id_producto: null
           })}
           onSubmit={this.agregarProducto}>
-          {({ setFieldValue, handleSubmit }) => (
+          {({ values, setFieldValue, handleSubmit }) => (
             <Form autoComplete='off' onSubmit={handleSubmit}>
               <Form.Field>
                 <label>Detalle de la Factura</label>
-                <Select
-                  search
+                <SelectorProducto
                   name='id_producto'
-                  placeholder='Buscar producto'
-                  noResultsMessage='Producto no encontrado en el catalogo'
-                  options={opcionesProductos}
-                  onSearchChange={this.buscarProducto}
-                  onChange={(event, data) => setFieldValue('id_producto', data.value)} />
+                  productos={productosEnCatalogo}
+                  productoSeleccionado={values.id_producto}
+                  onBusqueda={this.actualizarCatalogoProductos}
+                  onSeleccion={(event, data) => setFieldValue('id_producto', data.value)} />
               </Form.Field>
             </Form>
           )}

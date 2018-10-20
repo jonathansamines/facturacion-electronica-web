@@ -1,12 +1,12 @@
 import React from 'react';
-import debounce from 'lodash/debounce';
 import { Formik } from 'formik';
-import { Form, Select, Button } from 'semantic-ui-react';
+import { Form, Button, Select } from 'semantic-ui-react';
 import NuevoCliente from './NuevoCliente';
 import NuevoVendedor from './NuevoVendedor';
-import { buscarCliente, buscarVendedor } from './../../lib/servicio-api';
+import SelectorCliente from './../SelectorCliente';
+import SelectorVendedor from './../SelectorVendedor';
 
-class SeleccionCliente extends React.Component {
+class SeleccionDatosFactura extends React.Component {
   state = {
     clientes: [],
     vendedores: [],
@@ -14,27 +14,17 @@ class SeleccionCliente extends React.Component {
     nuevoCliente: null,
   }
 
-  buscarCliente = debounce((event, data) => {
-    const busqueda = data.searchQuery;
-
-    if (busqueda !== undefined && busqueda.length > 0) {
-      return buscarCliente({ busqueda })
-        .then((clientes) => {
-          this.setState({ clientes });
-        });
+  actualizarClientes = ({ clientes }) => {
+    if (clientes) {
+      this.setState({ clientes });
     }
-  }, 200)
+  }
 
-  buscarVendedor = debounce((event, data) => {
-    const busqueda = data.searchQuery;
-
-    if (busqueda !== undefined && busqueda.length > 0) {
-      return buscarVendedor({ busqueda })
-        .then((vendedores) => {
-          this.setState({ vendedores });
-        });
+  actualizarVendedores = ({ vendedores }) => {
+    if (vendedores) {
+      this.setState({ vendedores });
     }
-  }, 200)
+  }
 
   crearCliente = (event, { value }) => {
     this.setState({ nuevoCliente: { nombre: value } });
@@ -91,18 +81,6 @@ class SeleccionCliente extends React.Component {
 
     const { sucursales } = this.props;
 
-    const opcionesClientes = clientes.map((cliente) => ({
-      key: cliente.id_cliente,
-      value: cliente.id_cliente,
-      text: `${cliente.nombre} ${cliente.apellido} (${cliente.nit})`
-    }));
-
-    const opcionesVendedores = vendedores.map((vendedor) => ({
-      key: vendedor.id_vendedor,
-      value: vendedor.id_vendedor,
-      text: `${vendedor.nombre} ${vendedor.apellido} (${vendedor.nit})`
-    }));
-
     return (
       <>
         {
@@ -133,33 +111,23 @@ class SeleccionCliente extends React.Component {
               <Form.Group inline>
                 <Form.Field width='6'>
                   <label>Cliente</label>
-                  <Select
-                    search
-                    allowAdditions
-                    additionLabel='Crear nuevo cliente: '
+                  <SelectorCliente
                     name='id_cliente'
-                    placeholder='Nombre, CF o NIT (un nit valido)'
-                    noResultsMessage='Cliente no encontrado'
-                    options={opcionesClientes}
-                    value={values.id_cliente}
-                    onAddItem={this.crearCliente}
-                    onSearchChange={this.buscarCliente}
-                    onChange={(event, data) => setFieldValue('id_cliente', data.value)} />
+                    clientes={clientes}
+                    clienteSeleccionado={values.id_cliente}
+                    onAgregar={this.crearCliente}
+                    onBusqueda={this.actualizarClientes}
+                    onSeleccion={(event, data) => setFieldValue('id_cliente', data.value)} />
                 </Form.Field>
                 <Form.Field width='6'>
                   <label>Vendedor</label>
-                  <Select
-                    search
-                    allowAdditions
-                    additionLabel='Crear nuevo vendedor: '
+                  <SelectorVendedor
                     name='id_vendedor'
-                    placeholder='Nombre, CF o NIT (un nit valido)'
-                    noResultsMessage='Vendedor no encontrado'
-                    options={opcionesVendedores}
-                    value={values.id_vendedor}
-                    onAddItem={this.crearVendedor}
-                    onSearchChange={this.buscarVendedor}
-                    onChange={(event, data) => setFieldValue('id_vendedor', data.value)} />
+                    vendedores={vendedores}
+                    vendedorSeleccionado={values.id_vendedor}
+                    onAgregar={this.crearVendedor}
+                    onBusqueda={this.actualizarVendedores}
+                    onSeleccion={(event, data) => setFieldValue('id_vendedor', data.value)} />
                 </Form.Field>
                 <Form.Field width='4'>
                   <Button color='google plus'>Generar Factura</Button>
@@ -173,4 +141,4 @@ class SeleccionCliente extends React.Component {
   }
 }
 
-export default SeleccionCliente;
+export default SeleccionDatosFactura;

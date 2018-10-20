@@ -1,6 +1,8 @@
 import React from 'react';
-import { Button, Modal, Form, Select, Message, Input } from 'semantic-ui-react';
 import { Formik } from 'formik';
+import { Button, Modal, Form, Message, Input } from 'semantic-ui-react';
+import SelectorDepartamento from './../SelectorDepartamento';
+import SelectorMunicipio from './../SelectorMunicipio';
 import { obtenerDepartamentos, crearCliente } from '../../lib/servicio-api';
 
 class NuevoCliente extends React.Component {
@@ -49,22 +51,12 @@ class NuevoCliente extends React.Component {
       });
   }
 
-  cancelar = () => {
-    return this.props.onCancelar();
-  }
-
   render () {
-    const { nombreCliente } = this.props;
+    const { onCancelar, nombreCliente } = this.props;
     const { departamentos } = this.state;
 
-    const opcionesDepartamentos = departamentos.map((departamento) => ({
-      key: departamento.id_departamento,
-      value: departamento.id_departamento,
-      text: departamento.descripcion
-    }));
-
     return (
-      <Modal defaultOpen={true} size='tiny'>
+      <Modal defaultOpen={true} size='tiny' onClose={onCancelar}>
         <Modal.Header>Nuevo cliente</Modal.Header>
         <Modal.Content>
           <Formik
@@ -81,12 +73,6 @@ class NuevoCliente extends React.Component {
             {({ values, status, handleChange, setFieldValue, handleSubmit }) => {
               const departamento = departamentos.find((departamento) => departamento.id_departamento === values.id_departamento);
               const municipios = departamento ? departamento.municipios : [];
-
-              const opcionesMunicipios = municipios.map((municipio) => ({
-                key: municipio.id_municipio,
-                value: municipio.id_municipio,
-                text: municipio.descripcion
-              }))
 
               return (
                 <Form id='creacion-cliente' onSubmit={handleSubmit}>
@@ -126,24 +112,18 @@ class NuevoCliente extends React.Component {
                       onChange={handleChange} />
                   </Form.Field>
                   <Form.Field required>
-                    <Select
-                      search
+                    <SelectorDepartamento
                       name='id_departamento'
-                      placeholder='Seleccione un departamento'
-                      noResultsMessage='Departamento no encontrado'
-                      options={opcionesDepartamentos}
-                      value={values.id_departamento}
-                      onChange={(event, data) => setFieldValue('id_departamento', data.value)} />
+                      departamentos={departamentos}
+                      departamentoSeleccionado={values.id_departamento}
+                      onSeleccion={(event, data) => setFieldValue('id_departamento', data.value)} />
                   </Form.Field>
                   <Form.Field required>
-                    <Select
-                      search
+                    <SelectorMunicipio
                       name='id_municipio'
-                      placeholder='Seleccione un municipio'
-                      noResultsMessage='Municipio no encontrado'
-                      options={opcionesMunicipios}
-                      value={values.id_municipio}
-                      onChange={(event, data) => setFieldValue('id_municipio', data.value)} />
+                      municipios={municipios}
+                      municipioSeleccionado={values.id_municipio}
+                      onSeleccion={(event, data) => setFieldValue('id_municipio', data.value)} />
                   </Form.Field>
                   {
                     status &&
@@ -156,7 +136,7 @@ class NuevoCliente extends React.Component {
           </Formik>
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={this.cancelar}>
+          <Button onClick={onCancelar}>
             Cancelar
           </Button>
           <Button

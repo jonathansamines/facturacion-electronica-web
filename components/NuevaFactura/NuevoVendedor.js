@@ -29,12 +29,8 @@ class NuevoVendedor extends React.Component {
       });
   }
 
-  cancelar = () => {
-    return this.props.onCancelar();
-  }
-
   render () {
-    const { nombreVendedor, sucursales } = this.props;
+    const { onCancelar, nombreVendedor, sucursales } = this.props;
 
     const opcionesSucursales = sucursales.map((sucursal) => ({
       key: sucursal.id_sucursal,
@@ -43,7 +39,7 @@ class NuevoVendedor extends React.Component {
     }));
 
     return (
-      <Modal defaultOpen={true} size='tiny'>
+      <Modal defaultOpen={true} size='tiny' onClose={onCancelar}>
         <Modal.Header>Nuevo vendedor</Modal.Header>
         <Modal.Content>
           <Formik
@@ -107,7 +103,7 @@ class NuevoVendedor extends React.Component {
           </Formik>
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={this.cancelar}>
+          <Button onClick={onCancelar}>
             Cancelar
           </Button>
           <Button
