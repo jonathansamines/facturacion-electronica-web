@@ -25,6 +25,7 @@ class SelectorProducto extends React.Component {
       name,
       productoSeleccionado,
       productos,
+      onAgregar,
       onSeleccion,
     } = this.props;
 
@@ -37,11 +38,14 @@ class SelectorProducto extends React.Component {
     return (
       <Select
         search
+        allowAdditions
+        additionLabel='Crear nuevo producto: '
         name={name}
         value={productoSeleccionado}
         placeholder='Buscar producto'
         noResultsMessage='Producto no encontrado en el catalogo'
         options={opcionesProductos}
+        onAddItem={onAgregar}
         onSearchChange={this.buscarProducto}
         onChange={onSeleccion} />
     );
@@ -53,6 +57,7 @@ SelectorProducto.propTypes = {
   productos: PropTypes.array.isRequired,
   productoSeleccionado: PropTypes.number,
   onBusqueda: PropTypes.func.isRequired,
+  onAgregar: PropTypes.func.isRequired,
   onSeleccion: PropTypes.func.isRequired,
 };
 

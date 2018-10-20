@@ -1,26 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Form } from 'semantic-ui-react';
 import { Formik } from 'formik';
+import { Table, Form } from 'semantic-ui-react';
 import SelectorProducto from './SelectorProducto';
+import ConfirmacionProducto from './ConfirmacionProducto';
 
 class DetalleFactura extends React.Component {
   state = {
     productos: [],
+    nuevoProducto: null,
+    productoPendiente: null,
     productosEnCatalogo: [],
   }
 
   agregarProducto = (values, actions) => {
-    const producto = this.state.productosEnCatalogo.find((p) => p.id_producto === values.id_producto);
+    const productoPendiente = this.state.productosEnCatalogo.find((p) => p.id_producto === values.id_producto);
 
-    this.setState(({ productos }) => {
+    this.setState({ productoPendiente });
+    actions.resetForm();
+  }
 
-      actions.resetForm();
+  cancelarProductoPendiente = () => {
+    this.setState({ productoPendiente: null });
+  }
 
+  confirmarProductoPendiente = () => {
+    this.setState(({ productoPendiente, productos }) => {
       return {
+        productoPendiente: null,
         productos: [
           ...productos,
-          producto
+          productoPendiente
         ]
       };
     });
@@ -32,12 +42,24 @@ class DetalleFactura extends React.Component {
     }
   }
 
+  crearProducto = (event, { value }) => {
+    this.setState({ nuevoProducto : { descripcion: value } });
+  }
+
   render() {
     const { moneda } = this.props;
-    const { productos, productosEnCatalogo } = this.state;
+    const { productoPendiente, nuevoProducto, productos, productosEnCatalogo } = this.state;
 
     return (
       <>
+        {
+          productoPendiente &&
+          <ConfirmacionProducto
+            producto={productoPendiente}
+            onConfirmar={this.confirmarProductoPendiente}
+            onCancelar={this.cancelarProductoPendiente} />
+        }
+
         <Formik
           initialValues={({
             id_producto: null
@@ -52,6 +74,7 @@ class DetalleFactura extends React.Component {
                   productos={productosEnCatalogo}
                   productoSeleccionado={values.id_producto}
                   onBusqueda={this.actualizarCatalogoProductos}
+                  onAgregar={this.crearProducto}
                   onSeleccion={(event, data) => setFieldValue('id_producto', data.value)} />
               </Form.Field>
             </Form>
