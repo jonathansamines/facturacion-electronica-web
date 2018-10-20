@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import { Form, Select, Button } from 'semantic-ui-react';
 import NuevoCliente from './NuevoCliente';
 import NuevoVendedor from './NuevoVendedor';
-import servicio from './../../lib/servicio-api';
+import { buscarCliente, buscarVendedor } from './../../lib/servicio-api';
 
 class SeleccionCliente extends React.Component {
   state = {
@@ -18,10 +18,9 @@ class SeleccionCliente extends React.Component {
     const busqueda = data.searchQuery;
 
     if (busqueda !== undefined && busqueda.length > 0) {
-      return servicio
-        .get(`/clientes?busqueda=${busqueda}`)
-        .then((respuesta) => {
-          this.setState({ clientes: respuesta.data })
+      return buscarCliente({ busqueda })
+        .then((clientes) => {
+          this.setState({ clientes });
         });
     }
   }, 200)
@@ -30,10 +29,9 @@ class SeleccionCliente extends React.Component {
     const busqueda = data.searchQuery;
 
     if (busqueda !== undefined && busqueda.length > 0) {
-      return servicio
-        .get(`/vendedores?busqueda=${busqueda}`)
-        .then((respuesta) => {
-          this.setState({ vendedores: respuesta.data })
+      return buscarVendedor({ busqueda })
+        .then((vendedores) => {
+          this.setState({ vendedores });
         });
     }
   }, 200)

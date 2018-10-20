@@ -1,25 +1,21 @@
 import './../styles.scss';
 
 import React from 'react';
-import { Formik } from 'formik';
 import Link from 'next/link';
+import { Formik } from 'formik';
 import { Container, Segment, Message, Select, Button, Form } from 'semantic-ui-react';
 import Segmento from '../components/Segmento';
-import servicio from '../lib/servicio-api';
-
+import { obtenerEmpresas, iniciarSesion } from '../lib/servicio-api';
 
 class PaginaLogin extends React.Component {
   static async getInitialProps({ req }) {
-    const respuesta = await servicio.get('/empresas');
-
     return {
-      empresas: respuesta.data,
+      empresas: await obtenerEmpresas({ req }),
     };
   }
 
   iniciarSesion = (values, actions) => {
-    return servicio
-      .post('/usuarios/login', values)
+    return iniciarSesion({ credenciales: values })
       .then(() => {
         actions.setSubmitting(false);
         actions.resetForm();

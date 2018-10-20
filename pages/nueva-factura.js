@@ -2,28 +2,15 @@ import React from 'react';
 import pProps from 'p-props';
 import Head from 'next/head';
 import Router from 'next/router';
+import { Grid, Segment } from 'semantic-ui-react';
 import Main from './../components/layouts/Main';
 import NuevaFactura from './../components/NuevaFactura';
 import SeleccionDatosFactura from './../components/NuevaFactura/SeleccionDatosFactura';
 import DatosFactura from './../components/NuevaFactura/DatosFactura';
 import DatosCliente from './../components/NuevaFactura/DatosCliente';
 import DatosVendedor from './../components/NuevaFactura/DatosVendedor';
-import servicio, { obtenerUsuarioLogueado } from './../lib/servicio-api'
-import { credenciales } from './../lib/credenciales';
-import { Grid, Segment, Button } from 'semantic-ui-react';
+import { obtenerMonedas, obtenerUsuarioLogueado, obtenerAfiliacionIva } from './../lib/servicio-api'
 import DetalleFactura from '../components/NuevaFactura/DetalleFactura';
-
-const obtenerMonedas = async (req) => {
-  const respuesta = await servicio.get('/monedas', credenciales(req));
-
-  return respuesta.data;
-};
-
-const obtenerAfiliacionIva = async (req, idAfiliacionIVA) => {
-  const respuesta = await servicio.get(`/afiliacion-iva/${idAfiliacionIVA}`, credenciales(req));
-
-  return respuesta.data;
-};
 
 class PaginaNuevaFactura extends React.Component {
   state = {
@@ -33,12 +20,13 @@ class PaginaNuevaFactura extends React.Component {
   }
 
   static async getInitialProps({ req }) {
-    const usuario = await obtenerUsuarioLogueado(req);
+    const usuario = await obtenerUsuarioLogueado({ req });
+    const idAfiliacionIVA = usuario.empresa.id_afiliacion_iva;
 
     return pProps({
       usuario,
-      monedas: obtenerMonedas(req),
-      afiliacionIVA: obtenerAfiliacionIva(req, usuario.empresa.id_afiliacion_iva),
+      monedas: obtenerMonedas({ req }),
+      afiliacionIVA: obtenerAfiliacionIva({ req, idAfiliacionIVA }),
     });
   }
 

@@ -3,22 +3,19 @@ import './../styles.scss';
 import React from 'react';
 import Link from 'next/link';
 import { Formik } from 'formik';
-import servicio from '../lib/servicio-api';
+import { registrarUsuario, obtenerEmpresas } from '../lib/servicio-api';
 import Segmento from '../components/Segmento';
 import { Container, Segment, Message, Select, Button, Form } from 'semantic-ui-react';
 
 class PaginaRegistro extends React.Component {
-  static async getInitialProps() {
-    const respuesta = await servicio.get('/empresas');
-
+  static async getInitialProps({ req }) {
     return {
-      empresas: respuesta.data,
+      empresas: await obtenerEmpresas({ req }),
     };
   }
 
   registrarUsuario = (values, actions) => {
-    return servicio
-      .post('/usuarios/registrar', values)
+    return registrarUsuario({ usuario: values })
       .then(() => {
         actions.setSubmitting(false);
         actions.resetForm();

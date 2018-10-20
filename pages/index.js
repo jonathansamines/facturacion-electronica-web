@@ -6,7 +6,7 @@ import { obtenerUsuarioLogueado } from './../lib/servicio-api'
 class App extends React.Component {
   static async getInitialProps({ req }) {
     return {
-      usuario: await obtenerUsuarioLogueado(req)
+      usuario: await obtenerUsuarioLogueado({ req })
     };
   }
 

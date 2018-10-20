@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Modal, Form, Select, Message, Input } from 'semantic-ui-react';
 import { Formik } from 'formik';
-import servicio from '../../lib/servicio-api';
+import { obtenerDepartamentos, crearCliente } from '../../lib/servicio-api';
 
 class NuevoCliente extends React.Component {
   state = {
@@ -9,10 +9,9 @@ class NuevoCliente extends React.Component {
   }
 
   componentDidMount() {
-    return servicio
-      .get('/departamentos')
-      .then((respuesta) => {
-        this.setState({ departamentos: respuesta.data });
+    return obtenerDepartamentos()
+      .then((departamentos) => {
+        this.setState({ departamentos });
       });
   }
 
@@ -26,9 +25,8 @@ class NuevoCliente extends React.Component {
       direccion: values.direccion,
     };
 
-    return servicio
-      .post('/clientes', cliente)
-      .then((respuesta) => {
+    return crearCliente({ cliente })
+      .then((nuevoCliente) => {
         actions.resetForm();
         actions.setSubmitting(false);
 
@@ -38,7 +36,7 @@ class NuevoCliente extends React.Component {
         });
 
         setTimeout(
-          () => this.props.onClienteCreado(respuesta.data),
+          () => this.props.onClienteCreado(nuevoCliente),
           400
         );
       })

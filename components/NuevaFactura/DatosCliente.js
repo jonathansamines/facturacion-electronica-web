@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { List } from 'semantic-ui-react';
 
-const DatosCliente = ({ cliente }) => (
+const DatosCliente = ({ cliente, onClienteEditado }) => (
   <List relaxed size='medium'>
     <List.Item>
       <List.Header as='strong'>NIT: </List.Header>
@@ -17,13 +17,14 @@ const DatosCliente = ({ cliente }) => (
       {cliente.direccion}
     </List.Item>
     <List.Item>
-      <a>Editar Cliente</a>
+      <a onClick={() => onClienteEditado(cliente)}>Editar Cliente</a>
     </List.Item>
   </List>
 );
 
 DatosCliente.propTypes = {
   cliente: PropTypes.object.isRequired,
+  onClienteEditado: PropTypes.func.isRequired,
 };
 
 export default DatosCliente;

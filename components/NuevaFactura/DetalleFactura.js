@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
-import { Segment, Table, Form, Select } from 'semantic-ui-react';
+import { Table, Form, Select } from 'semantic-ui-react';
 import { Formik } from 'formik';
-import servicio from './../../lib/servicio-api';
+import { buscarProducto } from './../../lib/servicio-api';
 
 class DetalleFactura extends React.Component {
   state = {
@@ -15,10 +15,9 @@ class DetalleFactura extends React.Component {
     const busqueda = data.searchQuery;
 
     if (busqueda !== undefined && busqueda.length > 0) {
-      return servicio
-        .get(`/productos?busqueda=${busqueda}`)
-        .then((respuesta) => {
-          this.setState({ productosEnCatalogo: respuesta.data })
+      return buscarProducto({ busqueda })
+        .then((productos) => {
+          this.setState({ productosEnCatalogo: productos });
         });
     }
   }, 200)
