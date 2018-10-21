@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { startOfToday, startOfMonth, startOfTomorrow, startOfYesterday } from 'date-fns';
+import { startOfToday, startOfMonth, startOfYesterday } from 'date-fns';
 import { Form, Button } from 'semantic-ui-react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { SelectorCliente, NuevoCliente } from '../Cliente';
