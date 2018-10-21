@@ -1,6 +1,8 @@
 import React from 'react';
 import { Formik } from 'formik';
+import { startOfToday, startOfMonth, startOfTomorrow, startOfYesterday } from 'date-fns';
 import { Form, Button } from 'semantic-ui-react';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { SelectorCliente, NuevoCliente } from '../Cliente';
 import { SelectorVendedor, NuevoVendedor } from '../Vendedor';
 
@@ -101,13 +103,31 @@ class SeleccionDatosFactura extends React.Component {
         <Formik
           initialValues={({
             id_cliente: null,
-            id_vendedor: null
+            id_vendedor: null,
+            fecha_factura: startOfToday(new Date()),
           })}
           onSubmit={this.seleccionarInformacion}>
           {({ setFieldValue, handleSubmit, values }) => (
             <Form onSubmit={handleSubmit}>
               <Form.Group>
-                <Form.Field width='7'>
+                <Form.Field width='2'>
+                  <label>Fecha Factura</label>
+                  <DayPickerInput
+                    placeholder='Seleccione una fecha'
+                    value={values.fecha_factura}
+                    inputProps={({
+                      name: 'fecha_factura'
+                    })}
+                    dayPickerProps={({
+                      canChangeMonth: false,
+                      disabledDays: {
+                        from: startOfMonth(new Date()),
+                        to: startOfYesterday(new Date()),
+                      }
+                    })}
+                    onDayChange={(selectedDay) => setFieldValue('fecha_factura', selectedDay)} />
+                </Form.Field>
+                <Form.Field width='6'>
                   <label>Cliente</label>
                   <SelectorCliente
                     name='id_cliente'
@@ -117,7 +137,7 @@ class SeleccionDatosFactura extends React.Component {
                     onBusqueda={this.actualizarClientes}
                     onSeleccion={(event, data) => setFieldValue('id_cliente', data.value)} />
                 </Form.Field>
-                <Form.Field width='7'>
+                <Form.Field width='6'>
                   <label>Vendedor</label>
                   <SelectorVendedor
                     name='id_vendedor'
