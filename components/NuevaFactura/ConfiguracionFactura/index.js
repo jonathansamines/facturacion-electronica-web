@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import { Checkbox, Button, Modal, Form } from 'semantic-ui-react';
 import SelectorMoneda from '../../SelectorMoneda';
-import SelectorSucursal from './SelectorSucursal';
+import SelectorSucursal from '../../SelectorSucursal';
 import SelectorTipoDocumento from './SelectorTipoDocumento';
 
 class ConfiguracionFactura extends React.Component {
@@ -77,7 +77,7 @@ class ConfiguracionFactura extends React.Component {
                         onSeleccion={(event, data) => setFieldValue('id_moneda', data.value)} />
                     </Form.Field>
                     <Form.Field required>
-                      <label>Sucursal de la empresa</label>
+                      <label>Sucursal</label>
                       <SelectorSucursal
                         name='id_sucursal'
                         sucursalSeleccionada={values.id_sucursal}

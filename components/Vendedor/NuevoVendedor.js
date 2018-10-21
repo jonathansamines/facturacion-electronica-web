@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, Modal, Form, Select, Message, Input } from 'semantic-ui-react';
 import { Formik } from 'formik';
+import { Button, Modal, Form, Message, Input } from 'semantic-ui-react';
 import { crearVendedor } from '../../lib/servicio-api';
+import SelectorSucursal from '../SelectorSucursal';
 
 class NuevoVendedor extends React.Component {
   crearVendedor = (values, actions) => {
@@ -31,12 +32,6 @@ class NuevoVendedor extends React.Component {
 
   render () {
     const { onCancelar, nombreVendedor, sucursales } = this.props;
-
-    const opcionesSucursales = sucursales.map((sucursal) => ({
-      key: sucursal.id_sucursal,
-      value: sucursal.id_sucursal,
-      text: sucursal.descripcion,
-    }));
 
     return (
       <Modal defaultOpen={true} size='tiny' onClose={onCancelar}>
@@ -83,14 +78,11 @@ class NuevoVendedor extends React.Component {
                       onChange={handleChange} />
                   </Form.Field>
                   <Form.Field required>
-                    <Select
-                      search
+                    <SelectorSucursal
                       name='id_sucursal'
-                      placeholder='Seleccione una sucursal de la empresa'
-                      noResultsMessage='Sucursal no encontrada'
-                      options={opcionesSucursales}
-                      value={values.id_sucursal}
-                      onChange={(event, data) => setFieldValue('id_sucursal', data.value)} />
+                      sucursales={sucursales}
+                      sucursalSeleccionada={values.id_sucursal}
+                      onSeleccion={(event, data) => setFieldValue('id_sucursal', data.value)} />
                   </Form.Field>
                   {
                     status &&

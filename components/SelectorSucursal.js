@@ -22,7 +22,7 @@ const SelectorSucursal = (props) => {
       name={name}
       selectOnBlur={false}
       selectOnNavigation={false}
-      placeholder='Buscar una sucursal'
+      placeholder='Seleccione una sucursal de la empresa'
       noResultsMessage='Sucursal no encontrada'
       options={opcionesSucursales}
       value={sucursalSeleccionada}
