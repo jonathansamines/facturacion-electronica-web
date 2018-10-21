@@ -33,7 +33,7 @@ const SelectorSucursal = (props) => {
 SelectorSucursal.propTypes = {
   name: PropTypes.string.isRequired,
   sucursales: PropTypes.array.isRequired,
-  sucursalSeleccionada: PropTypes.string,
+  sucursalSeleccionada: PropTypes.number,
   onSeleccion: PropTypes.func.isRequired,
 };
 

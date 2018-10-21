@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 import { Checkbox, Button, Modal, Form } from 'semantic-ui-react';
 import SelectorMoneda from '../../SelectorMoneda';
 import SelectorSucursal from '../../SelectorSucursal';
@@ -46,6 +47,14 @@ class ConfiguracionFactura extends React.Component {
         <Modal.Header>Crear Factura</Modal.Header>
 
         <Formik
+          validationSchema={
+            Yup.object().shape({
+              id_moneda: Yup.string().required(),
+              id_sucursal: Yup.number().required(),
+              id_tipo_documento: Yup.string().required(),
+              exportacion: Yup.bool(),
+            })
+          }
           initialValues={({
             id_moneda: null,
             id_sucursal: null,
@@ -53,7 +62,7 @@ class ConfiguracionFactura extends React.Component {
             exportacion: false
           })}
           onSubmit={this.confirmar}>
-          {({ handleSubmit, setFieldValue, values }) => {
+          {({ handleSubmit, setFieldValue, isValid, values }) => {
             const tiposDocumentoValidos = tiposDocumentos.filter((tipoDocumento) => tipoDocumento.exportacion === values.exportacion);
 
             return (
@@ -88,7 +97,7 @@ class ConfiguracionFactura extends React.Component {
                       <Checkbox
                         name='exportacion'
                         checked={values.exportacion}
-                        onChange={(event, data) => setFieldValue('exportacion', data.checked)}
+                        onChange={(event, data) => setFieldValue('exportacion', data.checked) || setFieldValue('id_tipo_documento', null)}
                         label='Exportacion' />
                     </Form.Field>
                   </Form>
@@ -101,7 +110,7 @@ class ConfiguracionFactura extends React.Component {
                     color='google plus'
                     type='submit'
                     form='configuracion-factura'
-                    disabled={values.id_sucursal === null || values.id_moneda === null || values.id_moneda === null}>
+                    disabled={!isValid}>
                     Confirmar
                   </Button>
                 </Modal.Actions>
