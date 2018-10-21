@@ -2,12 +2,12 @@ import React from 'react';
 import pProps from 'p-props';
 import Head from 'next/head';
 import Router from 'next/router';
-import { Grid, Segment } from 'semantic-ui-react';
+import { Form, Grid, Segment } from 'semantic-ui-react';
 import Main from './../layouts/Main';
-import { ConfiguracionFactura, DatosFactura, SeleccionDatosFactura } from './../components/NuevaFactura';
 import { DatosCliente } from './../components/Cliente';
 import { DatosVendedor } from './../components/Vendedor';
 import { DetalleFactura } from '../components/DetalleFactura';
+import { ConfiguracionFactura, DatosFactura, SeleccionDatosFactura } from './../components/NuevaFactura';
 import { obtenerMonedas, obtenerUsuarioLogueado, obtenerAfiliacionIva } from './../lib/servicio-api';
 
 class PaginaNuevaFactura extends React.Component {
@@ -76,7 +76,11 @@ class PaginaNuevaFactura extends React.Component {
           <Segment vertical padded='very'>
             {
               opciones &&
-              <DetalleFactura moneda={opciones.moneda} />
+              <Form.Field>
+                <DetalleFactura
+                  moneda={opciones.moneda}
+                  tipoDocumento={opciones.tipoDocumento} />
+              </Form.Field>
             }
           </Segment>
 

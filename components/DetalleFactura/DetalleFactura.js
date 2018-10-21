@@ -63,7 +63,7 @@ class DetalleFactura extends React.Component {
   }
 
   render() {
-    const { moneda } = this.props;
+    const { tipoDocumento, moneda } = this.props;
     const { productoPendiente, nuevoProducto, productos, productosEnCatalogo } = this.state;
 
     return (
@@ -103,7 +103,10 @@ class DetalleFactura extends React.Component {
             </Form>
           )}
         </Formik>
-        <TablaProductos moneda={moneda} productos={productos} />
+        <TablaProductos
+          moneda={moneda}
+          productos={productos}
+          tipoDocumento={tipoDocumento} />
       </>
     );
   }
@@ -111,6 +114,7 @@ class DetalleFactura extends React.Component {
 
 DetalleFactura.propTypes = {
   moneda: PropTypes.object.isRequired,
+  tipoDocumento: PropTypes.object.isRequired,
 };
 
 export default DetalleFactura

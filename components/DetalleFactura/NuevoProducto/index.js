@@ -2,10 +2,10 @@ import React from 'react';
 import { Formik } from 'formik';
 import pProps from 'p-props';
 import { Button, Modal, Form, Message, Input } from 'semantic-ui-react';
-import SelectorMoneda from './../SelectorMoneda';
+import SelectorMoneda from '../../SelectorMoneda';
 import SelectorUnidadMedida from './SelectorUnidadMedida';
 import SelectorTipoProducto from './SelectorTipoProducto';
-import { crearProducto, obtenerTiposProducto, obtenerUnidadesMedida, obtenerMonedas } from '../../lib/servicio-api';
+import { crearProducto, obtenerTiposProducto, obtenerUnidadesMedida, obtenerMonedas } from '../../../lib/servicio-api';
 
 class NuevoProducto extends React.Component {
   state = {
