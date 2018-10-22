@@ -47,19 +47,17 @@ class EditarCliente extends React.Component {
     }
 
     return editarCliente({ cliente, idCliente: this.props.cliente.id_cliente })
-      .then((nuevoCliente) => {
-        actions.resetForm();
-        actions.setSubmitting(false);
-
+      .then((clienteEditado) => {
         actions.setStatus({
           mensaje: 'Cliente actualizado correctamente',
           error: false,
         });
 
-        setTimeout(
-          () => this.props.onClienteEditado(nuevoCliente),
-          1000
-        );
+        setTimeout(() => {
+          actions.resetForm();
+          actions.setSubmitting(false);
+          this.props.onClienteEditado(clienteEditado);
+        }, 1000);
       })
       .catch(() => {
         actions.setSubmitting(false);

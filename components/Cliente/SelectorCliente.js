@@ -57,7 +57,7 @@ class SelectorCliente extends React.Component {
 SelectorCliente.propTypes = {
   name: PropTypes.string.isRequired,
   clientes: PropTypes.array.isRequired,
-  clienteSeleccionado: PropTypes.number,
+  clienteSeleccionado: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onAgregar: PropTypes.func.isRequired,
   onBusqueda: PropTypes.func.isRequired,
   onSeleccion: PropTypes.func.isRequired,

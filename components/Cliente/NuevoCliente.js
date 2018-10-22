@@ -48,18 +48,16 @@ class NuevoCliente extends React.Component {
 
     return crearCliente({ cliente })
       .then((nuevoCliente) => {
-        actions.resetForm();
-        actions.setSubmitting(false);
-
         actions.setStatus({
           mensaje: 'Cliente creado correctamente',
           error: false,
         });
 
-        setTimeout(
-          () => this.props.onClienteCreado(nuevoCliente),
-          1000
-        );
+        setTimeout(() => {
+          actions.resetForm();
+          actions.setSubmitting(false);
+          this.props.onClienteCreado(nuevoCliente);
+        }, 1000);
       })
       .catch(() => {
         actions.setSubmitting(false);
@@ -118,7 +116,7 @@ class NuevoCliente extends React.Component {
 }
 
 NuevoCliente.propTypes = {
-  cliente: PropTypes.object.isRequired,
+  nombreCliente: PropTypes.string.isRequired,
   onClienteCreado: PropTypes.func.isRequired,
   onCancelar: PropTypes.func.isRequired,
 };

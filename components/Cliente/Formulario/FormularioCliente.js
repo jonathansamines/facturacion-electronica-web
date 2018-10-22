@@ -43,8 +43,8 @@ const FormularioCliente = ({
             onChange={handleChange} />
         </Form.Field>
       </Form.Group>
-      <Form.Group widths='equal' error={Boolean(errors.nombre)}>
-        <Form.Field required>
+      <Form.Group widths='equal'>
+        <Form.Field required error={Boolean(errors.nombre)}>
           <label>Nombre del cliente</label>
           <Input
             name='nombre'
@@ -79,11 +79,10 @@ const FormularioCliente = ({
             onSeleccion={(event, data) => setFieldValue('id_municipio', data.value)} />
         </Form.Field>
       </Form.Group>
-      <Form.Field required>
+      <Form.Field required error={Boolean(errors.direccion)}>
         <label>Dirección de residencia o comercial</label>
         <TextArea
           name='direccion'
-          error={Boolean(errors.direccion)}
           placeholder='Dirección de residencia o comercial'
           value={values.direccion}
           onChange={handleChange} />
