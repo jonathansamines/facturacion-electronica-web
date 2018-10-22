@@ -2,10 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { Checkbox, Button, Modal, Form } from 'semantic-ui-react';
-import SelectorMoneda from '../../SelectorMoneda';
-import SelectorSucursal from '../../SelectorSucursal';
+import { Icon, Checkbox, Button, Modal, Form } from 'semantic-ui-react';
+import SelectorMoneda from '../SelectorMoneda';
+import SelectorSucursal from '../SelectorSucursal';
 import SelectorTipoDocumento from './SelectorTipoDocumento';
+
+const esquemaValidacion = Yup.object().shape({
+  id_moneda: Yup.string().required(),
+  id_sucursal: Yup.number().required(),
+  id_tipo_documento: Yup.string().required(),
+  exportacion: Yup.bool(),
+});
 
 class ConfiguracionFactura extends React.Component {
   state = {
@@ -47,14 +54,7 @@ class ConfiguracionFactura extends React.Component {
         <Modal.Header>Crear Factura</Modal.Header>
 
         <Formik
-          validationSchema={
-            Yup.object().shape({
-              id_moneda: Yup.string().required(),
-              id_sucursal: Yup.number().required(),
-              id_tipo_documento: Yup.string().required(),
-              exportacion: Yup.bool(),
-            })
-          }
+          validationSchema={esquemaValidacion}
           initialValues={({
             id_moneda: null,
             id_sucursal: null,
@@ -70,35 +70,36 @@ class ConfiguracionFactura extends React.Component {
                 <Modal.Content>
                   <Form id='configuracion-factura' onSubmit={handleSubmit} autoComplete='off'>
                     <Form.Field required>
-                      <label>Tipo de Documento</label>
-                      <SelectorTipoDocumento
-                        name='id_tipo_documento'
-                        tipoDocumentoSeleccionado={values.id_tipo_documento}
-                        tiposDocumento={tiposDocumentoValidos}
-                        onSeleccion={(event, data) => setFieldValue('id_tipo_documento', data.value)} />
-                    </Form.Field>
-                    <Form.Field required>
                       <label>Moneda</label>
                       <SelectorMoneda
                         name='id_moneda'
-                        monedaSeleccionada={values.id_moneda}
                         monedas={monedas}
+                        monedaSeleccionada={values.id_moneda}
                         onSeleccion={(event, data) => setFieldValue('id_moneda', data.value)} />
                     </Form.Field>
                     <Form.Field required>
                       <label>Sucursal</label>
                       <SelectorSucursal
                         name='id_sucursal'
-                        sucursalSeleccionada={values.id_sucursal}
                         sucursales={sucursales}
+                        sucursalSeleccionada={values.id_sucursal}
                         onSeleccion={(event, data) => setFieldValue('id_sucursal', data.value)} />
                     </Form.Field>
+                    <Form.Field required>
+                      <label>Tipo de Documento</label>
+                      <SelectorTipoDocumento
+                        name='id_tipo_documento'
+                        tiposDocumento={tiposDocumentoValidos}
+                        tipoDocumentoSeleccionado={values.id_tipo_documento}
+                        onSeleccion={(event, data) => setFieldValue('id_tipo_documento', data.value)} />
+                    </Form.Field>
                     <Form.Field>
+                      <Icon name='truck' flipped='horizontally' />
                       <Checkbox
                         name='exportacion'
                         checked={values.exportacion}
                         onChange={(event, data) => setFieldValue('exportacion', data.checked) || setFieldValue('id_tipo_documento', null)}
-                        label='Exportacion' />
+                        label='Exportación' />
                     </Form.Field>
                   </Form>
                 </Modal.Content>

@@ -7,7 +7,8 @@ import Main from './../layouts/Main';
 import { DatosCliente } from './../components/Cliente';
 import { DatosVendedor } from './../components/Vendedor';
 import { DetalleProductos } from '../components/Producto';
-import { ConfiguracionFactura, DatosFactura, SeleccionDatosFactura } from './../components/NuevaFactura';
+import { ConfiguracionFactura } from './../components/ConfiguracionFactura';
+import { DatosFactura, SeleccionDatosFactura } from './../components/Factura';
 import { obtenerMonedas, obtenerUsuarioLogueado, obtenerAfiliacionIva } from './../lib/servicio-api';
 
 class PaginaNuevaFactura extends React.Component {
