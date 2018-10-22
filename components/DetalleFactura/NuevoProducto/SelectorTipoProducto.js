@@ -33,7 +33,7 @@ const SelectorTipoProducto = (props) => {
 SelectorTipoProducto.propTypes = {
   name: PropTypes.string.isRequired,
   tiposProducto: PropTypes.array.isRequired,
-  tipoProductoSeleccionado: PropTypes.string,
+  tipoProductoSeleccionado: PropTypes.number,
   onSeleccion: PropTypes.func.isRequired,
 };
 

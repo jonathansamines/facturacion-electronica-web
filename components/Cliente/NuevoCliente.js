@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { validarCUI, validarNIT } from './../../lib/validaciones';
 import { TextArea, Button, Modal, Form, Message, Input } from 'semantic-ui-react';
 import SelectorDepartamento from './SelectorDepartamento';
 import SelectorMunicipio from './SelectorMunicipio';
@@ -27,6 +28,24 @@ class NuevoCliente extends React.Component {
       apellido: values.apellido,
       direccion: values.direccion,
     };
+
+    // validaciones locales
+    if (!validarNIT(cliente.nit)) {
+      actions.setSubmitting(false);
+
+      return actions.setErrors({
+        nit: 'NIT inválido',
+      });
+    }
+
+    const resultadoValidacionCUI = validarCUI(cliente.cui);
+    if (resultadoValidacionCUI.error) {
+      actions.setSubmitting(false);
+
+      return actions.setErrors({
+        cui: resultadoValidacionCUI.error
+      });
+    }
 
     return crearCliente({ cliente })
       .then((nuevoCliente) => {
@@ -62,11 +81,11 @@ class NuevoCliente extends React.Component {
         <Formik
           validationSchema={
             Yup.object().shape({
-              cui: Yup.string().required(),
-              nit: Yup.string().required(),
-              nombre: Yup.string().required(),
+              cui: Yup.string().required('El código único de identificación es obligatorio'),
+              nit: Yup.string().required('El número de identificación tributaria es obligatorio'),
+              nombre: Yup.string().required('El nombre del cliente es obligatorio'),
               apellido: Yup.string(),
-              direccion: Yup.string().required(),
+              direccion: Yup.string().required('La dirección comercial o de residencia es obligatoria'),
               id_departamento: Yup.string().required(),
               id_municipio: Yup.string().required()
             })
@@ -92,43 +111,40 @@ class NuevoCliente extends React.Component {
                     id='creacion-cliente'
                     autoComplete='off'
                     loading={isSubmitting}
-                    success={!(status && status.error)}
+                    error={!isValid || (status && status.error)}
+                    success={isValid || !(status && status.error)}
                     onSubmit={handleSubmit}>
                     <Form.Group widths='equal'>
-                      <Form.Field required>
+                      <Form.Field required error={Boolean(errors.cui)}>
                         <label>Código único de identificación</label>
                         <Input
                           name='cui'
-                          error={Boolean(errors.cui)}
                           placeholder='Código único de identificacion'
                           value={values.cui}
                           onChange={handleChange} />
                       </Form.Field>
-                      <Form.Field required>
+                      <Form.Field required error={Boolean(errors.nit)}>
                         <label>Número de identificación tributaria</label>
                         <Input
                           name='nit'
-                          error={Boolean(errors.nit)}
                           placeholder='Número de identificación tributaria'
                           value={values.nit}
                           onChange={handleChange} />
                       </Form.Field>
                     </Form.Group>
-                    <Form.Group widths='equal'>
+                    <Form.Group widths='equal' error={Boolean(errors.nombre)}>
                       <Form.Field required>
                         <label>Nombre del cliente</label>
                         <Input
                           name='nombre'
-                          error={Boolean(errors.nombre)}
                           placeholder='Nombre del cliente'
                           value={values.nombre}
                           onChange={handleChange} />
                       </Form.Field>
-                      <Form.Field>
+                      <Form.Field error={Boolean(errors.apellido)}>
                       <label>Apellido del cliente</label>
                         <Input
                           name='apellido'
-                          error={Boolean(errors.apellido)}
                           placeholder='Apellido del cliente'
                           value={values.apellido}
                           onChange={handleChange} />
@@ -165,6 +181,10 @@ class NuevoCliente extends React.Component {
                       status &&
                       status.mensaje &&
                       <Message success={!status.error} error={status.error} content={status.mensaje} />
+                    }
+                    {
+                      (errors.nit || errors.cui) &&
+                      <Message error content={errors.nit || errors.cui} />
                     }
                   </Form>
                 </Modal.Content>
