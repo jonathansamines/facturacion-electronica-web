@@ -6,7 +6,7 @@ import { Form, Grid, Segment } from 'semantic-ui-react';
 import Main from './../layouts/Main';
 import { DatosCliente } from './../components/Cliente';
 import { DatosVendedor } from './../components/Vendedor';
-import { DetalleFactura } from '../components/DetalleFactura';
+import { DetalleProductos } from '../components/Producto';
 import { ConfiguracionFactura, DatosFactura, SeleccionDatosFactura } from './../components/NuevaFactura';
 import { obtenerMonedas, obtenerUsuarioLogueado, obtenerAfiliacionIva } from './../lib/servicio-api';
 
@@ -50,6 +50,14 @@ class PaginaNuevaFactura extends React.Component {
           <title>Crear nueva factura</title>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </Head>
+
+        <ConfiguracionFactura
+          monedas={monedas}
+          sucursales={usuario.empresa.sucursales}
+          tiposDocumentos={afiliacionIVA.tipos_documentos}
+          onConfirmacion={this.configurarFactura}
+          onCancelar={this.cancelarCreacion} />
+
         <Main usuario={usuario}>
           <Segment vertical padded>
             <SeleccionDatosFactura
@@ -77,19 +85,12 @@ class PaginaNuevaFactura extends React.Component {
             {
               opciones &&
               <Form.Field>
-                <DetalleFactura
+                <DetalleProductos
                   moneda={opciones.moneda}
                   tipoDocumento={opciones.tipoDocumento} />
               </Form.Field>
             }
           </Segment>
-
-          <ConfiguracionFactura
-            monedas={monedas}
-            sucursales={usuario.empresa.sucursales}
-            tiposDocumentos={afiliacionIVA.tipos_documentos}
-            onConfirmacion={this.configurarFactura}
-            onCancelar={this.cancelarCreacion} />
         </Main>
       </>
     );

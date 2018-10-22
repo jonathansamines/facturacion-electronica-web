@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import { Form } from 'semantic-ui-react';
-import SelectorProducto from './SelectorProducto';
-import ConfirmacionProducto from './ConfirmacionProducto';
 import NuevoProducto from './NuevoProducto';
 import TablaProductos from './TablaProductos';
+import SelectorProducto from './SelectorProducto';
+import ConfirmacionProducto from './ConfirmacionProducto';
 
-class DetalleFactura extends React.Component {
+class DetalleProductos extends React.Component {
   state = {
     productos: [],
     nuevoProducto: null,
@@ -112,9 +112,9 @@ class DetalleFactura extends React.Component {
   }
 }
 
-DetalleFactura.propTypes = {
+DetalleProductos.propTypes = {
   moneda: PropTypes.object.isRequired,
   tipoDocumento: PropTypes.object.isRequired,
 };
 
-export default DetalleFactura
+export default DetalleProductos
