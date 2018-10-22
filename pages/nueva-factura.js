@@ -28,17 +28,15 @@ class PaginaNuevaFactura extends React.Component {
     });
   }
 
-  cancelarCreacion = () => {
-    return Router.push('/');
-  }
+  cancelarCreacion = () => Router.push('/');
 
-  configurarFactura = (opciones) => {
-    this.setState({ opciones });
-  }
+  configurarFactura = (opciones) => this.setState({ opciones });
 
-  configurarSeleccion = ({ cliente, vendedor }) => {
-    this.setState({ cliente, vendedor });
-  }
+  configurarCliente = (cliente) => this.setState({ cliente });
+
+  configurarVendedor = (vendedor) => this.setState({ vendedor });
+
+  configurarSeleccion = ({ cliente, vendedor }) => this.setState({ cliente, vendedor });
 
   render() {
     const { usuario, monedas, afiliacionIVA } = this.props;
@@ -50,13 +48,6 @@ class PaginaNuevaFactura extends React.Component {
           <title>Crear nueva factura</title>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </Head>
-
-        <ConfiguracionFactura
-          monedas={monedas}
-          sucursales={usuario.empresa.sucursales}
-          tiposDocumentos={afiliacionIVA.tipos_documentos}
-          onConfirmacion={this.configurarFactura}
-          onCancelar={this.cancelarCreacion} />
 
         <Main usuario={usuario}>
           <Segment vertical padded>
@@ -72,7 +63,7 @@ class PaginaNuevaFactura extends React.Component {
               </Grid.Column>
 
               <Grid.Column>
-                <DatosCliente cliente={cliente} />
+                <DatosCliente cliente={cliente} onClienteEditado={this.configurarCliente} />
               </Grid.Column>
 
               <Grid.Column>
@@ -92,6 +83,13 @@ class PaginaNuevaFactura extends React.Component {
             }
           </Segment>
         </Main>
+
+        <ConfiguracionFactura
+          monedas={monedas}
+          sucursales={usuario.empresa.sucursales}
+          tiposDocumentos={afiliacionIVA.tipos_documentos}
+          onConfirmacion={this.configurarFactura}
+          onCancelar={this.cancelarCreacion} />
       </>
     );
   }
