@@ -32,7 +32,7 @@ class SelectorProducto extends React.Component {
     const opcionesProductos = productos.map((producto) => ({
       key: producto.id_producto,
       value: producto.id_producto,
-      text: producto.descripcion
+      text: producto.nombre
     }));
 
     return (

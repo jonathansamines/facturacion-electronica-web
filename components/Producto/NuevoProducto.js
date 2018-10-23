@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import pProps from 'p-props';
 import * as Yup from 'yup';
-import { Button, Modal, Form, Message, Input } from 'semantic-ui-react';
+import { Button, Modal, Form, Message, Input, TextArea } from 'semantic-ui-react';
 import SelectorMoneda from '../SelectorMoneda';
 import SelectorUnidadMedida from './SelectorUnidadMedida';
 import SelectorTipoProducto from './SelectorTipoProducto';
@@ -33,18 +34,16 @@ class NuevoProducto extends React.Component {
   crearProducto = (values, actions) => {
     return crearProducto({ producto: values })
       .then((nuevoProducto) => {
-        actions.resetForm();
-        actions.setSubmitting(false);
-
         actions.setStatus({
           mensaje: 'Producto creado correctamente',
           error: false,
         });
 
-        setTimeout(
-          () => this.props.onProductoCreado(nuevoProducto),
-          400
-        );
+        setTimeout(() => {
+          actions.resetForm();
+          actions.setSubmitting(false);
+          this.props.onProductoCreado(nuevoProducto)
+        }, 1000);
       })
       .catch(() => {
         actions.setSubmitting(false);
@@ -56,7 +55,7 @@ class NuevoProducto extends React.Component {
   }
 
   render () {
-    const { onCancelar, descripcionProducto } = this.props;
+    const { onCancelar, nombreProducto } = this.props;
     const { monedas, tiposProducto, unidadesMedida } = this.state;
 
     return (
@@ -66,6 +65,7 @@ class NuevoProducto extends React.Component {
         <Formik
           validationSchema={
             Yup.object().shape({
+              nombre: Yup.string().required('El nombre del producto es obligatorio'),
               descripcion: Yup.string().required('La descripción del producto es obligatoria'),
               marca: Yup.string().required('La marca es obligatoria'),
               precio: Yup.number().required('El precio es obligatorio'),
@@ -77,7 +77,8 @@ class NuevoProducto extends React.Component {
           initialValues={({
             precio: 0,
             marca: '',
-            descripcion: descripcionProducto,
+            nombre: nombreProducto,
+            descripcion: '',
             id_moneda: null,
             id_unidad_medida: null,
             id_tipo_producto: null,
@@ -90,13 +91,22 @@ class NuevoProducto extends React.Component {
                   <Form
                     id='creacion-producto'
                     loading={isSubmitting}
-                    success={!(status && status.error)}
+                    error={!isValid || (status && status.error)}
+                    success={isValid || !(status && status.error)}
                     onSubmit={handleSubmit}>
-                    <Form.Field required error={Boolean(errors.descripcion)}>
+                    <Form.Field required error={Boolean(errors.nombre)}>
                       <label>Producto o servicio</label>
                       <Input
-                        name='descripcion'
+                        name='nombre'
                         placeholder='Nombre del producto o servicio'
+                        value={values.nombre}
+                        onChange={handleChange} />
+                    </Form.Field>
+                    <Form.Field required error={Boolean(errors.descripcion)}>
+                      <label>Producto o servicio</label>
+                      <TextArea
+                        name='descripcion'
+                        placeholder='Descripción del producto o servicio'
                         value={values.descripcion}
                         onChange={handleChange} />
                     </Form.Field>
@@ -156,6 +166,7 @@ class NuevoProducto extends React.Component {
                   <Button
                     color='google plus'
                     type='submit'
+                    loading={isSubmitting}
                     disabled={!isValid}
                     form='creacion-producto'>
                     Guardar
@@ -169,5 +180,11 @@ class NuevoProducto extends React.Component {
     );
   }
 }
+
+NuevoProducto.propTypes = {
+  nombreProducto: PropTypes.string.isRequired,
+  onCancelar: PropTypes.func.isRequired,
+  onProductoCreado: PropTypes.func.isRequired,
+};
 
 export default NuevoProducto;

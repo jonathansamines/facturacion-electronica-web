@@ -41,6 +41,7 @@ class TablaProductos extends React.Component {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Código</Table.HeaderCell>
+            <Table.HeaderCell>Nombre</Table.HeaderCell>
             <Table.HeaderCell>Descripción</Table.HeaderCell>
             <Table.HeaderCell>Cantidad</Table.HeaderCell>
             <Table.HeaderCell>Costo Unitario</Table.HeaderCell>
@@ -53,7 +54,7 @@ class TablaProductos extends React.Component {
           {
             productos.length === 0 &&
             <Table.Row>
-              <Table.Cell colSpan='7'>No se han agregado productos a la factura.</Table.Cell>
+              <Table.Cell colSpan='8'>No se han agregado productos a la factura.</Table.Cell>
             </Table.Row>
           }
           {
@@ -61,6 +62,7 @@ class TablaProductos extends React.Component {
               return (
                 <Table.Row key={producto.id_producto}>
                   <Table.Cell>{producto.id_producto}</Table.Cell>
+                  <Table.Cell>{producto.nombre}</Table.Cell>
                   <Table.Cell>{producto.descripcion}</Table.Cell>
                   <Table.Cell>0</Table.Cell>
                   <Table.Cell>{moneda.id_moneda} {producto.precio_unitario}</Table.Cell>
@@ -85,7 +87,7 @@ class TablaProductos extends React.Component {
 
         <Table.Footer>
           <Table.Row>
-            <Table.HeaderCell colSpan='7'>
+            <Table.HeaderCell colSpan='8'>
               <Form>
                 <Form.Group widths='equal'>
                   {tipoDocumento && tipoDocumento.tipos_frase.map((tipoFrase) => (
@@ -104,7 +106,7 @@ class TablaProductos extends React.Component {
             </Table.HeaderCell>
           </Table.Row>
           <Table.Row>
-            <Table.HeaderCell colSpan='7'>
+            <Table.HeaderCell colSpan='8'>
               3000.00
             </Table.HeaderCell>
           </Table.Row>

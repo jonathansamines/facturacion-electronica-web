@@ -55,7 +55,7 @@ class DetalleProductos extends React.Component {
   }
 
   crearProducto = (event, { value }) => {
-    this.setState({ nuevoProducto : { descripcion: value } });
+    this.setState({ nuevoProducto : { nombre: value } });
   }
 
   cancelarCreacionProducto = (event, { value }) => {
@@ -79,7 +79,7 @@ class DetalleProductos extends React.Component {
         {
           nuevoProducto &&
           <NuevoProducto
-            descripcionProducto={nuevoProducto.descripcion}
+            nombreProducto={nuevoProducto.nombre}
             onProductoCreado={this.agregarProductoACatalogo}
             onCancelar={this.cancelarCreacionProducto} />
         }

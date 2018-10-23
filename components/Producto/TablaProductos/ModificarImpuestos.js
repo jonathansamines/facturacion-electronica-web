@@ -32,6 +32,7 @@ class ModificarImpuestos extends React.Component {
       <Modal defaultOpen={true} size='tiny' onClose={this.cancelar}>
         <Modal.Header>Modificar Impuestos</Modal.Header>
         <Modal.Content>
+          <p>{producto.nombre}</p>
           <Segment vertical>
             <Formik
               initialValues={({
@@ -55,10 +56,6 @@ class ModificarImpuestos extends React.Component {
           </Segment>
           <Segment vertical>
             <List relaxed horizontal size='medium'>
-              <List.Item>
-                <List.Header as='strong'>Producto: </List.Header>
-                {producto.descripcion}
-              </List.Item>
               <List.Item>
                 <List.Header as='strong'>Unidades Gravables: </List.Header>
                 0

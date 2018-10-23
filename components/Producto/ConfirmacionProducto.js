@@ -7,8 +7,9 @@ const ConfirmacionProducto = (props) => {
 
   return (
     <Modal defaultOpen={true} size='tiny' onClose={onCancelar}>
-      <Modal.Header>{producto.descripcion}</Modal.Header>
+      <Modal.Header>{producto.nombre}</Modal.Header>
       <Modal.Content>
+        <p>{producto.descripcion}</p>
         <Segment vertical>
           <List relaxed horizontal size='medium'>
             <List.Item>

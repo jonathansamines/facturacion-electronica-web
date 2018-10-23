@@ -81,7 +81,7 @@ class EditarVendedor extends React.Component {
                   loading={props.isSubmitting}
                   disabled={!props.isValid}
                   form='formulario-vendedor'>
-                  Guardar
+                  Actualizar
                 </Button>
               </Modal.Actions>
             </>
