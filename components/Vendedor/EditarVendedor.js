@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import { Button, Modal } from 'semantic-ui-react';
-import { crearVendedor } from '../../lib/servicio-api';
+import { editarVendedor } from '../../lib/servicio-api';
 import { validarCUI, validarNIT } from './../../lib/validaciones';
 import { esquemaValidacion, FormularioVendedor } from './Formulario';
 
-class NuevoVendedor extends React.Component {
-  crearVendedor = (values, actions) => {
+class EditarVendedor extends React.Component {
+  editarVendedor = (values, actions) => {
     // validaciones locales
     if (!validarNIT(values.nit)) {
       actions.setSubmitting(false);
@@ -26,44 +26,46 @@ class NuevoVendedor extends React.Component {
       });
     }
 
-    return crearVendedor({ vendedor: values })
-      .then((nuevoVendedor) => {
+    return editarVendedor({ vendedor: values, idVendedor: this.props.vendedor.id_vendedor })
+      .then((vendedorEditado) => {
         actions.setStatus({
-          mensaje: 'Vendedor creado correctamente',
+          mensaje: 'Vendedor actualizado correctamente',
           error: false,
         });
 
         setTimeout(() => {
           actions.resetForm();
           actions.setSubmitting(false);
-          this.props.onVendedorCreado(nuevoVendedor)
-        }, 1500);
+          this.props.onVendedorEditado(vendedorEditado)
+        }, 1000);
       })
       .catch(() => {
         actions.setSubmitting(false);
         actions.setStatus({
-          mensaje: 'Hubo un error al crear el vendedor. Vuelva a intentarlo',
+          mensaje: 'Hubo un error al actualizar el vendedor. Vuelva a intentarlo',
           error: true,
         });
       });
   }
 
   render () {
-    const { onCancelar, nombreVendedor, sucursales } = this.props;
+    const { onCancelar, vendedor, sucursales } = this.props;
 
     return (
       <Modal defaultOpen={true} size='tiny' onClose={onCancelar}>
-        <Modal.Header>Nuevo vendedor</Modal.Header>
+        <Modal.Header>Editar vendedor</Modal.Header>
         <Formik
+          isInitialValid={true}
+          enableReinitialize={true}
           validationSchema={esquemaValidacion}
           initialValues={({
-            cui: '',
-            nit: '',
-            nombre: nombreVendedor,
-            apellido: '',
-            id_sucursal: null,
+            cui: vendedor.cui,
+            nit: vendedor.nit,
+            nombre: vendedor.nombre,
+            apellido: vendedor.apellido,
+            id_sucursal: vendedor.id_sucursal,
           })}
-          onSubmit={this.crearVendedor}>
+          onSubmit={this.editarVendedor}>
           {(props) => (
             <>
               <Modal.Content>
@@ -90,11 +92,11 @@ class NuevoVendedor extends React.Component {
   }
 }
 
-NuevoVendedor.propTypes = {
-  nombreVendedor: PropTypes.string.isRequired,
+EditarVendedor.propTypes = {
+  vendedor: PropTypes.object.isRequired,
   sucursales: PropTypes.array,
   onCancelar: PropTypes.func.isRequired,
-  onVendedorCreado: PropTypes.func.isRequired,
+  onVendedorEditado: PropTypes.func.isRequired,
 };
 
-export default NuevoVendedor;
+export default EditarVendedor;

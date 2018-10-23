@@ -87,28 +87,26 @@ class NuevoCliente extends React.Component {
             id_municipio: null,
           })}
           onSubmit={this.crearCliente}>
-          {(props) => {
-            return (
-              <>
-                <Modal.Content>
-                  <FormularioCliente departamentos={departamentos} {...props} />
-                </Modal.Content>
-                <Modal.Actions>
-                  <Button onClick={onCancelar}>
-                    Cancelar
-                  </Button>
-                  <Button
-                    color='google plus'
-                    type='submit'
-                    loading={props.isSubmitting}
-                    disabled={!props.isValid}
-                    form='formulario-cliente'>
-                    Guardar
-                  </Button>
-                </Modal.Actions>
-              </>
-            );
-          }}
+          {(props) => (
+            <>
+              <Modal.Content>
+                <FormularioCliente departamentos={departamentos} {...props} />
+              </Modal.Content>
+              <Modal.Actions>
+                <Button onClick={onCancelar}>
+                  Cancelar
+                </Button>
+                <Button
+                  color='google plus'
+                  type='submit'
+                  loading={props.isSubmitting}
+                  disabled={!props.isValid}
+                  form='formulario-cliente'>
+                  Guardar
+                </Button>
+              </Modal.Actions>
+            </>
+          )}
         </Formik>
       </Modal>
     );

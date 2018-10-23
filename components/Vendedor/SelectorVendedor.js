@@ -56,7 +56,7 @@ class SelectorVendedor extends React.Component {
 SelectorVendedor.propTypes = {
   name: PropTypes.string.isRequired,
   vendedores: PropTypes.array.isRequired,
-  vendedorSeleccionado: PropTypes.number,
+  vendedorSeleccionado: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onAgregar: PropTypes.func.isRequired,
   onBusqueda: PropTypes.func.isRequired,
   onSeleccion: PropTypes.func.isRequired,

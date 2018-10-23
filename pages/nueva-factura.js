@@ -64,11 +64,16 @@ class PaginaNuevaFactura extends React.Component {
               </Grid.Column>
 
               <Grid.Column>
-                <DatosCliente cliente={cliente} onClienteEditado={this.configurarCliente} />
+                <DatosCliente
+                  cliente={cliente}
+                  onClienteEditado={this.configurarCliente} />
               </Grid.Column>
 
               <Grid.Column>
-                <DatosVendedor vendedor={vendedor} />
+                <DatosVendedor
+                  vendedor={vendedor}
+                  sucursales={usuario.empresa.sucursales}
+                  onVendedorEditado={this.configurarVendedor} />
               </Grid.Column>
             </Grid>
           </Segment>

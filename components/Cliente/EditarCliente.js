@@ -92,28 +92,26 @@ class EditarCliente extends React.Component {
           }}
           validationSchema={esquemaValidacion}
           onSubmit={this.editarCliente}>
-          {(props) => {
-            return (
-              <>
-                <Modal.Content>
-                  <FormularioCliente departamentos={departamentos} {...props} />
-                </Modal.Content>
-                <Modal.Actions>
-                  <Button onClick={onCancelar}>
-                    Cancelar
-                  </Button>
-                  <Button
-                    color='google plus'
-                    type='submit'
-                    loading={props.isSubmitting}
-                    disabled={!props.isValid}
-                    form='formulario-cliente'>
-                    Actualizar
-                  </Button>
-                </Modal.Actions>
-              </>
-            );
-          }}
+          {(props) => (
+            <>
+              <Modal.Content>
+                <FormularioCliente departamentos={departamentos} {...props} />
+              </Modal.Content>
+              <Modal.Actions>
+                <Button onClick={onCancelar}>
+                  Cancelar
+                </Button>
+                <Button
+                  color='google plus'
+                  type='submit'
+                  loading={props.isSubmitting}
+                  disabled={!props.isValid}
+                  form='formulario-cliente'>
+                  Actualizar
+                </Button>
+              </Modal.Actions>
+            </>
+          )}
         </Formik>
       </Modal>
     );
