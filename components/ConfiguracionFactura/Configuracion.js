@@ -63,7 +63,11 @@ class ConfiguracionFactura extends React.Component {
           })}
           onSubmit={this.confirmar}>
           {({ handleSubmit, setFieldValue, isValid, values }) => {
-            const tiposDocumentoValidos = tiposDocumentos.filter((tipoDocumento) => tipoDocumento.exportacion === values.exportacion);
+            const tiposDocumentoValidos = tiposDocumentos.filter((tipoDocumento) => {
+              if (values.exportacion) return tipoDocumento.exportacion;
+
+              return true;
+            });
 
             return (
               <>
