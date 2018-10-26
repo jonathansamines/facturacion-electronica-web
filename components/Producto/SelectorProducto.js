@@ -58,7 +58,7 @@ class SelectorProducto extends React.Component {
 SelectorProducto.propTypes = {
   name: PropTypes.string.isRequired,
   productos: PropTypes.array.isRequired,
-  productoSeleccionado: PropTypes.number,
+  productoSeleccionado: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onBusqueda: PropTypes.func.isRequired,
   onAgregar: PropTypes.func.isRequired,
   onSeleccion: PropTypes.func.isRequired,

@@ -61,7 +61,6 @@ class NuevoProducto extends React.Component {
     return (
       <Modal defaultOpen={true} size='tiny' onClose={onCancelar}>
         <Modal.Header>Nuevo Producto</Modal.Header>
-
         <Formik
           validationSchema={
             Yup.object().shape({
@@ -110,40 +109,46 @@ class NuevoProducto extends React.Component {
                         value={values.descripcion}
                         onChange={handleChange} />
                     </Form.Field>
-                    <Form.Field required error={Boolean(errors.marca)}>
-                      <label>Marca</label>
-                      <Input
-                        name='marca'
-                        placeholder='Nombre de la marca'
-                        value={values.marca}
-                        onChange={handleChange} />
-                    </Form.Field>
-                    <Form.Field required error={Boolean(errors.precio)}>
-                      <label>Precio</label>
-                      <Input
-                        name='precio'
-                        type='number'
-                        min={0}
-                        placeholder='Precio'
-                        value={values.precio}
-                        onChange={handleChange} />
-                    </Form.Field>
-                    <Form.Field required>
-                      <label>Moneda</label>
-                      <SelectorMoneda
-                        name='id_moneda'
-                        monedas={monedas}
-                        monedaSeleccionada={values.id_moneda}
-                        onSeleccion={(event, data) => setFieldValue('id_moneda', data.value)} />
-                    </Form.Field>
-                    <Form.Field required>
-                      <label>Tipo de Producto</label>
-                      <SelectorTipoProducto
-                        name='id_tipo_producto'
-                        tiposProducto={tiposProducto}
-                        tipoProductoSeleccionado={values.id_tipo_producto}
-                        onSeleccion={(event, data) => setFieldValue('id_tipo_producto', data.value)} />
-                    </Form.Field>
+                    <Form.Group widths='equal'>
+                      <Form.Field required error={Boolean(errors.marca)}>
+                        <label>Marca</label>
+                        <Input
+                          name='marca'
+                          placeholder='Nombre de la marca'
+                          value={values.marca}
+                          onChange={handleChange} />
+                      </Form.Field>
+                      <Form.Field required error={Boolean(errors.precio)}>
+                        <label>Precio</label>
+                        <Input
+                          name='precio'
+                          type='number'
+                          min={0}
+                          step={0.00000}
+                          placeholder='Precio'
+                          value={values.precio}
+                          onChange={handleChange} />
+                      </Form.Field>
+                    </Form.Group>
+                    <Form.Group widths='equal'>
+                      <Form.Field required>
+                        <label>Moneda</label>
+                        <SelectorMoneda
+                          name='id_moneda'
+                          monedas={monedas}
+                          monedaSeleccionada={values.id_moneda}
+                          onSeleccion={(event, data) => setFieldValue('id_moneda', data.value)} />
+                      </Form.Field>
+                      <Form.Field required>
+                        <label>Tipo de Producto</label>
+                        <SelectorTipoProducto
+                          name='id_tipo_producto'
+                          tiposProducto={tiposProducto}
+                          tipoProductoSeleccionado={values.id_tipo_producto}
+                          onSeleccion={(event, data) => setFieldValue('id_tipo_producto', data.value)} />
+                      </Form.Field>
+                    </Form.Group>
+
                     <Form.Field required>
                       <label>Unidad de Medida</label>
                       <SelectorUnidadMedida

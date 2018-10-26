@@ -9,7 +9,7 @@ import { DatosVendedor } from './../components/Vendedor';
 import { DetalleProductos } from '../components/Producto';
 import { ConfiguracionFactura } from './../components/ConfiguracionFactura';
 import { DatosFactura, SeleccionDatosFactura } from './../components/Factura';
-import { obtenerMonedas, obtenerUsuarioLogueado, obtenerAfiliacionIva } from './../lib/servicio-api';
+import { obtenerMonedas, obtenerUsuarioLogueado, obtenerAfiliacionIva, obtenerTipoCambioDia } from './../lib/servicio-api';
 
 class PaginaNuevaFactura extends React.Component {
   state = {
@@ -26,6 +26,7 @@ class PaginaNuevaFactura extends React.Component {
       usuario,
       monedas: obtenerMonedas({ req }),
       afiliacionIVA: obtenerAfiliacionIva({ req, idAfiliacionIVA }),
+      tipoCambio: obtenerTipoCambioDia({ req })
     });
   }
 
@@ -40,7 +41,7 @@ class PaginaNuevaFactura extends React.Component {
   configurarSeleccion = ({ cliente, vendedor }) => this.setState({ cliente, vendedor });
 
   render() {
-    const { usuario, monedas, afiliacionIVA } = this.props;
+    const { usuario, monedas, afiliacionIVA, tipoCambio } = this.props;
     const { opciones, vendedor, cliente } = this.state;
 
     return (
@@ -59,17 +60,17 @@ class PaginaNuevaFactura extends React.Component {
 
           <Segment vertical padded>
             <Grid columns={3}>
-              <Grid.Column>
-                <DatosFactura opciones={opciones} />
+              <Grid.Column width={6}>
+                <DatosFactura tipoCambio={tipoCambio} opciones={opciones} />
               </Grid.Column>
 
-              <Grid.Column>
+              <Grid.Column width={5}>
                 <DatosCliente
                   cliente={cliente}
                   onClienteEditado={this.configurarCliente} />
               </Grid.Column>
 
-              <Grid.Column>
+              <Grid.Column width={5}>
                 <DatosVendedor
                   vendedor={vendedor}
                   sucursales={usuario.empresa.sucursales}
@@ -81,11 +82,10 @@ class PaginaNuevaFactura extends React.Component {
           <Segment vertical padded='very'>
             {
               opciones &&
-              <Form.Field>
-                <DetalleProductos
-                  moneda={opciones.moneda}
-                  tipoDocumento={opciones.tipoDocumento} />
-              </Form.Field>
+              <DetalleProductos
+                tipoCambio={tipoCambio}
+                moneda={opciones.moneda}
+                tipoDocumento={opciones.tipoDocumento} />
             }
           </Segment>
         </Main>
