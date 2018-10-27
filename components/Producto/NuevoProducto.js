@@ -19,7 +19,7 @@ class NuevoProducto extends React.Component {
   componentDidMount() {
     return pProps({
       monedas: obtenerMonedas(),
-      tipos_producto: obtenerTiposProducto(),
+      tipos_producto: obtenerTiposProducto({ tipoDocumento: this.props.tipoDocumento.id_tipo_documento }),
       unidades_medida: obtenerUnidadesMedida(),
     })
     .then(({ tipos_producto, unidades_medida, monedas }) => {
@@ -188,6 +188,7 @@ class NuevoProducto extends React.Component {
 
 NuevoProducto.propTypes = {
   nombreProducto: PropTypes.string.isRequired,
+  tipoDocumento: PropTypes.object.isRequired,
   onCancelar: PropTypes.func.isRequired,
   onProductoCreado: PropTypes.func.isRequired,
 };
