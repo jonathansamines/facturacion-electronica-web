@@ -3,19 +3,20 @@ import './../styles.scss';
 import React from 'react';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
-import { Icon, Menu, Container, Header, Segment } from 'semantic-ui-react';
+import { Icon, Menu, Container, Header, Segment, Dropdown } from 'semantic-ui-react';
 import Logo from './../components/Logo';
 
 const Main = ({ router, children, usuario }) => {
   return (
     <Container>
       <nav className='menu-principal'>
-        <Menu secondary stackable size='large'>
+        <Menu secondary size='large'>
           <Menu.Item>
-            <Header as='h2'>
+            <Header as='h3'>
               <Logo as='a' size='massive' href='/' />
               <Header.Content>
                 {usuario.empresa.nombre_comercial}
+
                 <Header.Subheader>
                   <strong>NIT: </strong>
                   <span>{usuario.empresa.nit}</span>
@@ -30,20 +31,26 @@ const Main = ({ router, children, usuario }) => {
             <Menu.Item active={router.pathname === '/nueva-factura'}>
               <Link href='/nueva-factura'><a title='Nueva Factura'>Nueva Factura</a></Link>
             </Menu.Item>
-            <Menu.Item>
-              <Link href='/cerrar-sesion'>
-                <a title={usuario.nombre_usuario}>
-                  <Icon name='user circle' />
-                  {usuario.nombre_usuario}
-                </a>
-              </Link>
-            </Menu.Item>
+            <Dropdown item text={
+              <>
+                <Icon name='user circle' />
+                {usuario.nombre_usuario}
+              </>
+            }>
+              <Dropdown.Menu>
+                <Dropdown.Item>
+                  <a title={usuario.nombre_usuario} href='/api/usuarios/logout'>
+                    Cerrar Sesión
+                  </a>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Menu.Menu>
         </Menu>
       </nav>
 
       <main>
-        <Segment stacked padded color='red'>
+        <Segment stacked padded color='red' className='contenedor-principal'>
           {children}
         </Segment>
       </main>

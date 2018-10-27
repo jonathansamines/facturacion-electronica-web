@@ -5,11 +5,16 @@ import { Formik } from 'formik';
 import { Form, Select, Button } from 'semantic-ui-react';
 import { startOfToday } from 'date-fns';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
+import { esSesionValida } from './../lib/credenciales';
 import { obtenerUsuarioLogueado } from './../lib/servicio-api'
 import { TablaFacturas } from './../components/Factura';
 
 class App extends React.Component {
-  static async getInitialProps({ req }) {
+  static async getInitialProps({ req, res }) {
+    if (!esSesionValida(req) && req) {
+      return res.redirect('/iniciar-sesion');
+    }
+
     return {
       usuario: await obtenerUsuarioLogueado({ req })
     };

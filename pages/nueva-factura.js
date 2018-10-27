@@ -9,6 +9,7 @@ import { DatosVendedor } from './../components/Vendedor';
 import { DetalleProductos } from '../components/Producto';
 import { ConfiguracionFactura } from './../components/ConfiguracionFactura';
 import { DatosFactura, SeleccionDatosFactura } from './../components/Factura';
+import { esSesionValida } from './../lib/credenciales';
 import { obtenerMonedas, obtenerUsuarioLogueado, obtenerAfiliacionIva, obtenerTipoCambioDia } from './../lib/servicio-api';
 
 class PaginaNuevaFactura extends React.Component {
@@ -18,7 +19,11 @@ class PaginaNuevaFactura extends React.Component {
     vendedor: null
   }
 
-  static async getInitialProps({ req }) {
+  static async getInitialProps({ req, res }) {
+    if (!esSesionValida(req) && req) {
+      return res.redirect('/iniciar-sesion');
+    }
+
     const usuario = await obtenerUsuarioLogueado({ req });
     const idAfiliacionIVA = usuario.empresa.id_afiliacion_iva;
 

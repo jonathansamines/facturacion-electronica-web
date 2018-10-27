@@ -6,10 +6,15 @@ import Head from 'next/head';
 import { Formik } from 'formik';
 import { Container, Segment, Message, Select, Button, Form } from 'semantic-ui-react';
 import Segmento from '../components/Segmento';
+import { esSesionValida } from './../lib/credenciales';
 import { obtenerEmpresas, iniciarSesion } from '../lib/servicio-api';
 
 class PaginaLogin extends React.Component {
-  static async getInitialProps({ req }) {
+  static async getInitialProps({ req, res }) {
+    if (esSesionValida(req) && req) {
+      return res.redirect('/');
+    }
+
     return {
       empresas: await obtenerEmpresas({ req }),
     };
