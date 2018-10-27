@@ -13,7 +13,7 @@ const SelectorMoneda = (props) => {
   const opcionesMoneda = monedas.map((moneda) => ({
     key: moneda.id_moneda,
     value: moneda.id_moneda,
-    text: moneda.descripcion
+    text: `${moneda.descripcion} ${moneda.id_moneda}`
   }))
 
   return (

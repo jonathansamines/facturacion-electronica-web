@@ -1,22 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
-import { Select } from 'semantic-ui-react';
+import { Select, Icon } from 'semantic-ui-react';
 import { buscarProducto } from '../../lib/servicio-api';
 
 class SelectorProducto extends React.Component {
+  state = {
+    buscando: false
+  }
+
   buscarProducto = debounce((event, data) => {
     const busqueda = data.searchQuery;
     const { onBusqueda } = this.props;
 
     if (busqueda !== undefined && busqueda.length > 0) {
-      return buscarProducto({ busqueda })
-        .then((productos) => {
-          return onBusqueda({ busqueda, productos });
-        })
-        .catch((error) => {
-          return onBusqueda({ busqueda, error });
-        });
+      this.setState({ buscando: true }, () => {
+
+        return buscarProducto({ busqueda })
+          .then((productos) => {
+            setTimeout(() => this.setState({ buscando: false }), 400);
+
+            return onBusqueda({ busqueda, productos });
+          })
+          .catch((error) => {
+            setTimeout(() => this.setState({ buscando: false }), 400);
+
+            return onBusqueda({ busqueda, error });
+          });
+      });
     }
   }, 400)
 
@@ -40,9 +51,16 @@ class SelectorProducto extends React.Component {
         search
         allowAdditions
         name={name}
+        icon={'search'}
         selectOnBlur={false}
         selectOnNavigation={false}
-        additionLabel='Crear nuevo producto: '
+        loading={this.state.buscando}
+        additionLabel={
+          <>
+            <Icon name='add circle' />
+            <span>Crear nuevo producto:&nbsp;</span>
+          </>
+        }
         value={productoSeleccionado}
         placeholder='Buscar producto'
         noResultsMessage='Producto no encontrado en el catalogo'

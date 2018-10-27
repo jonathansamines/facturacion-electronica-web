@@ -1,22 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
-import { Select } from 'semantic-ui-react';
+import { Select, Icon } from 'semantic-ui-react';
 import { buscarCliente } from '../../lib/servicio-api';
 
 class SelectorCliente extends React.Component {
+  state = {
+    buscando: false
+  }
+
   buscarCliente = debounce((event, data) => {
     const busqueda = data.searchQuery;
     const { onBusqueda } = this.props;
 
     if (busqueda !== undefined && busqueda.length > 0) {
-      return buscarCliente({ busqueda })
+      this.setState({ buscando: true }, () => {
+
+        return buscarCliente({ busqueda })
         .then((clientes) => {
+          setTimeout(() => this.setState({ buscando: false }), 400);
+
           return onBusqueda({ busqueda, clientes });
         })
         .catch((error) => {
+          setTimeout(() => this.setState({ buscando: false }), 400);
+
           return onBusqueda({ busqueda, error });
         });
+      });
     }
   }, 200)
 
@@ -38,11 +49,18 @@ class SelectorCliente extends React.Component {
     return (
       <Select
         search
+        icon={'search'}
         allowAdditions
         name={name}
         selectOnBlur={false}
         selectOnNavigation={false}
-        additionLabel='Crear nuevo cliente: '
+        loading={this.state.buscando}
+        additionLabel={
+          <>
+            <Icon name='add user' />
+            <span>Crear nuevo cliente:&nbsp;</span>
+          </>
+        }
         placeholder='Nombre, CF o NIT (un nit valido)'
         noResultsMessage='Cliente no encontrado'
         options={opcionesClientes}

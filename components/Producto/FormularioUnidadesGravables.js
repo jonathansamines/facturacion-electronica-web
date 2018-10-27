@@ -31,6 +31,7 @@ const FormularioUnidadesGravables = ({
         name='unidades'
         type='number'
         min={1}
+        step={'0.100000'}
         placeholder='Unidades'
         value={values.unidades}
         onChange={handleChange} />
