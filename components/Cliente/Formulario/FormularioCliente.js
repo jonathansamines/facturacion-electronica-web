@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { TextArea, Form, Message, Input } from 'semantic-ui-react';
 import SelectorMunicipio from '../SelectorMunicipio';
 import SelectorDepartamento from '../SelectorDepartamento';
@@ -98,6 +99,18 @@ const FormularioCliente = ({
       }
     </Form>
   );
+};
+
+FormularioCliente.propTypes = {
+  departamentos: PropTypes.array.isRequired,
+  values: PropTypes.object,
+  errors: PropTypes.object,
+  status: PropTypes.object,
+  isValid: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
+  handleChange: PropTypes.func,
+  setFieldValue: PropTypes.func,
+  handleSubmit: PropTypes.func
 };
 
 export default FormularioCliente;

@@ -35,7 +35,7 @@ class TiposFrase extends React.Component {
       <Formik
         validationSchema={this.obtenerEsquemaValidacion()}
         initialValues={this.obtenerValoresPorDefecto()}>
-          {({ isValid, values, handleSubmit, setFieldValue }) => (
+          {({ values, handleSubmit, setFieldValue }) => (
           <Form onSubmit={handleSubmit}>
             <Form.Group widths='equal'>
               {tiposFrase.map((tipoFrase) => (

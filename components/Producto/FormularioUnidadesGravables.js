@@ -40,7 +40,11 @@ const FormularioUnidadesGravables = ({
 
 FormularioUnidadesGravables.propTypes = {
   impuestosDisponiblesProducto: PropTypes.array.isRequired,
-  unidadesGravables: PropTypes.array.isRequired
+  unidadesGravables: PropTypes.array.isRequired,
+  setFieldValue: PropTypes.func,
+  values: PropTypes.object,
+  handleChange: PropTypes.func,
+  handleSubmit: PropTypes.func,
 };
 
 export default FormularioUnidadesGravables;

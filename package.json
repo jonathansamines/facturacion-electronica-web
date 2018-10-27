@@ -10,6 +10,8 @@
     "cookie-parser": "~1.4.3",
     "date-fns": "~1.29.0",
     "dotenv": "~6.1.0",
+    "eslint": "~5.8.0",
+    "eslint-plugin-react": "~7.11.1",
     "express": "~4.16.4",
     "express-session": "~1.15.6",
     "file-loader": "~2.0.0",
@@ -32,9 +34,13 @@
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "start": "node server.js"
+    "start": "node server.js",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "babel-eslint": "~10.0.1"
+  }
 }

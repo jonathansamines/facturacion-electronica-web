@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import pProps from 'p-props';
 import Head from 'next/head';
 import Router from 'next/router';
@@ -104,6 +105,13 @@ class PaginaNuevaFactura extends React.Component {
       </>
     );
   }
+}
+
+PaginaNuevaFactura.propTypes = {
+  usuario: PropTypes.object,
+  monedas: PropTypes.array,
+  afiliacionIVA: PropTypes.object,
+  tipoCambio: PropTypes.object
 }
 
 export default PaginaNuevaFactura;

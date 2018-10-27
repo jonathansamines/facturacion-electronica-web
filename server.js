@@ -40,15 +40,12 @@ app
       }
     }));
 
-    server.use((req, res, next) => {
-      // console.log(' Request headers: ', req.headers);
-      // console.log(' Session identifier: ', req.session.id);
-
+    server.use((req, res) => {
       return handle(req, res, req.url);
     });
 
     server.listen(3000, err => {
       if (err) throw err
-        console.log('> Ready on http://localhost:3000')
+        console.log('> Ready on http://localhost:3000') // eslint-disable-line
     });
   });

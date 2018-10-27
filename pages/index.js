@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Head from 'next/head';
 import Main from './../layouts/Main';
 import { Formik } from 'formik';
@@ -21,12 +22,14 @@ class App extends React.Component {
   }
 
   render() {
+    const { usuario } = this.props;
+
     return (
       <>
         <Head>
           <title>Facturas</title>
         </Head>
-        <Main usuario={this.props.usuario}>
+        <Main usuario={usuario}>
           <Formik
             initialValues={({
               busqueda: null,
@@ -72,5 +75,9 @@ class App extends React.Component {
     );
   }
 }
+
+App.propTypes = {
+  usuario: PropTypes.object
+};
 
 export default App;

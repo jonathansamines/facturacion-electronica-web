@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Message, Input } from 'semantic-ui-react';
 import SelectorSucursal from './../../SelectorSucursal';
 
@@ -72,5 +73,17 @@ const FormularioVendedor = ({
     }
   </Form>
 );
+
+FormularioVendedor.propTypes = {
+  sucursales: PropTypes.array.isRequired,
+  isValid: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
+  values: PropTypes.object,
+  errors: PropTypes.object,
+  status: PropTypes.object,
+  handleChange: PropTypes.func,
+  setFieldValue: PropTypes.func,
+  handleSubmit: PropTypes.func
+};
 
 export default FormularioVendedor;

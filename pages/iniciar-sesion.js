@@ -1,6 +1,7 @@
 import './../styles.scss';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Link from 'next/link';
 import Head from 'next/head';
 import { Formik } from 'formik';
@@ -124,5 +125,9 @@ class PaginaLogin extends React.Component {
     );
   }
 }
+
+PaginaLogin.propTypes = {
+  empresas: PropTypes.array
+};
 
 export default PaginaLogin;

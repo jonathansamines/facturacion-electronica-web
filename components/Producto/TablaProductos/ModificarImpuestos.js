@@ -133,7 +133,7 @@ class ModificarImpuestos extends React.Component {
 ModificarImpuestos.propTypes = {
   moneda: PropTypes.object.isRequired,
   producto: PropTypes.object.isRequired,
-  tipoDocumento: PropTypes.object.isRequired,
+  tipoDocumento: PropTypes.object,
   unidades: PropTypes.number.isRequired,
   unidadesGravables: PropTypes.array.isRequired,
 };

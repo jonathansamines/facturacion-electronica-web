@@ -25,7 +25,7 @@ class DatosCliente extends React.Component {
 
   render() {
     const { cliente } = this.props;
-    const { editando, departamentos } = this.state;
+    const { editando } = this.state;
 
     return (
       <>

@@ -76,7 +76,7 @@ class DetalleProductos extends React.Component {
     this.setState({ nuevoProducto : { nombre: value } });
   }
 
-  cancelarCreacionProducto = (event, { value }) => {
+  cancelarCreacionProducto = () => {
     this.setState({ nuevoProducto : null });
   }
 
@@ -150,7 +150,7 @@ class DetalleProductos extends React.Component {
 DetalleProductos.propTypes = {
   moneda: PropTypes.object.isRequired,
   tipoCambio: PropTypes.object.isRequired,
-  tipoDocumento: PropTypes.object.isRequired,
+  tipoDocumento: PropTypes.object,
 };
 
 export default DetalleProductos

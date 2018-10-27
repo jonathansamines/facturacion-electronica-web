@@ -123,6 +123,7 @@ TablaProductos.propTypes = {
   moneda: PropTypes.object.isRequired,
   productos: PropTypes.array.isRequired,
   tipoCambio: PropTypes.object.isRequired,
+  tipoDocumento: PropTypes.object,
   onProductosModificados: PropTypes.func.isRequired
 };
 

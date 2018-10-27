@@ -98,7 +98,7 @@ class ConfirmacionProducto extends React.Component {
 ConfirmacionProducto.propTypes = {
   producto: PropTypes.object.isRequired,
   onCancelar: PropTypes.func.isRequired,
-  tipoDocumento: PropTypes.object.isRequired,
+  tipoDocumento: PropTypes.object,
   onConfirmar: PropTypes.func.isRequired,
 };
 

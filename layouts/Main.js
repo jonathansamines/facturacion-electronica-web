@@ -1,6 +1,7 @@
 import './../styles.scss';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 import { Icon, Menu, Container, Header, Segment, Dropdown } from 'semantic-ui-react';
@@ -56,6 +57,12 @@ const Main = ({ router, children, usuario }) => {
       </main>
     </Container>
   );
+};
+
+Main.propTypes = {
+  router: PropTypes.object,
+  children: PropTypes.node,
+  usuario: PropTypes.object
 };
 
 export default withRouter(Main);

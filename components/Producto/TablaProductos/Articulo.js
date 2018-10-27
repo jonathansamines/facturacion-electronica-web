@@ -89,6 +89,7 @@ Articulo.propTypes = {
   producto: PropTypes.object.isRequired,
   moneda: PropTypes.object.isRequired,
   unidades: PropTypes.number.isRequired,
+  tipoDocumento: PropTypes.object,
   unidadesGravables: PropTypes.array.isRequired,
   subtotalPrecioProducto: PropTypes.number.isRequired,
   totalImpuestos: PropTypes.number.isRequired,
