@@ -18,6 +18,7 @@ const SelectorTipoDocumento = (props) => {
 
   return (
     <Select
+      search
       name={name}
       selectOnBlur={false}
       selectOnNavigation={false}
