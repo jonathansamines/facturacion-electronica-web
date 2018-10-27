@@ -17,7 +17,8 @@ class PaginaNuevaFactura extends React.Component {
   state = {
     opciones: null,
     cliente: null,
-    vendedor: null
+    vendedor: null,
+    tiposFrase: null,
   }
 
   static async getInitialProps({ req, res }) {
@@ -45,6 +46,8 @@ class PaginaNuevaFactura extends React.Component {
   configurarVendedor = (vendedor) => this.setState({ vendedor });
 
   configurarSeleccion = ({ cliente, vendedor }) => this.setState({ cliente, vendedor });
+
+  configurarTiposFrase = (tiposFrase) => this.setState({ tiposFrase });
 
   render() {
     const { usuario, monedas, afiliacionIVA, tipoCambio } = this.props;
@@ -91,7 +94,8 @@ class PaginaNuevaFactura extends React.Component {
               <DetalleProductos
                 tipoCambio={tipoCambio}
                 moneda={opciones.moneda}
-                tipoDocumento={opciones.tipoDocumento} />
+                tipoDocumento={opciones.tipoDocumento}
+                onTipoFraseSeleccionado={this.configurarTiposFrase} />
             }
           </Segment>
         </Main>

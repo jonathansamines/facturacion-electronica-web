@@ -81,7 +81,7 @@ class DetalleProductos extends React.Component {
   }
 
   render() {
-    const { tipoCambio, moneda } = this.props;
+    const { onTipoFraseSeleccionado, tipoCambio, moneda } = this.props;
     const {
       productos,
       tipoDocumento,
@@ -139,7 +139,7 @@ class DetalleProductos extends React.Component {
         {
           tipoDocumento &&
           <Segment vertical padded='very'>
-            <TiposFrase tiposFrase={tipoDocumento.tipos_frase} />
+            <TiposFrase tiposFrase={tipoDocumento.tipos_frase} onSeleccion={onTipoFraseSeleccionado} />
           </Segment>
         }
       </>
@@ -151,6 +151,7 @@ DetalleProductos.propTypes = {
   moneda: PropTypes.object.isRequired,
   tipoCambio: PropTypes.object.isRequired,
   tipoDocumento: PropTypes.object,
+  onTipoFraseSeleccionado: PropTypes.func,
 };
 
 export default DetalleProductos

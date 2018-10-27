@@ -28,13 +28,25 @@ class TiposFrase extends React.Component {
     }
   }
 
+  seleccionarTipoFrase(values) {
+
+    const { tiposFrase, onSeleccion } = this.props;
+
+    const tiposFraseSeleccionados = Object.keys(values).map((idTipoFrase) => (
+      tiposFrase.find((tipoFrase) => tipoFrase.id_tipo_frase === values[idTipoFrase])
+    ));
+
+    return onSeleccion && onSeleccion(tiposFraseSeleccionados);
+  }
+
   render() {
     const { tiposFrase } = this.props;
 
     return (
       <Formik
         validationSchema={this.obtenerEsquemaValidacion()}
-        initialValues={this.obtenerValoresPorDefecto()}>
+        initialValues={this.obtenerValoresPorDefecto()}
+        onSubmit={this.seleccionarTipoFrase}>
           {({ values, handleSubmit, setFieldValue }) => (
           <Form onSubmit={handleSubmit}>
             <Form.Group widths='equal'>
@@ -59,6 +71,7 @@ class TiposFrase extends React.Component {
 
 TiposFrase.propTypes = {
   tiposFrase: PropTypes.array.isRequired,
+  onSeleccion: PropTypes.func.isRequired
 };
 
 export default TiposFrase;
