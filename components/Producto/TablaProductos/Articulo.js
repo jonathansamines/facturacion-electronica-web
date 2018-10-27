@@ -39,6 +39,7 @@ class Articulo extends React.Component {
       producto,
       unidades,
       tipoCambio,
+      tipoDocumento,
       unidadesGravables,
       subtotalPrecioProducto,
       totalImpuestos,
@@ -69,6 +70,7 @@ class Articulo extends React.Component {
               producto={producto}
               unidades={unidades}
               moneda={moneda}
+              tipoDocumento={tipoDocumento}
               tipoCambio={tipoCambio}
               unidadesGravables={unidadesGravables}
               onCancelar={this.cancelarModificacionImpuesto}

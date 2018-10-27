@@ -39,7 +39,7 @@ class TablaProductos extends React.Component {
   )
 
   renderProducto = (attrs) => {
-    const { moneda, tipoCambio } = this.props;
+    const { moneda, tipoCambio, tipoDocumento } = this.props;
     const {
       producto,
       unidades,
@@ -56,6 +56,7 @@ class TablaProductos extends React.Component {
         producto={producto}
         unidades={unidades}
         tipoCambio={tipoCambio}
+        tipoDocumento={tipoDocumento}
         subtotalPrecioProducto={subtotalPrecioProducto}
         totalImpuestos={totalImpuestos}
         totalPrecioProducto={totalPrecioProducto}

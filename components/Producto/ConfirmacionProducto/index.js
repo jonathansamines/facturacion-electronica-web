@@ -14,7 +14,7 @@ class ConfirmacionProducto extends React.Component {
   }
 
   componentDidMount() {
-    const impuestos = this.props.producto.tipo_producto.impuestos.map((impuesto) => impuesto.id_impuesto);
+    const impuestos = this.props.tipoDocumento.impuestos.map((impuesto) => impuesto.id_impuesto);
 
     return obtenerUnidadesGravables({ impuestos })
       .then((unidadesGravables) => {
@@ -28,8 +28,8 @@ class ConfirmacionProducto extends React.Component {
     actions.resetForm();
 
     const unidadesGravables = Object.keys(unidadesGravablesImpuestos)
-      .map((id_impuesto_unidad_gravable) => (
-        this.state.unidadesGravables.find((unidadGravable) => `${unidadGravable.id_unidad_gravable}${unidadGravable.id_impuesto}` === unidadesGravablesImpuestos[id_impuesto_unidad_gravable])
+      .map((idImpuestoUnidadGravable) => (
+        this.state.unidadesGravables.find((unidadGravable) => `${unidadGravable.id_unidad_gravable}${unidadGravable.id_impuesto}` === unidadesGravablesImpuestos[idImpuestoUnidadGravable])
       ));
 
     return onConfirmar({ producto, unidades, unidadesGravables });
@@ -39,19 +39,24 @@ class ConfirmacionProducto extends React.Component {
     const { producto, onCancelar } = this.props;
     const { unidadesGravables } = this.state;
 
+    const impuestosDisponiblesProducto = producto.tipo_producto.impuestos.filter(
+      (impuesto) => !!unidadesGravables.find((unidadGravable) => unidadGravable.id_impuesto === impuesto.id_impuesto)
+    );
+
     return (
       <Modal defaultOpen={true} size='tiny' onClose={onCancelar}>
         <Modal.Header>{producto.nombre}</Modal.Header>
         <Formik
+          isInitialValid={impuestosDisponiblesProducto.length === 0}
           validationSchema={
             Yup.object().shape({
               unidades: Yup.number().required(),
-              ...obtenerEsquemaUnidadesGravables(producto.tipo_producto.impuestos)
+              ...obtenerEsquemaUnidadesGravables(impuestosDisponiblesProducto)
             })
           }
           initialValues={({
             unidades: 1,
-            ...obtenerValoresPorDefectoUnidadesGravables(producto.tipo_producto.impuestos)
+            ...obtenerValoresPorDefectoUnidadesGravables(impuestosDisponiblesProducto)
           })}
           onSubmit={this.confirmarProducto}>
           {(props) => (
@@ -66,7 +71,7 @@ class ConfirmacionProducto extends React.Component {
                 <Segment vertical>
                   <FormularioUnidadesGravables
                     {...props}
-                    producto={producto}
+                    impuestosDisponiblesProducto={impuestosDisponiblesProducto}
                     unidadesGravables={unidadesGravables} />
                 </Segment>
               </Modal.Content>
@@ -93,6 +98,7 @@ class ConfirmacionProducto extends React.Component {
 ConfirmacionProducto.propTypes = {
   producto: PropTypes.object.isRequired,
   onCancelar: PropTypes.func.isRequired,
+  tipoDocumento: PropTypes.object.isRequired,
   onConfirmar: PropTypes.func.isRequired,
 };
 

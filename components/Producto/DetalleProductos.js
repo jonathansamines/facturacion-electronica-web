@@ -96,6 +96,7 @@ class DetalleProductos extends React.Component {
           productoPendiente &&
           <ConfirmacionProducto
             producto={productoPendiente}
+            tipoDocumento={tipoDocumento}
             onConfirmar={this.confirmarProductoPendiente}
             onCancelar={this.cancelarProductoPendiente} />
         }
@@ -103,40 +104,36 @@ class DetalleProductos extends React.Component {
         {
           nuevoProducto &&
           <NuevoProducto
-            tipoDocumento={tipoDocumento}
             nombreProducto={nuevoProducto.nombre}
             onProductoCreado={this.agregarProductoACatalogo}
             onCancelar={this.cancelarCreacionProducto} />
         }
 
-        {
-          tipoDocumento &&
-          <Formik
-            initialValues={({
-              id_producto: null,
-            })}
-            onSubmit={this.agregarProducto}>
-            {({ values, setFieldValue, handleSubmit }) => (
-              <Form autoComplete='off' onSubmit={handleSubmit}>
-                <Form.Field width='6'>
-                  <SelectorProducto
-                    name='id_producto'
-                    tipoDocumento={tipoDocumento}
-                    productos={productosEnCatalogo.filter(c => !productos.find((p) => p.producto.id_producto === c.id_producto))}
-                    productoSeleccionado={values.id_producto}
-                    onBusqueda={this.actualizarCatalogoProductos}
-                    onAgregar={this.crearProducto}
-                    onSeleccion={(event, data) => setFieldValue('id_producto', data.value)} />
-                </Form.Field>
-              </Form>
-            )}
-          </Formik>
-        }
+        <Formik
+          initialValues={({
+            id_producto: null,
+          })}
+          onSubmit={this.agregarProducto}>
+          {({ values, setFieldValue, handleSubmit }) => (
+            <Form autoComplete='off' onSubmit={handleSubmit}>
+              <Form.Field width='6'>
+                <SelectorProducto
+                  name='id_producto'
+                  productos={productosEnCatalogo.filter(c => !productos.find((p) => p.producto.id_producto === c.id_producto))}
+                  productoSeleccionado={values.id_producto}
+                  onBusqueda={this.actualizarCatalogoProductos}
+                  onAgregar={this.crearProducto}
+                  onSeleccion={(event, data) => setFieldValue('id_producto', data.value)} />
+              </Form.Field>
+            </Form>
+          )}
+        </Formik>
 
         <TablaProductos
           moneda={moneda}
           tipoCambio={tipoCambio}
           productos={productos}
+          tipoDocumento={tipoDocumento}
           onProductosModificados={this.actualizarProductos}/>
 
         {

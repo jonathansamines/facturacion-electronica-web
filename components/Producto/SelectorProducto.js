@@ -7,10 +7,10 @@ import { buscarProducto } from '../../lib/servicio-api';
 class SelectorProducto extends React.Component {
   buscarProducto = debounce((event, data) => {
     const busqueda = data.searchQuery;
-    const { onBusqueda, tipoDocumento } = this.props;
+    const { onBusqueda } = this.props;
 
     if (busqueda !== undefined && busqueda.length > 0) {
-      return buscarProducto({ busqueda, tipoDocumento: tipoDocumento.id_tipo_documento })
+      return buscarProducto({ busqueda })
         .then((productos) => {
           return onBusqueda({ busqueda, productos });
         })
@@ -58,7 +58,6 @@ class SelectorProducto extends React.Component {
 SelectorProducto.propTypes = {
   name: PropTypes.string.isRequired,
   productos: PropTypes.array.isRequired,
-  tipoDocumento: PropTypes.object.isRequired,
   productoSeleccionado: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onBusqueda: PropTypes.func.isRequired,
   onAgregar: PropTypes.func.isRequired,
