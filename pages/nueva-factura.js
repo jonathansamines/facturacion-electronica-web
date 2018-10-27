@@ -2,7 +2,7 @@ import React from 'react';
 import pProps from 'p-props';
 import Head from 'next/head';
 import Router from 'next/router';
-import { Form, Grid, Segment } from 'semantic-ui-react';
+import { Grid, Segment } from 'semantic-ui-react';
 import Main from './../layouts/Main';
 import { DatosCliente } from './../components/Cliente';
 import { DatosVendedor } from './../components/Vendedor';
@@ -48,7 +48,6 @@ class PaginaNuevaFactura extends React.Component {
       <>
         <Head>
           <title>Crear nueva factura</title>
-          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </Head>
 
         <Main usuario={usuario}>

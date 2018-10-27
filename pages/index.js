@@ -19,8 +19,7 @@ class App extends React.Component {
     return (
       <>
         <Head>
-          <title>Factura</title>
-          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+          <title>Facturas</title>
         </Head>
         <Main usuario={this.props.usuario}>
           <Formik
