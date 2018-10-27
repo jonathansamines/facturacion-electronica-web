@@ -1,5 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 import { startOfToday, startOfMonth, startOfYesterday } from 'date-fns';
 import { Form, Button } from 'semantic-ui-react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
@@ -34,7 +36,7 @@ class SeleccionDatosFactura extends React.Component {
     this.setState({ nuevoCliente: null });
   }
 
-  seleccionarInformacion = (values, actions) => {
+  seleccionarInformacion = (values) => {
     const { clientes, vendedores } = this.state;
 
     const cliente = clientes.find((cliente) => cliente.id_cliente === values.id_cliente) || null;
@@ -62,6 +64,8 @@ class SeleccionDatosFactura extends React.Component {
       ]
     }));
   }
+
+  generarFactura = () => null;
 
   crearVendedor = (event, { value }) => {
     this.setState({ nuevoVendedor: { nombre: value } });
@@ -101,13 +105,19 @@ class SeleccionDatosFactura extends React.Component {
         }
 
         <Formik
+          validationSchema={
+            Yup.object().shape({
+              id_cliente: Yup.number().required(),
+              id_vendedor: Yup.number().required(),
+            })
+          }
           initialValues={({
             id_cliente: null,
             id_vendedor: null,
             fecha_factura: startOfToday(new Date()),
           })}
-          onSubmit={this.seleccionarInformacion}>
-          {({ setFieldValue, handleSubmit, values }) => (
+          onSubmit={this.generarFactura}>
+          {({ isValid, setFieldValue, handleSubmit, values }) => (
             <Form onSubmit={handleSubmit}>
               <Form.Group>
                 <Form.Field width='2'>
@@ -135,7 +145,13 @@ class SeleccionDatosFactura extends React.Component {
                     clienteSeleccionado={values.id_cliente}
                     onAgregar={this.crearCliente}
                     onBusqueda={this.actualizarClientes}
-                    onSeleccion={(event, data) => setFieldValue('id_cliente', data.value)} />
+                    onSeleccion={(event, data) => {
+                      setFieldValue('id_cliente', data.value)
+                      this.seleccionarInformacion({
+                        ...values,
+                        id_cliente: data.value
+                      });
+                    }} />
                 </Form.Field>
                 <Form.Field width='6'>
                   <label>Vendedor</label>
@@ -145,11 +161,17 @@ class SeleccionDatosFactura extends React.Component {
                     vendedorSeleccionado={values.id_vendedor}
                     onAgregar={this.crearVendedor}
                     onBusqueda={this.actualizarVendedores}
-                    onSeleccion={(event, data) => setFieldValue('id_vendedor', data.value)} />
+                    onSeleccion={(event, data) => {
+                      setFieldValue('id_vendedor', data.value);
+                      this.seleccionarInformacion({
+                        ...values,
+                        id_vendedor: data.value
+                      });
+                    }} />
                 </Form.Field>
                 <Form.Field width='2'>
                   <label>&nbsp;</label>
-                  <Button color='google plus' fluid>Facturar</Button>
+                  <Button color='google plus'  disabled={!isValid} fluid>Facturar</Button>
                 </Form.Field>
               </Form.Group>
             </Form>
@@ -159,5 +181,11 @@ class SeleccionDatosFactura extends React.Component {
     );
   }
 }
+
+SeleccionDatosFactura.propTypes = {
+  hayProductos: PropTypes.bool,
+  sucursales: PropTypes.array,
+  onSeleccion: PropTypes.func.isRequired
+};
 
 export default SeleccionDatosFactura;

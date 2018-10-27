@@ -58,6 +58,7 @@ class PaginaNuevaFactura extends React.Component {
         <Main usuario={usuario}>
           <Segment vertical padded>
             <SeleccionDatosFactura
+              hayProductos={false}
               sucursales={usuario.empresa.sucursales}
               onSeleccion={this.configurarSeleccion} />
           </Segment>

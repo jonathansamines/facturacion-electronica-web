@@ -42,6 +42,7 @@ class SelectorVendedor extends React.Component {
         additionLabel='Crear nuevo vendedor: '
         name={name}
         selectOnBlur={false}
+        selectOnNavigation={false}
         placeholder='Nombre, CF o NIT (un nit valido)'
         noResultsMessage='Vendedor no encontrado'
         options={opcionesVendedores}
