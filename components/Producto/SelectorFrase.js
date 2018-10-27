@@ -33,7 +33,7 @@ const SelectorFrase = (props) => {
 SelectorFrase.propTypes = {
   name: PropTypes.string.isRequired,
   frases: PropTypes.array.isRequired,
-  fraseSeleccionada: PropTypes.string,
+  fraseSeleccionada: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onSeleccion: PropTypes.func.isRequired,
 };
 
