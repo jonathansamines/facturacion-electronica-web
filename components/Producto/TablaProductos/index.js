@@ -34,7 +34,7 @@ class TablaProductos extends React.Component {
 
   renderNoProductos = () => (
     <Table.Row>
-      <Table.Cell colSpan='8'>No se han agregado productos a la factura.</Table.Cell>
+      <Table.Cell colSpan='10'>No se han agregado productos a la factura.</Table.Cell>
     </Table.Row>
   )
 
@@ -71,8 +71,8 @@ class TablaProductos extends React.Component {
 
     return (
       <Table.Row>
-        <Table.HeaderCell colSpan='3' />
-        <Table.HeaderCell colSpan='1'>
+        <Table.HeaderCell colSpan='4' />
+        <Table.HeaderCell colSpan='2'>
           <FormattedNumber style='decimal' value={totalUnidades} />
         </Table.HeaderCell>
         <Table.HeaderCell colSpan='1'>
@@ -98,10 +98,12 @@ class TablaProductos extends React.Component {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Código</Table.HeaderCell>
+            <Table.HeaderCell>Bien o Servicio</Table.HeaderCell>
             <Table.HeaderCell>Nombre</Table.HeaderCell>
             <Table.HeaderCell>Descripción</Table.HeaderCell>
             <Table.HeaderCell>Cantidad</Table.HeaderCell>
-            <Table.HeaderCell>Costo Unitario</Table.HeaderCell>
+            <Table.HeaderCell>Unidad</Table.HeaderCell>
+            <Table.HeaderCell>Precio Unitario</Table.HeaderCell>
             <Table.HeaderCell>Impuestos</Table.HeaderCell>
             <Table.HeaderCell>Subtotal</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>

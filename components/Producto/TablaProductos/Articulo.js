@@ -4,6 +4,11 @@ import { Table } from 'semantic-ui-react';
 import { FormattedNumber } from 'react-intl';
 import ModificarImpuestos from './ModificarImpuestos';
 
+const categorias = {
+  B: 'Bien',
+  S : 'Servicio'
+};
+
 class Articulo extends React.Component {
   state = {
     modificando: false,
@@ -51,9 +56,11 @@ class Articulo extends React.Component {
     return (
       <Table.Row>
         <Table.Cell>{producto.id_producto}</Table.Cell>
+        <Table.Cell>{categorias[producto.tipo_producto.categoria] || 'Desconocido'}</Table.Cell>
         <Table.Cell>{producto.nombre}</Table.Cell>
         <Table.Cell>{producto.descripcion}</Table.Cell>
         <Table.Cell>{unidades}</Table.Cell>
+        <Table.Cell>{producto.unidad_medida.descripcion}</Table.Cell>
         <Table.Cell>
           <FormattedNumber style='currency' value={subtotalPrecioProducto} currency={moneda.id_moneda} />
         </Table.Cell>
