@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { startOfToday, startOfMonth, startOfYesterday } from 'date-fns';
+import { startOfToday } from 'date-fns';
 import { Form, Button } from 'semantic-ui-react';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
+import FechaEmision from './FechaEmision';
 import { SelectorCliente, NuevoCliente } from '../Cliente';
 import { SelectorVendedor, NuevoVendedor } from '../Vendedor';
 
@@ -122,20 +122,9 @@ class SeleccionDatosFactura extends React.Component {
               <Form.Group>
                 <Form.Field width='2'>
                   <label>Fecha Factura</label>
-                  <DayPickerInput
-                    placeholder='Seleccione una fecha'
-                    value={values.fecha_factura}
-                    inputProps={({
-                      name: 'fecha_factura'
-                    })}
-                    dayPickerProps={({
-                      canChangeMonth: false,
-                      disabledDays: {
-                        from: startOfMonth(new Date()),
-                        to: startOfYesterday(new Date()),
-                      }
-                    })}
-                    onDayChange={(selectedDay) => setFieldValue('fecha_factura', selectedDay)} />
+                  <FechaEmision
+                    fechaFactura={values.fecha_factura}
+                    onSeleccion={(selectedDay) => setFieldValue('fecha_factura', selectedDay)} />
                 </Form.Field>
                 <Form.Field width='6'>
                   <label>Cliente</label>
