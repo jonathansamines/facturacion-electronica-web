@@ -6,7 +6,7 @@ import NuevoProducto from './NuevoProducto';
 import TablaProductos from './TablaProductos';
 import SelectorProducto from './SelectorProducto';
 import ConfirmacionProducto from './ConfirmacionProducto';
-import TiposFrase from './TiposFrase';
+import { TiposFrase } from './../Frases';
 import { obtenerTipoDocumentoPorId } from './../../lib/servicio-api';
 
 class DetalleProductos extends React.Component {
