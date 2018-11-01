@@ -9,6 +9,16 @@ import SelectorUnidadMedida from './SelectorUnidadMedida';
 import SelectorTipoProducto from './SelectorTipoProducto';
 import { crearProducto, obtenerTiposProducto, obtenerUnidadesMedida, obtenerMonedas } from '../../lib/servicio-api';
 
+const esquemaValidacion = Yup.object().shape({
+  nombre: Yup.string().required('El nombre del producto es obligatorio'),
+  descripcion: Yup.string().required('La descripción del producto es obligatoria'),
+  marca: Yup.string().required('La marca es obligatoria'),
+  precio: Yup.number().required('El precio es obligatorio'),
+  id_moneda: Yup.string().required(),
+  id_tipo_producto: Yup.number().required(),
+  id_unidad_medida: Yup.string().required()
+});
+
 class NuevoProducto extends React.Component {
   state = {
     monedas: [],
@@ -62,17 +72,7 @@ class NuevoProducto extends React.Component {
       <Modal defaultOpen={true} size='tiny' onClose={onCancelar}>
         <Modal.Header>Nuevo Producto</Modal.Header>
         <Formik
-          validationSchema={
-            Yup.object().shape({
-              nombre: Yup.string().required('El nombre del producto es obligatorio'),
-              descripcion: Yup.string().required('La descripción del producto es obligatoria'),
-              marca: Yup.string().required('La marca es obligatoria'),
-              precio: Yup.number().required('El precio es obligatorio'),
-              id_moneda: Yup.string().required(),
-              id_tipo_producto: Yup.number().required(),
-              id_unidad_medida: Yup.string().required()
-            })
-          }
+          validationSchema={esquemaValidacion}
           initialValues={({
             precio: 0,
             marca: '',

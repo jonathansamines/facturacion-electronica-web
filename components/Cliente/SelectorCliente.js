@@ -76,6 +76,7 @@ class SelectorCliente extends React.Component {
 
 SelectorCliente.propTypes = {
   name: PropTypes.string.isRequired,
+  exportacion: PropTypes.bool,
   clientes: PropTypes.array.isRequired,
   clienteSeleccionado: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onAgregar: PropTypes.func.isRequired,

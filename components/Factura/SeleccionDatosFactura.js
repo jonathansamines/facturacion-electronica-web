@@ -8,6 +8,8 @@ import FechaEmision from './FechaEmision';
 import { SelectorCliente, NuevoCliente } from '../Cliente';
 import { SelectorVendedor, NuevoVendedor } from '../Vendedor';
 
+const NIT_CONSUMIDOR_FINAL = 'CF';
+
 class SeleccionDatosFactura extends React.Component {
   state = {
     clientes: [],
@@ -75,6 +77,22 @@ class SeleccionDatosFactura extends React.Component {
     this.setState({ nuevoVendedor: null });
   }
 
+  obtenerClientesDisponibles = (clientes, exportacion, tipoDocumento) => {
+    return clientes.filter((cliente) => {
+      // En el caso de las exportaciones, el receptor no tiene un NIT y por tanto solo CF es permitido
+      if (exportacion) {
+        return cliente.nit === NIT_CONSUMIDOR_FINAL;
+      }
+
+      // En el caso de las facturas especiales, solo clientes con CUI válidos se permiten y por tanto CF no tiene sentido
+      if (tipoDocumento.id_tipo_documento === 'FESP') {
+        return cliente.nit !== NIT_CONSUMIDOR_FINAL;
+      }
+
+      return true;
+    })
+  }
+
   render() {
     const {
       clientes,
@@ -83,7 +101,13 @@ class SeleccionDatosFactura extends React.Component {
       nuevoVendedor,
     } = this.state;
 
-    const { sucursales } = this.props;
+    const {
+      sucursales,
+      exportacion,
+      tipoDocumento,
+    } = this.props;
+
+    const clientesDisponibles = this.obtenerClientesDisponibles(clientes, exportacion, tipoDocumento);
 
     return (
       <>
@@ -130,7 +154,7 @@ class SeleccionDatosFactura extends React.Component {
                   <label>Cliente</label>
                   <SelectorCliente
                     name='id_cliente'
-                    clientes={clientes}
+                    clientes={clientesDisponibles}
                     clienteSeleccionado={values.id_cliente}
                     onAgregar={this.crearCliente}
                     onBusqueda={this.actualizarClientes}
@@ -172,6 +196,8 @@ class SeleccionDatosFactura extends React.Component {
 }
 
 SeleccionDatosFactura.propTypes = {
+  tipoDocumento: PropTypes.object,
+  exportacion: PropTypes.bool,
   hayProductos: PropTypes.bool,
   sucursales: PropTypes.array,
   onSeleccion: PropTypes.func.isRequired
