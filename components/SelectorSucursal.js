@@ -19,6 +19,7 @@ const SelectorSucursal = (props) => {
   return (
     <Select
       search
+      clearable
       name={name}
       selectOnBlur={false}
       selectOnNavigation={false}

@@ -19,6 +19,7 @@ const SelectorTipoDocumento = (props) => {
   return (
     <Select
       search
+      clearable
       name={name}
       selectOnBlur={false}
       selectOnNavigation={false}

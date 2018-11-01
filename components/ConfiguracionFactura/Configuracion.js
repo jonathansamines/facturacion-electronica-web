@@ -41,6 +41,14 @@ class ConfiguracionFactura extends React.Component {
     );
   }
 
+  obtenerTiposDocumentosValidos = (tiposDocumentos, exportacion) => {
+    return tiposDocumentos.filter((tipoDocumento) => {
+      if (exportacion) return tipoDocumento.exportacion;
+
+      return true;
+    });
+  }
+
   render() {
     const { monedas, sucursales, tiposDocumentos } = this.props;
 
@@ -63,11 +71,7 @@ class ConfiguracionFactura extends React.Component {
           })}
           onSubmit={this.confirmar}>
           {({ handleSubmit, setFieldValue, isValid, values }) => {
-            const tiposDocumentoValidos = tiposDocumentos.filter((tipoDocumento) => {
-              if (values.exportacion) return tipoDocumento.exportacion;
-
-              return true;
-            });
+            const tiposDocumentoValidos = this.obtenerTiposDocumentosValidos(tiposDocumentos, values.exportacion);
 
             return (
               <>
@@ -102,7 +106,17 @@ class ConfiguracionFactura extends React.Component {
                       <Checkbox
                         name='exportacion'
                         checked={values.exportacion}
-                        onChange={(event, data) => setFieldValue('exportacion', data.checked) || setFieldValue('id_tipo_documento', null)}
+                        onChange={(event, data) => {
+                          setFieldValue('exportacion', data.checked);
+
+                          const nuevosTipoDocumentoValidos = this.obtenerTiposDocumentosValidos(tiposDocumentos, data.checked);
+                          const esTipoSeleccionadoValido = nuevosTipoDocumentoValidos.some((tipoDocumento) => tipoDocumento.id_tipo_documento === values.id_tipo_documento);
+
+                          if (!esTipoSeleccionadoValido) {
+                            setFieldValue('id_tipo_documento', null);
+                          }
+
+                        }}
                         label='Exportación' />
                     </Form.Field>
                   </Form>
