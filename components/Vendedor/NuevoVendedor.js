@@ -52,7 +52,7 @@ class NuevoVendedor extends React.Component {
     const { onCancelar, nombreVendedor, sucursales } = this.props;
 
     return (
-      <Modal defaultOpen={true} size='tiny' onClose={onCancelar}>
+      <Modal open={true} size='tiny' onClose={onCancelar}>
         <Modal.Header>Nuevo vendedor</Modal.Header>
         <Formik
           validationSchema={esquemaValidacion}

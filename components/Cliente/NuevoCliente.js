@@ -73,7 +73,7 @@ class NuevoCliente extends React.Component {
     const { departamentos } = this.state;
 
     return (
-      <Modal defaultOpen={true} size='small' onClose={onCancelar}>
+      <Modal open={true} size='small' onClose={onCancelar}>
         <Modal.Header>Nuevo cliente</Modal.Header>
         <Formik
           validationSchema={esquemaValidacion}

@@ -69,7 +69,7 @@ class NuevoProducto extends React.Component {
     const { monedas, tiposProducto, unidadesMedida } = this.state;
 
     return (
-      <Modal defaultOpen={true} size='tiny' onClose={onCancelar}>
+      <Modal open={true} size='tiny' onClose={onCancelar}>
         <Modal.Header>Nuevo Producto</Modal.Header>
         <Formik
           validationSchema={esquemaValidacion}

@@ -122,7 +122,10 @@ class DetalleProductos extends React.Component {
                   productos={productosEnCatalogo.filter(c => !productos.find((p) => p.producto.id_producto === c.id_producto))}
                   productoSeleccionado={values.id_producto}
                   onBusqueda={this.actualizarCatalogoProductos}
-                  onAgregar={this.crearProducto}
+                  onAgregar={(...args) => {
+                    this.crearProducto(...args);
+                    setFieldValue('id_producto', null);
+                  }}
                   onSeleccion={(event, data) => setFieldValue('id_producto', data.value)} />
               </Form.Field>
             </Form>

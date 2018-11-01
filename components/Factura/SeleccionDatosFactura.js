@@ -156,10 +156,13 @@ class SeleccionDatosFactura extends React.Component {
                     name='id_cliente'
                     clientes={clientesDisponibles}
                     clienteSeleccionado={values.id_cliente}
-                    onAgregar={this.crearCliente}
+                    onAgregar={(...args) => {
+                      this.crearCliente(...args);
+                      setFieldValue('id_cliente', null);
+                    }}
                     onBusqueda={this.actualizarClientes}
                     onSeleccion={(event, data) => {
-                      setFieldValue('id_cliente', data.value)
+                      setFieldValue('id_cliente', data.value);
                       this.seleccionarInformacion({
                         ...values,
                         id_cliente: data.value
@@ -172,7 +175,10 @@ class SeleccionDatosFactura extends React.Component {
                     name='id_vendedor'
                     vendedores={vendedores}
                     vendedorSeleccionado={values.id_vendedor}
-                    onAgregar={this.crearVendedor}
+                    onAgregar={(...args) => {
+                      this.crearVendedor(...args);
+                      setFieldValue('id_vendedor', null);
+                    }}
                     onBusqueda={this.actualizarVendedores}
                     onSeleccion={(event, data) => {
                       setFieldValue('id_vendedor', data.value);

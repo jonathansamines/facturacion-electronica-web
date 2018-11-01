@@ -44,7 +44,7 @@ class ConfirmacionProducto extends React.Component {
     );
 
     return (
-      <Modal defaultOpen={true} size='tiny' onClose={onCancelar}>
+      <Modal open={true} size='tiny' onClose={onCancelar}>
         <Modal.Header>{producto.nombre}</Modal.Header>
         <Formik
           isInitialValid={impuestosDisponiblesProducto.length === 0}

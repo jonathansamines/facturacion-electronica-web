@@ -52,7 +52,7 @@ class EditarVendedor extends React.Component {
     const { onCancelar, vendedor, sucursales } = this.props;
 
     return (
-      <Modal defaultOpen={true} size='tiny' onClose={onCancelar}>
+      <Modal open={true} size='tiny' onClose={onCancelar}>
         <Modal.Header>Editar vendedor</Modal.Header>
         <Formik
           isInitialValid={true}

@@ -76,7 +76,7 @@ class EditarCliente extends React.Component {
     ).id_departamento;
 
     return (
-      <Modal defaultOpen={true} size='small' onClose={onCancelar}>
+      <Modal open={true} size='small' onClose={onCancelar}>
         <Modal.Header>Editar cliente</Modal.Header>
         <Formik
           enableReinitialize={true}

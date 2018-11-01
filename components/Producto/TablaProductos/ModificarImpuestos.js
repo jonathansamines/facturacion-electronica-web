@@ -46,7 +46,7 @@ class ModificarImpuestos extends React.Component {
     const { producto, unidades, moneda, tipoCambio, unidadesGravables: unidadesGravablesProducto } = this.props;
 
     return (
-      <Modal defaultOpen={true} size='tiny' onClose={this.cancelar}>
+      <Modal open={true} size='tiny' onClose={this.cancelar}>
         <Modal.Header>Modificar Impuestos</Modal.Header>
         <Formik
           isInitialValid={true}
