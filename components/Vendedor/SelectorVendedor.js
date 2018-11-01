@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import { Select, Icon } from 'semantic-ui-react';
 import { buscarVendedor } from '../../lib/servicio-api';
+import { busquedaFn } from '../../lib/buscador';
 
 class SelectorVendedor extends React.Component {
   state = {
@@ -48,15 +49,16 @@ class SelectorVendedor extends React.Component {
 
     return (
       <Select
-        search
+        clearable
         allowAdditions
-        icon={'search'}
         additionLabel={
           <>
             <Icon name='add user' />
             <span>Crear nuevo vendedor:&nbsp;</span>
           </>
         }
+        icon={'search'}
+        search={busquedaFn}
         name={name}
         selectOnBlur={false}
         selectOnNavigation={false}

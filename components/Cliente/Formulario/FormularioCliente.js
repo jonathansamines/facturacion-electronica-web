@@ -53,7 +53,7 @@ const FormularioCliente = ({
             value={values.nombre}
             onChange={handleChange} />
         </Form.Field>
-        <Form.Field error={Boolean(errors.apellido)}>
+        <Form.Field required error={Boolean(errors.apellido)}>
         <label>Apellido del cliente</label>
           <Input
             name='apellido'
@@ -69,7 +69,10 @@ const FormularioCliente = ({
             name='id_departamento'
             departamentos={departamentos}
             departamentoSeleccionado={values.id_departamento}
-            onSeleccion={(event, data) => setFieldValue('id_departamento', data.value)} />
+            onSeleccion={(event, data) => {
+              setFieldValue('id_departamento', data.value);
+              setFieldValue('id_municipio', null);
+            }} />
         </Form.Field>
         <Form.Field required>
           <label>Municipio</label>

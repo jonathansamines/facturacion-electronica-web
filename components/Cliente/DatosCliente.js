@@ -42,6 +42,10 @@ class DatosCliente extends React.Component {
             <Propiedad valor={cliente} propiedad='nit' />
           </List.Item>
           <List.Item>
+            <List.Header as='strong'>CUI: </List.Header>
+            <Propiedad valor={cliente} propiedad='cui' />
+          </List.Item>
+          <List.Item>
             <List.Header as='strong'>Cliente: </List.Header>
             <Propiedad valor={cliente} propiedad='nombre' />&nbsp;
             <Propiedad valor={cliente} propiedad='apellido' fallback='' />

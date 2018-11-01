@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import { Select, Icon } from 'semantic-ui-react';
 import { buscarProducto } from '../../lib/servicio-api';
+import { busquedaFn } from '../../lib/buscador';
 
 class SelectorProducto extends React.Component {
   state = {
@@ -48,10 +49,11 @@ class SelectorProducto extends React.Component {
 
     return (
       <Select
-        search
+        clearable
         allowAdditions
         name={name}
         icon={'search'}
+        search={busquedaFn}
         selectOnBlur={false}
         selectOnNavigation={false}
         loading={this.state.buscando}

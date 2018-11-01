@@ -32,12 +32,7 @@ const Main = ({ router, children, usuario }) => {
             <Menu.Item active={router.pathname === '/nueva-factura'}>
               <Link href='/nueva-factura'><a title='Nueva Factura'>Nueva Factura</a></Link>
             </Menu.Item>
-            <Dropdown item text={
-              <>
-                <Icon name='user circle' />
-                {usuario.nombre_usuario}
-              </>
-            }>
+            <Dropdown item icon='user circle' text={usuario.nombre_usuario}>
               <Dropdown.Menu>
                 <Dropdown.Item>
                   <a title={usuario.nombre_usuario} href='/api/usuarios/logout'>

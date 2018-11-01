@@ -125,8 +125,7 @@ class NuevoProducto extends React.Component {
                           type='number'
                           min={0}
                           icon='money bill alternate'
-                          iconPosition='right'
-                          step={'0.100000'}
+                          step={'0.000001'}
                           placeholder='Precio'
                           value={values.precio}
                           onChange={handleChange} />

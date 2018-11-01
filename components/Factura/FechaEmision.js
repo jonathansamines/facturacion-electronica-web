@@ -31,7 +31,7 @@ const FechaEmision = ({ fechaFactura, onSeleccion }) => {
 };
 
 FechaEmision.propTypes = {
-  fechaFactura: PropTypes.string,
+  fechaFactura: PropTypes.instanceOf(Date),
   onSeleccion: PropTypes.func
 };
 
