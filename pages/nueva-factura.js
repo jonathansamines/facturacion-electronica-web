@@ -99,6 +99,7 @@ class PaginaNuevaFactura extends React.Component {
               <DetalleProductos
                 tipoCambio={tipoCambio}
                 moneda={opciones.moneda}
+                exportacion={opciones.exportacion}
                 tipoDocumento={opciones.tipoDocumento}
                 onTipoFraseSeleccionado={this.configurarTiposFrase} />
             }

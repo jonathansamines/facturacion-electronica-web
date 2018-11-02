@@ -7,6 +7,7 @@ import TablaProductos from './TablaProductos';
 import SelectorProducto from './SelectorProducto';
 import ConfirmacionProducto from './ConfirmacionProducto';
 import { TiposFrase } from './../Frases';
+import { Complementos } from './../Complemento';
 import { obtenerTipoDocumentoPorId } from './../../lib/servicio-api';
 
 class DetalleProductos extends React.Component {
@@ -81,7 +82,7 @@ class DetalleProductos extends React.Component {
   }
 
   render() {
-    const { onTipoFraseSeleccionado, tipoCambio, moneda } = this.props;
+    const { onTipoFraseSeleccionado, tipoCambio, moneda, exportacion } = this.props;
     const {
       productos,
       tipoDocumento,
@@ -145,12 +146,22 @@ class DetalleProductos extends React.Component {
             <TiposFrase tiposFrase={tipoDocumento.tipos_frase} onSeleccion={onTipoFraseSeleccionado} />
           </Segment>
         }
+
+        {
+          tipoDocumento &&
+          <Segment vertical padded='very'>
+            <Complementos
+              exportacion={exportacion}
+              complementos={tipoDocumento.complementos} />
+          </Segment>
+        }
       </>
     );
   }
 }
 
 DetalleProductos.propTypes = {
+  exportacion: PropTypes.bool.isRequired,
   moneda: PropTypes.object.isRequired,
   tipoCambio: PropTypes.object.isRequired,
   tipoDocumento: PropTypes.object,
