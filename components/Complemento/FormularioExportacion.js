@@ -24,13 +24,11 @@ class FormularioExportacion extends React.Component {
       setFieldValue
     } = this.props;
 
-    const complementoRequerido = Boolean(complemento.requerido);
-
     return (
       <Form id='formulario-exportacion' onSubmit={handleSubmit}>
         <h3>{complemento.descripcion}</h3>
         <Form.Group widths='equal'>
-          <Form.Field required={complementoRequerido}>
+          <Form.Field required={complemento.requerido}>
             <label>Nombre consignatario</label>
             <Input
               name='nombre_consignatario'
@@ -39,7 +37,7 @@ class FormularioExportacion extends React.Component {
               value={values.nombre_consignatario}
               onChange={handleChange} />
           </Form.Field>
-          <Form.Field required={complementoRequerido}>
+          <Form.Field required={complemento.requerido}>
             <label>Código consignatario</label>
             <Input
               name='codigo_consignatario'
@@ -48,7 +46,7 @@ class FormularioExportacion extends React.Component {
               value={values.codigo_consignatario}
               onChange={handleChange} />
           </Form.Field>
-          <Form.Field required={complementoRequerido}>
+          <Form.Field required={complemento.requerido}>
             <label>Dirección consignatario</label>
             <Input
               name='direccion_consignatario'
@@ -59,7 +57,7 @@ class FormularioExportacion extends React.Component {
           </Form.Field>
         </Form.Group>
         <Form.Group widths='equal'>
-          <Form.Field required={complementoRequerido}>
+          <Form.Field required={complemento.requerido}>
             <label>Nombre del comprador</label>
             <Input
               name='nombre_comprador'
@@ -68,7 +66,7 @@ class FormularioExportacion extends React.Component {
               value={values.nombre_comprador}
               onChange={handleChange} />
           </Form.Field>
-          <Form.Field required={complementoRequerido}>
+          <Form.Field required={complemento.requerido}>
             <label>Dirección del Comprador</label>
             <Input
               name='direccion_comprador'
@@ -77,7 +75,7 @@ class FormularioExportacion extends React.Component {
               value={values.direccion_comprador}
               onChange={handleChange} />
           </Form.Field>
-          <Form.Field required={complementoRequerido}>
+          <Form.Field required={complemento.requerido}>
             <label>Código del comprador</label>
             <Input
               name='codigo_comprador'
@@ -86,7 +84,7 @@ class FormularioExportacion extends React.Component {
               value={values.codigo_comprador}
               onChange={handleChange} />
           </Form.Field>
-          <Form.Field required={complementoRequerido}>
+          <Form.Field required={complemento.requerido}>
             <label>Otra referencia</label>
             <Input
               name='otra_referencia'
@@ -97,7 +95,7 @@ class FormularioExportacion extends React.Component {
           </Form.Field>
         </Form.Group>
         <Form.Group widths='equal'>
-          <Form.Field required={complementoRequerido}>
+          <Form.Field required={complemento.requerido}>
             <label>Nombre exportador</label>
             <Input
               name='nombre_exportador'
@@ -106,7 +104,7 @@ class FormularioExportacion extends React.Component {
               value={values.nombre_exportador}
               onChange={handleChange} />
           </Form.Field>
-          <Form.Field required={complementoRequerido}>
+          <Form.Field required={complemento.requerido}>
             <label>Código exportador</label>
             <Input
               name='codigo_exportador'
@@ -115,7 +113,7 @@ class FormularioExportacion extends React.Component {
               value={values.codigo_exportador}
               onChange={handleChange} />
           </Form.Field>
-          <Form.Field required={complementoRequerido}>
+          <Form.Field required={complemento.requerido}>
             <label>Condición de entrega</label>
             <SelectorCondicionesEntrega
               name='condicion_entrega'

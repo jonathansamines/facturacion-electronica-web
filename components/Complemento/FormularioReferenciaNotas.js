@@ -26,7 +26,7 @@ const FormularioReferenciasNotas = ({
   <Form id='formulario-retenciones-factura-especial' onSubmit={handleSubmit}>
     <h3>{complemento.descripcion}</h3>
     <Form.Group widths='equal'>
-      <Form.Field required={Boolean(complemento.requerido)}>
+      <Form.Field required={complemento.requerido}>
         <label>Régimen del Documento</label>
         <Select
           name='regimen'
@@ -37,7 +37,7 @@ const FormularioReferenciasNotas = ({
           value={values.regimen}
           onChange={(event, data) => setFieldValue('regimen', data.value)} />
       </Form.Field>
-      <Form.Field required={Boolean(complemento.requerido)}>
+      <Form.Field required={complemento.requerido}>
         <label>Número de autorización</label>
         <Input
           name='numero_autorizacion'
@@ -48,7 +48,7 @@ const FormularioReferenciasNotas = ({
           value={values.numero_autorizacion}
           onChange={handleChange} />
       </Form.Field>
-      <Form.Field required={Boolean(complemento.requerido)}>
+      <Form.Field required={complemento.requerido}>
         <label>Fecha de emisión</label>
         <DayPickerInput
           placeholder='Seleccione una fecha'
@@ -58,7 +58,7 @@ const FormularioReferenciasNotas = ({
           })}
           onDayChange={(diaSeleccionado) => setFieldValue('fecha_emision', diaSeleccionado)} />
       </Form.Field>
-      <Form.Field required={Boolean(complemento.requerido)}>
+      <Form.Field required={complemento.requerido}>
         <label>Motivo del ajuste</label>
         <Input
           name='motivo_ajuste'
@@ -67,7 +67,7 @@ const FormularioReferenciasNotas = ({
           value={values.motivo_ajuste}
           onChange={handleChange} />
       </Form.Field>
-      <Form.Field required={Boolean(complemento.requerido)}>
+      <Form.Field required={complemento.requerido}>
         <label>Número de Serie del documento de orígen</label>
         <Input
           name='numero_serie'
@@ -76,7 +76,7 @@ const FormularioReferenciasNotas = ({
           value={values.numero_serie}
           onChange={handleChange} />
       </Form.Field>
-      <Form.Field required={Boolean(complemento.requerido)}>
+      <Form.Field required={complemento.requerido}>
         <label>Número de del documento de orígen</label>
         <Input
           name='numero_documento'

@@ -14,7 +14,7 @@ const FormularioRetencionesFacturaEspecial = ({
   <Form id='formulario-retenciones-factura-especial' onSubmit={handleSubmit}>
     <h3>{complemento.descripcion}</h3>
     <Form.Group widths='equal'>
-      <Form.Field required={Boolean(complemento.requerido)}>
+      <Form.Field required={complemento.requerido}>
         <label>Retención ISR</label>
         <Input
           name='retencion_isr'
@@ -25,7 +25,7 @@ const FormularioRetencionesFacturaEspecial = ({
           value={values.retencion_isr}
           onChange={handleChange} />
       </Form.Field>
-      <Form.Field required={Boolean(complemento.requerido)}>
+      <Form.Field required={complemento.requerido}>
         <label>Retención IVA</label>
         <Input
           name='retencion_iva'
@@ -36,7 +36,7 @@ const FormularioRetencionesFacturaEspecial = ({
           value={values.retencion_iva}
           onChange={handleChange} />
       </Form.Field>
-      <Form.Field required={Boolean(complemento.requerido)}>
+      <Form.Field required={complemento.requerido}>
         <label>Total - Retenciones</label>
         <Input
           name='total_menos_retenciones'

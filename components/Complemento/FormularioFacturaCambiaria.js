@@ -13,7 +13,7 @@ const FormularioFacturaCambiaria = ({
   <Form id='formulario-factura-cambiaria' onSubmit={handleSubmit}>
     <h3>{complemento.descripcion}</h3>
     <Form.Group widths='equal'>
-      <Form.Field required={Boolean(complemento.requerido)}>
+      <Form.Field required={complemento.requerido}>
         <label>Monto abono</label>
         <Input
           name='monto_abono'
@@ -24,7 +24,7 @@ const FormularioFacturaCambiaria = ({
           value={values.monto_abono}
           onChange={handleChange} />
       </Form.Field>
-      <Form.Field required={Boolean(complemento.requerido)}>
+      <Form.Field required={complemento.requerido}>
         <label>Fecha de vencimiento</label>
         <DayPickerInput
           placeholder='Seleccione una fecha'

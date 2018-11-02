@@ -51,7 +51,7 @@ class TiposFrase extends React.Component {
           <Form onSubmit={handleSubmit}>
             <Form.Group widths='equal'>
               {tiposFrase.map((tipoFrase) => (
-                <Form.Field key={tipoFrase.id_tipo_frase} required={!!tipoFrase.requerido}>
+                <Form.Field key={tipoFrase.id_tipo_frase} required={tipoFrase.requerido}>
                   <label>{tipoFrase.descripcion}</label>
                   <SelectorFrase
                     name={`${tipoFrase.id_tipo_frase}`}
