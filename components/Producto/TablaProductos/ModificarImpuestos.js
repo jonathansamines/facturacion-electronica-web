@@ -43,7 +43,14 @@ class ModificarImpuestos extends React.Component {
 
   render() {
     const { unidadesGravables } = this.state;
-    const { producto, unidades, moneda, tipoCambio, unidadesGravables: unidadesGravablesProducto } = this.props;
+    const {
+      producto,
+      unidades,
+      moneda,
+      tipoCambio,
+      exportacion,
+      unidadesGravables: unidadesGravablesProducto
+    } = this.props;
 
     return (
       <Modal open={true} size='tiny' onClose={this.cancelar}>
@@ -86,6 +93,7 @@ class ModificarImpuestos extends React.Component {
                   <Segment vertical>
                     <FormularioUnidadesGravables
                       {...props}
+                      exportacion={exportacion}
                       impuestosDisponiblesProducto={impuestosDisponiblesProducto}
                       unidadesGravables={unidadesGravables} />
                   </Segment>
@@ -131,6 +139,7 @@ class ModificarImpuestos extends React.Component {
 }
 
 ModificarImpuestos.propTypes = {
+  exportacion: PropTypes.bool.isRequired,
   moneda: PropTypes.object.isRequired,
   producto: PropTypes.object.isRequired,
   tipoDocumento: PropTypes.object,

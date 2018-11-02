@@ -4,6 +4,7 @@ import { Form, Input } from 'semantic-ui-react';
 import SelectorUnidadesGravables from './SelectorUnidadesGravables';
 
 const FormularioUnidadesGravables = ({
+  exportacion,
   impuestosDisponiblesProducto,
   unidadesGravables,
   setFieldValue,
@@ -13,16 +14,29 @@ const FormularioUnidadesGravables = ({
 }) => (
   <Form id='formulario-unidades-gravables' onSubmit={handleSubmit}>
     {
-      impuestosDisponiblesProducto.map((impuesto) => (
-        <Form.Field key={impuesto.id_impuesto} required>
-          <label>Unidad Gravable {impuesto.nombre_corto}</label>
-          <SelectorUnidadesGravables
-            name={impuesto.nombre_corto}
-            unidadesGravables={unidadesGravables.filter((unidadGravable) => unidadGravable.id_impuesto === impuesto.id_impuesto)}
-            unidadGravableSeleccionada={values[impuesto.id_impuesto]}
-            onSeleccion={(event, data) => setFieldValue(impuesto.id_impuesto, data.value)} />
-        </Form.Field>
-      ))
+      impuestosDisponiblesProducto.map((impuesto) => {
+        const unidadesGravablesDisponiblesProducto = unidadesGravables.filter((unidadGravable) => {
+
+          // Si la unidad gravable no soporta exportación y la factura es de exportación,
+          // excluimos la unidad gravable
+          if (exportacion && !unidadGravable.exportacion) {
+            return false;
+          }
+
+          return unidadGravable.id_impuesto === impuesto.id_impuesto;
+        });
+
+        return (
+          <Form.Field key={impuesto.id_impuesto} required>
+            <label>Unidad Gravable {impuesto.nombre_corto}</label>
+            <SelectorUnidadesGravables
+              name={impuesto.nombre_corto}
+              unidadesGravables={unidadesGravablesDisponiblesProducto}
+              unidadGravableSeleccionada={values[impuesto.id_impuesto]}
+              onSeleccion={(event, data) => setFieldValue(impuesto.id_impuesto, data.value)} />
+          </Form.Field>
+        );
+      })
     }
 
     <Form.Field required>
@@ -40,6 +54,7 @@ const FormularioUnidadesGravables = ({
 );
 
 FormularioUnidadesGravables.propTypes = {
+  exportacion: PropTypes.bool.isRequired,
   impuestosDisponiblesProducto: PropTypes.array.isRequired,
   unidadesGravables: PropTypes.array.isRequired,
   setFieldValue: PropTypes.func,

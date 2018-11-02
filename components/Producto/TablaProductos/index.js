@@ -39,7 +39,7 @@ class TablaProductos extends React.Component {
   )
 
   renderProducto = (attrs) => {
-    const { moneda, tipoCambio, tipoDocumento } = this.props;
+    const { moneda, tipoCambio, tipoDocumento, exportacion } = this.props;
     const {
       producto,
       unidades,
@@ -57,6 +57,7 @@ class TablaProductos extends React.Component {
         unidades={unidades}
         tipoCambio={tipoCambio}
         tipoDocumento={tipoDocumento}
+        exportacion={exportacion}
         subtotalPrecioProducto={subtotalPrecioProducto}
         totalImpuestos={totalImpuestos}
         totalPrecioProducto={totalPrecioProducto}
@@ -122,6 +123,7 @@ class TablaProductos extends React.Component {
 }
 
 TablaProductos.propTypes = {
+  exportacion: PropTypes.bool.isRequired,
   moneda: PropTypes.object.isRequired,
   productos: PropTypes.array.isRequired,
   tipoCambio: PropTypes.object.isRequired,

@@ -36,7 +36,7 @@ class ConfirmacionProducto extends React.Component {
   }
 
   render() {
-    const { producto, onCancelar } = this.props;
+    const { exportacion, producto, onCancelar } = this.props;
     const { unidadesGravables } = this.state;
 
     const impuestosDisponiblesProducto = producto.tipo_producto.impuestos.filter(
@@ -71,6 +71,7 @@ class ConfirmacionProducto extends React.Component {
                 <Segment vertical>
                   <FormularioUnidadesGravables
                     {...props}
+                    exportacion={exportacion}
                     impuestosDisponiblesProducto={impuestosDisponiblesProducto}
                     unidadesGravables={unidadesGravables} />
                 </Segment>
@@ -96,6 +97,7 @@ class ConfirmacionProducto extends React.Component {
 }
 
 ConfirmacionProducto.propTypes = {
+  exportacion: PropTypes.bool.isRequired,
   producto: PropTypes.object.isRequired,
   onCancelar: PropTypes.func.isRequired,
   tipoDocumento: PropTypes.object,

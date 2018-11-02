@@ -44,6 +44,7 @@ class Articulo extends React.Component {
       producto,
       unidades,
       tipoCambio,
+      exportacion,
       tipoDocumento,
       unidadesGravables,
       subtotalPrecioProducto,
@@ -77,6 +78,7 @@ class Articulo extends React.Component {
               producto={producto}
               unidades={unidades}
               moneda={moneda}
+              exportacion={exportacion}
               tipoDocumento={tipoDocumento}
               tipoCambio={tipoCambio}
               unidadesGravables={unidadesGravables}
@@ -95,6 +97,7 @@ Articulo.propTypes = {
   tipoCambio: PropTypes.object.isRequired,
   producto: PropTypes.object.isRequired,
   moneda: PropTypes.object.isRequired,
+  exportacion: PropTypes.bool.isRequired,
   unidades: PropTypes.number.isRequired,
   tipoDocumento: PropTypes.object,
   unidadesGravables: PropTypes.array.isRequired,
