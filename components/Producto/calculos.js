@@ -1,4 +1,25 @@
-export function calcularDetalleProducto({ tipoCambio, moneda, producto, unidadesGravables, unidades }) {
+export function calcularDetalleProductoPorUnidadGravable({ unidadGravable, precio, descuento, unidades }) {
+  // const montoGravable = (
+  //   unidadGravable.tipo_valor === 'FIJO' ?
+  //       precio - descuento - (unidadGravable.valor * unidades) :
+  //       (precio - descuento) / unidadGravable.factor
+  // );
+
+  const montoGravable = (precio - descuento) / 1.12;// 1.12 es aparentemente independiente del impuesto (ya que todos incluyen el iva)
+
+  const impuestos = (
+    unidadGravable.tipo_valor === 'FIJO' ?
+      unidades * unidadGravable.valor :
+      montoGravable * unidadGravable.valor / 100
+  );
+
+  return [
+    montoGravable,
+    impuestos,
+  ]
+}
+
+export function calcularDetalleProducto({ tipoCambio, moneda, descuento, producto, unidadesGravables, unidades }) {
   const tasaCambio = tipoCambio.tasa_cambio.find((t) => t.destino === moneda.id_moneda);
 
   const precioProducto = (
@@ -7,20 +28,27 @@ export function calcularDetalleProducto({ tipoCambio, moneda, producto, unidades
       producto.precio * tasaCambio.valor
   );
 
-  const subtotalPrecioProducto = (precioProducto * unidades);
-  const subtotalImpuestos = unidadesGravables.reduce((acum, unidadGravable) => {
+  const precio = (precioProducto * unidades);
 
-    return acum + (
-      unidadGravable.tipo_valor === 'FIJO' ?
-        unidades * unidadGravable.valor :
-        unidadGravable.valor * subtotalPrecioProducto / 100
-    );
-  }, 0);
+  const iniciales = [
+    unidadesGravables.length === 0 ? precio - descuento : 0, // cuando no hay unidades gravables, calcular el valor inicial
+    0
+  ];
+
+  let [montoGravable, impuestos] = unidadesGravables.reduce(([sumatoriaMontoGravable, sumatoriaImpuestos], unidadGravable) => {
+
+    const [montoGravable, impuestos] = calcularDetalleProductoPorUnidadGravable({ unidadGravable, precio, descuento, unidades });
+
+    return [
+      montoGravable,
+      sumatoriaImpuestos + impuestos
+    ];
+  }, iniciales);
 
   return {
     tasaCambio,
-    subtotalImpuestos,
-    subtotalPrecioProducto,
-    totalPrecioProducto: subtotalPrecioProducto + subtotalImpuestos,
+    montoGravable,
+    impuestos,
+    precio: montoGravable + impuestos,
   };
 }

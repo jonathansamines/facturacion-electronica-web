@@ -41,10 +41,10 @@ class DetalleProductos extends React.Component {
     this.setState({ productoPendiente: null });
   }
 
-  confirmarProductoPendiente = ({ producto, unidades, unidadesGravables }) => {
+  confirmarProductoPendiente = ({ producto, descuento, unidades, unidadesGravables }) => {
     this.setState(({ productos }) => {
       const productoExistente = productos.find((p) => p.producto.id_producto === producto.id_producto);
-      const nuevosProductos = productoExistente === undefined ? [...productos, { producto, unidades, unidadesGravables }] : productos;
+      const nuevosProductos = productoExistente === undefined ? [...productos, { producto, unidades, unidadesGravables, descuento }] : productos;
 
       return {
         productoPendiente: null,

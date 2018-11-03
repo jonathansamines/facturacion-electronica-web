@@ -22,7 +22,7 @@ class ConfirmacionProducto extends React.Component {
       });
   }
 
-  confirmarProducto = ({ unidades, ...unidadesGravablesImpuestos }, actions) => {
+  confirmarProducto = ({ unidades, descuento, ...unidadesGravablesImpuestos }, actions) => {
     const { onConfirmar, producto } = this.props;
 
     actions.resetForm();
@@ -32,7 +32,7 @@ class ConfirmacionProducto extends React.Component {
         this.state.unidadesGravables.find((unidadGravable) => `${unidadGravable.id_unidad_gravable}${unidadGravable.id_impuesto}` === unidadesGravablesImpuestos[idImpuestoUnidadGravable])
       ));
 
-    return onConfirmar({ producto, unidades, unidadesGravables });
+    return onConfirmar({ producto, descuento, unidades, unidadesGravables });
   }
 
   render() {
@@ -51,11 +51,13 @@ class ConfirmacionProducto extends React.Component {
           validationSchema={
             Yup.object().shape({
               unidades: Yup.number().required(),
+              descuento: Yup.number().required(),
               ...obtenerEsquemaUnidadesGravables(impuestosDisponiblesProducto)
             })
           }
           initialValues={({
             unidades: 1,
+            descuento: 0,
             ...obtenerValoresPorDefectoUnidadesGravables(impuestosDisponiblesProducto)
           })}
           onSubmit={this.confirmarProducto}>

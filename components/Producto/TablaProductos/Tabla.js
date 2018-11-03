@@ -20,32 +20,35 @@ const Tabla = (props) => {
   );
 
   let total = 0;
-  let totalProductos = 0;
+  let totalMontoGravable = 0;
   let totalImpuestos = 0;
   let totalUnidades = 0;
+  let totalDescuento = 0;
 
-  const renderProductos = productos.map(({ producto, unidadesGravables, unidades }) => {
+  const renderProductos = productos.map(({ producto, unidadesGravables, descuento, unidades }) => {
     const {
       tasaCambio,
-      subtotalImpuestos,
-      subtotalPrecioProducto,
-      totalPrecioProducto
-    } = calcularDetalleProducto({ moneda, producto, unidades, unidadesGravables, tipoCambio });
+      impuestos,
+      montoGravable,
+      precio,
+    } = calcularDetalleProducto({ moneda, producto, unidades, unidadesGravables, descuento, tipoCambio });
 
-    totalImpuestos += subtotalImpuestos;
-    totalProductos += subtotalPrecioProducto;
-    total += totalPrecioProducto;
+    totalImpuestos += impuestos;
+    totalMontoGravable += montoGravable;
+    total += precio;
     totalUnidades += unidades;
+    totalDescuento += descuento;
 
     return productoRenderer({
       producto,
+      descuento,
       unidades,
       unidadesGravables,
       moneda,
       tasaCambio,
-      totalImpuestos: subtotalImpuestos,
-      subtotalPrecioProducto: subtotalPrecioProducto,
-      totalPrecioProducto,
+      impuestos,
+      montoGravable,
+      precio,
     });
   });
 
@@ -57,7 +60,8 @@ const Tabla = (props) => {
           resumenRenderer({
             total,
             totalImpuestos,
-            totalProductos,
+            totalDescuento,
+            totalMontoGravable,
             totalUnidades
           })
         }

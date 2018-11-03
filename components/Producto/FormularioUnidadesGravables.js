@@ -39,17 +39,30 @@ const FormularioUnidadesGravables = ({
       })
     }
 
-    <Form.Field required>
-      <label>Unidades</label>
-      <Input
-        name='unidades'
-        type='number'
-        min={1}
-        step={'0.000001'}
-        placeholder='Unidades'
-        value={values.unidades}
-        onChange={handleChange} />
-    </Form.Field>
+    <Form.Group widths='equal'>
+      <Form.Field required>
+        <label>Unidades</label>
+        <Input
+          name='unidades'
+          type='number'
+          min={1}
+          step={'0.000001'}
+          placeholder='Unidades'
+          value={values.unidades}
+          onChange={handleChange} />
+      </Form.Field>
+      <Form.Field required>
+        <label>Descuento</label>
+        <Input
+          name='descuento'
+          type='number'
+          min={0}
+          step={'0.000001'}
+          placeholder='Descuento'
+          value={values.descuento}
+          onChange={handleChange} />
+      </Form.Field>
+    </Form.Group>
   </Form>
 );
 

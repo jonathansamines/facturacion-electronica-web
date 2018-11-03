@@ -22,7 +22,7 @@ class ModificarImpuestos extends React.Component {
       });
   }
 
-  confirmar = ({ unidades, ...unidadesGravablesProducto }) => {
+  confirmar = ({ unidades, descuento, ...unidadesGravablesProducto }) => {
     const { producto, onConfirmar } = this.props;
 
     const unidadesGravables = Object.keys(unidadesGravablesProducto)
@@ -33,6 +33,7 @@ class ModificarImpuestos extends React.Component {
     onConfirmar({
       producto,
       unidades,
+      descuento,
       unidadesGravables,
     });
   }
@@ -47,6 +48,7 @@ class ModificarImpuestos extends React.Component {
       producto,
       unidades,
       moneda,
+      descuento,
       tipoCambio,
       exportacion,
       unidadesGravables: unidadesGravablesProducto
@@ -60,6 +62,7 @@ class ModificarImpuestos extends React.Component {
           enableReinitialize={true}
           initialValues={({
             unidades,
+            descuento,
             ...(unidadesGravablesProducto.reduce((resultado, unidadGravable) => (
               {
                 ...resultado,
@@ -69,18 +72,21 @@ class ModificarImpuestos extends React.Component {
           })}
           onSubmit={this.confirmar}>
           {(props) => {
-            const { unidades, ...unidadesGravablesP } = props.values;
-
-            const {
-              subtotalImpuestos,
-              subtotalPrecioProducto,
-              totalPrecioProducto
-            } = calcularDetalleProducto({ moneda, producto, unidades, unidadesGravables: unidadesGravablesProducto, tipoCambio });
+            const { unidades, descuento, ...unidadesGravablesP } = props.values;
 
             const unidadesGravablesProd = Object.keys(unidadesGravablesP).map((id_impuesto_unidad_gravable) => (
               unidadesGravables.find((unidadGravable) => `${unidadGravable.id_unidad_gravable}${unidadGravable.id_impuesto}` === unidadesGravablesP[id_impuesto_unidad_gravable])
             ))
             .filter(u => u !== undefined);
+
+            const { impuestos, montoGravable, precio } = calcularDetalleProducto({
+              moneda,
+              producto,
+              unidades,
+              descuento,
+              unidadesGravables: unidadesGravablesProd,
+              tipoCambio
+            });
 
             const impuestosDisponiblesProducto = producto.tipo_producto.impuestos.filter(
               (impuesto) => !!unidadesGravables.find((unidadGravable) => unidadGravable.id_impuesto === impuesto.id_impuesto)
@@ -101,9 +107,9 @@ class ModificarImpuestos extends React.Component {
                     <InformacionProductoFactura
                       moneda={moneda}
                       producto={producto}
-                      subtotalImpuestos={subtotalImpuestos}
-                      subtotalPrecioProducto={subtotalPrecioProducto}
-                      totalPrecioProducto={totalPrecioProducto} />
+                      precio={precio - descuento}
+                      impuestos={impuestos}
+                      montoGravable={montoGravable} />
                   </Segment>
                   {
                     unidadesGravablesProd.length > 0 &&
@@ -112,8 +118,10 @@ class ModificarImpuestos extends React.Component {
                         moneda={moneda}
                         producto={producto}
                         unidades={unidades}
+                        precio={precio}
+                        descuento={descuento}
                         unidadesGravables={unidadesGravablesProd}
-                        subtotalPrecioProducto={subtotalPrecioProducto} />
+                        montoGravable={montoGravable} />
                     </Segment>
                   }
                 </Modal.Content>
@@ -139,6 +147,7 @@ class ModificarImpuestos extends React.Component {
 }
 
 ModificarImpuestos.propTypes = {
+  descuento: PropTypes.number.isRequired,
   exportacion: PropTypes.bool.isRequired,
   moneda: PropTypes.object.isRequired,
   producto: PropTypes.object.isRequired,

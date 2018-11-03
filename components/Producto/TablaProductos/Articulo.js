@@ -42,14 +42,15 @@ class Articulo extends React.Component {
     const {
       moneda,
       producto,
+      descuento,
       unidades,
       tipoCambio,
       exportacion,
       tipoDocumento,
       unidadesGravables,
-      subtotalPrecioProducto,
-      totalImpuestos,
-      totalPrecioProducto,
+      montoGravable,
+      impuestos,
+      precio,
     } = this.props;
 
     const { modificando } = this.state;
@@ -59,17 +60,22 @@ class Articulo extends React.Component {
         <Table.Cell>{producto.id_producto}</Table.Cell>
         <Table.Cell>{categorias[producto.tipo_producto.categoria] || 'Desconocido'}</Table.Cell>
         <Table.Cell>{producto.nombre}</Table.Cell>
-        <Table.Cell>{producto.descripcion}</Table.Cell>
         <Table.Cell>{unidades}</Table.Cell>
         <Table.Cell>{producto.unidad_medida.descripcion}</Table.Cell>
         <Table.Cell>
-          <FormattedNumber style='currency' value={subtotalPrecioProducto} currency={moneda.id_moneda} />
+          <FormattedNumber style='currency' value={producto.precio} currency={moneda.id_moneda} />
         </Table.Cell>
         <Table.Cell>
-          <FormattedNumber style='currency' value={totalImpuestos} currency={moneda.id_moneda} />
+          <FormattedNumber style='currency' value={descuento} currency={moneda.id_moneda} />
         </Table.Cell>
         <Table.Cell>
-          <FormattedNumber style='currency' value={totalPrecioProducto} currency={moneda.id_moneda} />
+          <FormattedNumber style='currency' value={montoGravable} currency={moneda.id_moneda} />
+        </Table.Cell>
+        <Table.Cell>
+          <FormattedNumber style='currency' value={impuestos} currency={moneda.id_moneda} />
+        </Table.Cell>
+        <Table.Cell>
+          <FormattedNumber style='currency' value={precio - descuento} currency={moneda.id_moneda} />
         </Table.Cell>
         <Table.Cell>
           {
@@ -78,6 +84,7 @@ class Articulo extends React.Component {
               producto={producto}
               unidades={unidades}
               moneda={moneda}
+              descuento={descuento}
               exportacion={exportacion}
               tipoDocumento={tipoDocumento}
               tipoCambio={tipoCambio}
@@ -101,9 +108,10 @@ Articulo.propTypes = {
   unidades: PropTypes.number.isRequired,
   tipoDocumento: PropTypes.object,
   unidadesGravables: PropTypes.array.isRequired,
-  subtotalPrecioProducto: PropTypes.number.isRequired,
-  totalImpuestos: PropTypes.number.isRequired,
-  totalPrecioProducto: PropTypes.number.isRequired,
+  precio: PropTypes.number.isRequired,
+  descuento: PropTypes.number.isRequired,
+  impuestos: PropTypes.number.isRequired,
+  montoGravable: PropTypes.number.isRequired,
   onEliminar: PropTypes.func.isRequired,
   onImpuestoModificado: PropTypes.func.isRequired,
 };

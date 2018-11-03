@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedNumber } from 'react-intl';
 import { List, Divider } from 'semantic-ui-react';
 
-const InformacionProductoFactura = ({ subtotalImpuestos, subtotalPrecioProducto, totalPrecioProducto, producto, moneda }) => (
+const InformacionProductoFactura = ({ impuestos, montoGravable, precio, producto, moneda }) => (
   <>
     <List relaxed horizontal size='medium'>
       <List.Item>
@@ -11,28 +11,28 @@ const InformacionProductoFactura = ({ subtotalImpuestos, subtotalPrecioProducto,
         <FormattedNumber style='currency' value={producto.precio} currency={moneda.id_moneda} />
       </List.Item>
       <List.Item>
-        <List.Header as='strong'>Impuesto (%): </List.Header>
-        <FormattedNumber style='currency' value={subtotalImpuestos} currency={moneda.id_moneda} />
+        <List.Header as='strong'>Monto Gravable: </List.Header>
+        <FormattedNumber style='currency' value={montoGravable} currency={moneda.id_moneda} />
+      </List.Item>
+      <List.Item>
+        <List.Header as='strong'>Impuestos: </List.Header>
+        <FormattedNumber style='currency' value={impuestos} currency={moneda.id_moneda} />
       </List.Item>
     </List>
     <Divider />
     <List relaxed horizontal size='medium'>
       <List.Item>
-        <List.Header as='strong'>Subtotal: </List.Header>
-        <FormattedNumber style='currency' value={subtotalPrecioProducto} currency={moneda.id_moneda} />
-      </List.Item>
-      <List.Item>
-        <List.Header as='strong'>Precio Final: </List.Header>
-        <FormattedNumber style='currency' value={totalPrecioProducto} currency={moneda.id_moneda} />
+        <List.Header as='strong'>Precio: </List.Header>
+        <FormattedNumber style='currency' value={precio} currency={moneda.id_moneda} />
       </List.Item>
     </List>
   </>
 );
 
 InformacionProductoFactura.propTypes = {
-  subtotalImpuestos: PropTypes.number.isRequired,
-  subtotalPrecioProducto: PropTypes.number.isRequired,
-  totalPrecioProducto: PropTypes.number.isRequired,
+  impuestos: PropTypes.number.isRequired,
+  montoGravable: PropTypes.number.isRequired,
+  precio: PropTypes.number.isRequired,
   producto: PropTypes.object.isRequired,
   moneda: PropTypes.object.isRequired,
 };
