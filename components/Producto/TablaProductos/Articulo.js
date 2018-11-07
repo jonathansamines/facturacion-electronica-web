@@ -50,7 +50,6 @@ class Articulo extends React.Component {
       unidadesGravables,
       montoGravable,
       impuestos,
-      precio,
     } = this.props;
 
     const { modificando } = this.state;
@@ -66,6 +65,9 @@ class Articulo extends React.Component {
           <FormattedNumber style='currency' value={producto.precio} currency={moneda.id_moneda} />
         </Table.Cell>
         <Table.Cell>
+          <FormattedNumber style='currency' value={producto.precio * unidades} currency={moneda.id_moneda} />
+        </Table.Cell>
+        <Table.Cell>
           <FormattedNumber style='currency' value={descuento} currency={moneda.id_moneda} />
         </Table.Cell>
         <Table.Cell>
@@ -75,7 +77,7 @@ class Articulo extends React.Component {
           <FormattedNumber style='currency' value={impuestos} currency={moneda.id_moneda} />
         </Table.Cell>
         <Table.Cell>
-          <FormattedNumber style='currency' value={precio - descuento} currency={moneda.id_moneda} />
+          <FormattedNumber style='currency' value={montoGravable + impuestos} currency={moneda.id_moneda} />
         </Table.Cell>
         <Table.Cell>
           {
@@ -108,7 +110,6 @@ Articulo.propTypes = {
   unidades: PropTypes.number.isRequired,
   tipoDocumento: PropTypes.object,
   unidadesGravables: PropTypes.array.isRequired,
-  precio: PropTypes.number.isRequired,
   descuento: PropTypes.number.isRequired,
   impuestos: PropTypes.number.isRequired,
   montoGravable: PropTypes.number.isRequired,

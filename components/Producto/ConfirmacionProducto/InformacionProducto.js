@@ -10,7 +10,7 @@ const InformacionProducto = ({ producto }) => (
       {producto.marca}
     </List.Item>
     <List.Item>
-      <List.Header as='strong'>Precio: </List.Header>
+      <List.Header as='strong'>Precio Unitario: </List.Header>
       <FormattedNumber style='currency' value={producto.precio} currency={producto.id_moneda} />
     </List.Item>
     <List.Item>

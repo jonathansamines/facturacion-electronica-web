@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import sumBy from 'lodash/sumBy';
 import { Table } from 'semantic-ui-react';
 import { calcularDetalleProducto } from './../calculos';
 
@@ -19,7 +20,6 @@ const Tabla = (props) => {
     </Table.Body>
   );
 
-  let total = 0;
   let totalMontoGravable = 0;
   let totalImpuestos = 0;
   let totalUnidades = 0;
@@ -30,12 +30,12 @@ const Tabla = (props) => {
       tasaCambio,
       impuestos,
       montoGravable,
-      precio,
     } = calcularDetalleProducto({ moneda, producto, unidades, unidadesGravables, descuento, tipoCambio });
 
-    totalImpuestos += impuestos;
+    const sumatoriaImpuestos = sumBy(impuestos, 'montoImpuesto');
+
+    totalImpuestos += sumatoriaImpuestos;
     totalMontoGravable += montoGravable;
-    total += precio;
     totalUnidades += unidades;
     totalDescuento += descuento;
 
@@ -46,9 +46,8 @@ const Tabla = (props) => {
       unidadesGravables,
       moneda,
       tasaCambio,
-      impuestos,
+      impuestos: sumatoriaImpuestos,
       montoGravable,
-      precio,
     });
   });
 
@@ -58,7 +57,6 @@ const Tabla = (props) => {
       <Table.Footer>
         {
           resumenRenderer({
-            total,
             totalImpuestos,
             totalDescuento,
             totalMontoGravable,

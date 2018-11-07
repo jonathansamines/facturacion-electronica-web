@@ -34,7 +34,7 @@ class ModificarImpuestos extends React.Component {
     onConfirmar({
       producto,
       unidades,
-      descuento,
+      descuento: Number.parseFloat(descuento),
       unidadesGravables,
     });
   }
@@ -93,7 +93,7 @@ class ModificarImpuestos extends React.Component {
             ))
             .filter(u => u !== undefined);
 
-            const { impuestos, montoGravable, precio } = calcularDetalleProducto({
+            const { impuestos, montoGravable } = calcularDetalleProducto({
               moneda,
               producto,
               unidades,
@@ -122,7 +122,6 @@ class ModificarImpuestos extends React.Component {
                     <InformacionProductoFactura
                       moneda={moneda}
                       producto={producto}
-                      precio={precio - descuento}
                       impuestos={impuestos}
                       montoGravable={montoGravable} />
                   </Segment>
@@ -132,11 +131,7 @@ class ModificarImpuestos extends React.Component {
                       <TablaImpuestos
                         moneda={moneda}
                         producto={producto}
-                        unidades={unidades}
-                        precio={precio}
-                        descuento={descuento}
-                        unidadesGravables={unidadesGravablesProd}
-                        montoGravable={montoGravable} />
+                        impuestos={impuestos} />
                     </Segment>
                   }
                 </Modal.Content>

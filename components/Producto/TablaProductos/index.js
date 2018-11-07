@@ -35,7 +35,7 @@ class TablaProductos extends React.Component {
 
   renderNoProductos = () => (
     <Table.Row>
-      <Table.Cell colSpan='11'>No se han agregado productos a la factura.</Table.Cell>
+      <Table.Cell colSpan='12'>No se han agregado productos a la factura.</Table.Cell>
     </Table.Row>
   )
 
@@ -48,7 +48,6 @@ class TablaProductos extends React.Component {
       unidadesGravables,
       montoGravable,
       impuestos,
-      precio
     } = attrs;
 
     return (
@@ -61,7 +60,6 @@ class TablaProductos extends React.Component {
         descuento={descuento}
         tipoDocumento={tipoDocumento}
         exportacion={exportacion}
-        precio={precio}
         impuestos={impuestos}
         montoGravable={montoGravable}
         unidadesGravables={unidadesGravables}
@@ -70,13 +68,13 @@ class TablaProductos extends React.Component {
     );
   }
 
-  renderResumen = ({ total, totalUnidades, totalDescuento, totalImpuestos, totalMontoGravable }) => {
+  renderResumen = ({ totalUnidades, totalDescuento, totalImpuestos, totalMontoGravable }) => {
     const { moneda } = this.props;
 
     return (
       <Table.Row>
         <Table.HeaderCell colSpan='3' />
-        <Table.HeaderCell colSpan='3'>
+        <Table.HeaderCell colSpan='4'>
           <FormattedNumber style='decimal' value={totalUnidades} />
         </Table.HeaderCell>
         <Table.HeaderCell colSpan='1'>
@@ -89,7 +87,7 @@ class TablaProductos extends React.Component {
           <FormattedNumber style='currency' value={totalImpuestos} currency={moneda.id_moneda} />
         </Table.HeaderCell>
         <Table.HeaderCell colSpan='4' textAlign='right'>
-          <FormattedNumber style='currency' value={total} currency={moneda.id_moneda}>
+          <FormattedNumber style='currency' value={totalMontoGravable + totalImpuestos} currency={moneda.id_moneda}>
             {(formatted) => <strong>{formatted}</strong>}
           </FormattedNumber>
         </Table.HeaderCell>
@@ -110,6 +108,7 @@ class TablaProductos extends React.Component {
             <Table.HeaderCell>Cantidad</Table.HeaderCell>
             <Table.HeaderCell>Unidad</Table.HeaderCell>
             <Table.HeaderCell>Precio Unitario</Table.HeaderCell>
+            <Table.HeaderCell>Precio</Table.HeaderCell>
             <Table.HeaderCell>Descuento</Table.HeaderCell>
             <Table.HeaderCell>Monto Gravable</Table.HeaderCell>
             <Table.HeaderCell>Impuestos</Table.HeaderCell>

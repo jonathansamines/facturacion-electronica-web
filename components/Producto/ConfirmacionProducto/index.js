@@ -28,11 +28,13 @@ class ConfirmacionProducto extends React.Component {
     actions.resetForm();
 
     const unidadesGravables = Object.keys(unidadesGravablesImpuestos)
-      .map((idImpuestoUnidadGravable) => (
-        this.state.unidadesGravables.find((unidadGravable) => `${unidadGravable.id_unidad_gravable}${unidadGravable.id_impuesto}` === unidadesGravablesImpuestos[idImpuestoUnidadGravable])
-      ));
+      .map((idImpuestoUnidadGravable) => {
+        const unidadGravable = this.state.unidadesGravables.find((unidadGravable) => `${unidadGravable.id_unidad_gravable}${unidadGravable.id_impuesto}` === unidadesGravablesImpuestos[idImpuestoUnidadGravable]);
 
-    return onConfirmar({ producto, descuento, unidades, unidadesGravables });
+        return unidadGravable;
+      });
+
+    return onConfirmar({ producto, descuento: Number.parseFloat(descuento), unidades, unidadesGravables });
   }
 
   render() {

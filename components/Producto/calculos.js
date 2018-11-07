@@ -1,26 +1,22 @@
-export function calcularDetalleProductoPorUnidadGravable({ unidadGravable, precio, descuento, unidades }) {
-  // const montoGravable = (
-  //   unidadGravable.tipo_valor === 'FIJO' ?
-  //       precio - descuento - (unidadGravable.valor * unidades) :
-  //       (precio - descuento) / unidadGravable.factor
-  // );
+function calcularDetalleProductoPorUnidadGravable({ unidadGravable, precio, descuento, unidades }) {
+  // 1.12 es un factor independiente del impuesto (ya que todos incluyen el iva)
+  // Cuando el valor de la unidad gravable es 0, es porque el producto no incluye el valor del impuesto en su precio
+  const montoGravable = unidadGravable.valor === 0 ? (precio - descuento) : (precio - descuento) / 1.12;
 
-  const montoGravable = (precio - descuento) / 1.12;// 1.12 es aparentemente independiente del impuesto (ya que todos incluyen el iva)
-
-  const impuestos = (
+  const montoImpuesto = (
     unidadGravable.tipo_valor === 'FIJO' ?
       unidades * unidadGravable.valor :
       montoGravable * unidadGravable.valor / 100
   );
 
-  return [
+  return {
     montoGravable,
-    impuestos,
-  ]
+    montoImpuesto,
+  };
 }
 
 export function calcularDetalleProducto({ tipoCambio, moneda, descuento, producto, unidadesGravables, unidades }) {
-  const tasaCambio = tipoCambio.tasa_cambio.find((t) => t.destino === moneda.id_moneda);
+  const tasaCambio = tipoCambio.tasa_cambio.find((tasa) => tasa.destino === moneda.id_moneda);
 
   const precioProducto = (
     producto.id_moneda === moneda.id_moneda ?
@@ -32,23 +28,31 @@ export function calcularDetalleProducto({ tipoCambio, moneda, descuento, product
 
   const iniciales = [
     unidadesGravables.length === 0 ? precio - descuento : 0, // cuando no hay unidades gravables, calcular el valor inicial
-    0
+    [{
+      montoImpuesto: 0,
+      unidadGravable: null
+    }]
   ];
 
-  let [montoGravable, impuestos] = unidadesGravables.reduce(([sumatoriaMontoGravable, sumatoriaImpuestos], unidadGravable) => {
+  let [montoGravable, impuestos] = unidadesGravables.reduce(([, impuestos], unidadGravable) => {
 
-    const [montoGravable, impuestos] = calcularDetalleProductoPorUnidadGravable({ unidadGravable, precio, descuento, unidades });
+    const { montoGravable, montoImpuesto } = calcularDetalleProductoPorUnidadGravable({ unidadGravable, precio, descuento, unidades });
 
     return [
       montoGravable,
-      sumatoriaImpuestos + impuestos
+      [
+        ...impuestos,
+       {
+        montoImpuesto,
+        unidadGravable,
+       }
+      ]
     ];
   }, iniciales);
 
   return {
+    impuestos,
     tasaCambio,
     montoGravable,
-    impuestos,
-    precio: montoGravable + impuestos,
   };
 }
