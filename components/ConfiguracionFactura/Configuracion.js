@@ -26,9 +26,9 @@ class ConfiguracionFactura extends React.Component {
   confirmar = (values) => {
     const { monedas, sucursales, tiposDocumentos } = this.props;
 
-    const moneda = monedas.find((m) => m.id_moneda === values.id_moneda);
-    const sucursal = sucursales.find((s) => s.id_sucursal === values.id_sucursal);
-    const tipoDocumento = tiposDocumentos.find((t) => t.id_tipo_documento === values.id_tipo_documento);
+    const moneda = monedas.find((moneda) => moneda.id_moneda === values.id_moneda);
+    const sucursal = sucursales.find((sucursal) => sucursal.id_sucursal === values.id_sucursal);
+    const tipoDocumento = tiposDocumentos.find((tipoDocumento) => tipoDocumento.id_tipo_documento === values.id_tipo_documento);
 
     return this.setState(
       { abierto: false },
@@ -105,6 +105,7 @@ class ConfiguracionFactura extends React.Component {
                       <Icon name='truck' flipped='horizontally' />
                       <Checkbox
                         name='exportacion'
+                        label='Exportación'
                         checked={values.exportacion}
                         onChange={(event, data) => {
                           setFieldValue('exportacion', data.checked);
@@ -116,8 +117,7 @@ class ConfiguracionFactura extends React.Component {
                             setFieldValue('id_tipo_documento', null);
                           }
 
-                        }}
-                        label='Exportación' />
+                        }} />
                     </Form.Field>
                   </Form>
                 </Modal.Content>
@@ -126,7 +126,7 @@ class ConfiguracionFactura extends React.Component {
                     Cancelar
                   </Button>
                   <Button
-                    color='google plus'
+                    color='blue'
                     type='submit'
                     form='configuracion-factura'
                     disabled={!isValid}>

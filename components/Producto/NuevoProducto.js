@@ -14,9 +14,9 @@ const esquemaValidacion = Yup.object().shape({
   descripcion: Yup.string().required('La descripción del producto es obligatoria'),
   marca: Yup.string().required('La marca es obligatoria'),
   precio: Yup.number().required('El precio es obligatorio'),
-  id_moneda: Yup.string().required(),
-  id_tipo_producto: Yup.number().required(),
-  id_unidad_medida: Yup.string().required()
+  id_moneda: Yup.string().nullable().required('La moneda es obligatoria'),
+  id_tipo_producto: Yup.number().nullable().required('El tipo de producto es obligatorio'),
+  id_unidad_medida: Yup.string().nullable().required('La unidad de medida es obligatoria')
 });
 
 class NuevoProducto extends React.Component {
@@ -163,6 +163,13 @@ class NuevoProducto extends React.Component {
                       status.mensaje &&
                       <Message success={!status.error} error={status.error} content={status.mensaje} />
                     }
+                    {
+                      Object.keys(errors).length > 0 &&
+                      <Message
+                        error
+                        header='Errores de validación encontrados'
+                        list={Object.values(errors)} />
+                    }
                   </Form>
                 </Modal.Content>
                 <Modal.Actions>
@@ -170,7 +177,7 @@ class NuevoProducto extends React.Component {
                     Cancelar
                   </Button>
                   <Button
-                    color='google plus'
+                    color='blue'
                     type='submit'
                     loading={isSubmitting}
                     disabled={!isValid}

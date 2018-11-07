@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { Segment, Button, Modal } from 'semantic-ui-react';
 import TablaImpuestos from './TablaImpuestos';
@@ -70,6 +71,19 @@ class ModificarImpuestos extends React.Component {
               }
             ), {}))
           })}
+
+          validationSchema={Yup.object().shape({
+            unidades: Yup.number().min(1, 'El número de unidades no puede ser menor a 0').required('El número de unidades es requerido'),
+            descuento: Yup.number().min(0, 'El descuento no puede ser menor a 0').required('El descuento es obligatorio'),
+
+            ...(unidadesGravablesProducto.reduce((resultado, unidadGravable) => (
+              {
+                ...resultado,
+                [unidadGravable.id_impuesto]: Yup.number().required()
+              }
+            ), {}))
+          })}
+
           onSubmit={this.confirmar}>
           {(props) => {
             const { unidades, descuento, ...unidadesGravablesP } = props.values;
@@ -99,6 +113,7 @@ class ModificarImpuestos extends React.Component {
                   <Segment vertical>
                     <FormularioUnidadesGravables
                       {...props}
+                      producto={producto}
                       exportacion={exportacion}
                       impuestosDisponiblesProducto={impuestosDisponiblesProducto}
                       unidadesGravables={unidadesGravables} />
@@ -130,7 +145,7 @@ class ModificarImpuestos extends React.Component {
                     Cancelar
                   </Button>
                   <Button
-                    color='google plus'
+                    color='blue'
                     type='submit'
                     disabled={!props.isValid}
                     form='formulario-unidades-gravables'>

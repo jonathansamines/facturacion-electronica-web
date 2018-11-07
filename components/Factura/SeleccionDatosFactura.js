@@ -190,7 +190,7 @@ class SeleccionDatosFactura extends React.Component {
                 </Form.Field>
                 <Form.Field width='2'>
                   <label>&nbsp;</label>
-                  <Button color='google plus'  disabled={!isValid} fluid>Facturar</Button>
+                  <Button color='blue'  disabled={!isValid} fluid>Facturar</Button>
                 </Form.Field>
               </Form.Group>
             </Form>

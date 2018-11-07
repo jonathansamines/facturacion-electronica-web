@@ -1,18 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input } from 'semantic-ui-react';
+import { ErrorMessage } from 'formik';
+import { Form, Input, Message } from 'semantic-ui-react';
 import SelectorUnidadesGravables from './SelectorUnidadesGravables';
 
 const FormularioUnidadesGravables = ({
+  producto,
   exportacion,
   impuestosDisponiblesProducto,
   unidadesGravables,
   setFieldValue,
+  setFieldError,
   values,
+  errors,
+  isValid,
   handleChange,
   handleSubmit,
 }) => (
-  <Form id='formulario-unidades-gravables' onSubmit={handleSubmit}>
+  <Form id='formulario-unidades-gravables' onSubmit={handleSubmit} error={!isValid}>
     {
       impuestosDisponiblesProducto.map((impuesto) => {
         const unidadesGravablesDisponiblesProducto = unidadesGravables.filter((unidadGravable) => {
@@ -40,7 +45,7 @@ const FormularioUnidadesGravables = ({
     }
 
     <Form.Group widths='equal'>
-      <Form.Field required>
+      <Form.Field required error={Boolean(errors.descuento)}>
         <label>Unidades</label>
         <Input
           name='unidades'
@@ -50,8 +55,9 @@ const FormularioUnidadesGravables = ({
           placeholder='Unidades'
           value={values.unidades}
           onChange={handleChange} />
+        <ErrorMessage name='unidades' />
       </Form.Field>
-      <Form.Field required>
+      <Form.Field required error={Boolean(errors.descuento)}>
         <label>Descuento</label>
         <Input
           name='descuento'
@@ -60,18 +66,40 @@ const FormularioUnidadesGravables = ({
           step={'0.000001'}
           placeholder='Descuento'
           value={values.descuento}
-          onChange={handleChange} />
+          onChange={(event) => {
+            const descuento = event.target.valueAsNumber;
+            const esDescuentoValido = descuento <= values.unidades * producto.precio;
+
+            setFieldValue('descuento', event.target.value, Number.isNaN(descuento) || esDescuentoValido);
+
+            if (!Number.isNaN(descuento) && !esDescuentoValido) {
+              return setFieldError('descuento', 'El descuento no puede ser mayor al precio total');
+            }
+          }} />
       </Form.Field>
     </Form.Group>
+
+    {
+      Object.values(errors).length > 0 &&
+      <Message
+        error
+        header='Errores de validacion encontrados'
+        list={Object.values(errors)}
+      />
+    }
   </Form>
 );
 
 FormularioUnidadesGravables.propTypes = {
+  producto: PropTypes.object.isRequired,
   exportacion: PropTypes.bool.isRequired,
   impuestosDisponiblesProducto: PropTypes.array.isRequired,
   unidadesGravables: PropTypes.array.isRequired,
   setFieldValue: PropTypes.func,
+  setFieldError: PropTypes.func,
+  errors: PropTypes.object,
   values: PropTypes.object,
+  isValid: PropTypes.bool,
   handleChange: PropTypes.func,
   handleSubmit: PropTypes.func,
 };

@@ -114,7 +114,7 @@ class PaginaLogin extends React.Component {
                   </Segment>
 
                   <Segment vertical textAlign='right'>
-                    <Button color='google plus' type='submit'>Iniciar Sesión</Button>
+                    <Button color='blue' type='submit'>Iniciar Sesión</Button>
                   </Segment>
                 </Form>
               )}

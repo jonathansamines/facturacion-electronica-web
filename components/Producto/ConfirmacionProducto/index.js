@@ -50,8 +50,8 @@ class ConfirmacionProducto extends React.Component {
           isInitialValid={impuestosDisponiblesProducto.length === 0}
           validationSchema={
             Yup.object().shape({
-              unidades: Yup.number().required(),
-              descuento: Yup.number().required(),
+              unidades: Yup.number().min(1, 'El número de unidades no puede ser menor a 0').required('El número de unidades es requerido'),
+              descuento: Yup.number().min(0, 'El descuento no puede ser menor a 0').required('El descuento es obligatorio'),
               ...obtenerEsquemaUnidadesGravables(impuestosDisponiblesProducto)
             })
           }
@@ -73,6 +73,7 @@ class ConfirmacionProducto extends React.Component {
                 <Segment vertical>
                   <FormularioUnidadesGravables
                     {...props}
+                    producto={producto}
                     exportacion={exportacion}
                     impuestosDisponiblesProducto={impuestosDisponiblesProducto}
                     unidadesGravables={unidadesGravables} />
@@ -83,7 +84,7 @@ class ConfirmacionProducto extends React.Component {
                   Cancelar
                 </Button>
                 <Button
-                  color='google plus'
+                  color='blue'
                   type='submit'
                   disabled={!props.isValid}
                   form='formulario-unidades-gravables'>

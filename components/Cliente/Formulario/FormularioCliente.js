@@ -17,6 +17,7 @@ const FormularioCliente = ({
 }) => {
   const departamento = departamentos.find((departamento) => departamento.id_departamento === values.id_departamento);
   const municipios = departamento ? departamento.municipios : [];
+  const errorList = Object.keys(errors).map((error) => errors[error]);
 
   return (
     <Form
@@ -96,9 +97,13 @@ const FormularioCliente = ({
         status.mensaje &&
         <Message success={!status.error} error={status.error} content={status.mensaje} />
       }
+
       {
-        (errors.nit || errors.cui) &&
-        <Message error content={errors.nit || errors.cui} />
+        errorList.length > 0 &&
+        <Message
+          error
+          header='Errores de validación encontrados'
+          list={errorList} />
       }
     </Form>
   );

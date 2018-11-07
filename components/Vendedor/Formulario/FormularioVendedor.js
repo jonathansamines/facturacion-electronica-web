@@ -68,8 +68,11 @@ const FormularioVendedor = ({
     }
 
     {
-      (errors.nit || errors.cui) &&
-      <Message error content={errors.nit || errors.cui} />
+      Object.keys(errors).length > 0 &&
+      <Message
+        error
+        header='Errores de validación encontrados'
+        list={Object.values(errors)} />
     }
   </Form>
 );

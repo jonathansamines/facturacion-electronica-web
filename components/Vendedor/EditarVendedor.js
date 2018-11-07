@@ -76,7 +76,7 @@ class EditarVendedor extends React.Component {
                   Cancelar
                 </Button>
                 <Button
-                  color='google plus'
+                  color='blue'
                   type='submit'
                   loading={props.isSubmitting}
                   disabled={!props.isValid}

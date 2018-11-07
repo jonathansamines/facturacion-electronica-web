@@ -63,7 +63,7 @@ class App extends React.Component {
                   </Form.Field>
                   <Form.Field width='3'>
                     <label>&nbsp;</label>
-                    <Button color='google plus' fluid>Buscar</Button>
+                    <Button color='blue' fluid>Buscar</Button>
                   </Form.Field>
                 </Form.Group>
               </Form>

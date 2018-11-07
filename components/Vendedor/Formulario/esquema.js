@@ -5,5 +5,5 @@ export default Yup.object().shape({
   nit: Yup.string().required('El número de identificación tributaria es obligatorio'),
   nombre: Yup.string().required('El nombre del vendedor es obligatorio'),
   apellido: Yup.string(),
-  id_sucursal: Yup.number().required()
+  id_sucursal: Yup.number().nullable().required('La sucursal en la que el vendedor se encuentra es obligatoria')
 });

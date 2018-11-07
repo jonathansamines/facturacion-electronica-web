@@ -4,7 +4,7 @@ export function obtenerEsquemaUnidadesGravables(impuestos) {
 
   return impuestos.reduce((all, impuesto) => ({
     ...all,
-    [impuesto.id_impuesto]: Yup.number().required(),
+    [impuesto.id_impuesto]: Yup.number().required(`La unidad gravable es requerida para el impuesto ${impuesto.nombre_corto}`),
   }), {});
 }
 
