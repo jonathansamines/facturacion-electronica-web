@@ -96,6 +96,8 @@ class DetalleProductos extends React.Component {
         {
           productoPendiente &&
           <ConfirmacionProducto
+            moneda={moneda}
+            tipoCambio={tipoCambio}
             exportacion={exportacion}
             producto={productoPendiente}
             tipoDocumento={tipoDocumento}

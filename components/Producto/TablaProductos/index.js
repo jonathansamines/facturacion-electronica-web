@@ -48,6 +48,7 @@ class TablaProductos extends React.Component {
       unidadesGravables,
       montoGravable,
       impuestos,
+      precioUnitario,
     } = attrs;
 
     return (
@@ -55,6 +56,7 @@ class TablaProductos extends React.Component {
         key={producto.id_producto}
         moneda={moneda}
         producto={producto}
+        precioUnitario={precioUnitario}
         unidades={unidades}
         tipoCambio={tipoCambio}
         descuento={descuento}

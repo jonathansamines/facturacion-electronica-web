@@ -2,11 +2,10 @@ import React from 'react';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
-import { Segment, Button, Modal } from 'semantic-ui-react';
-import InformacionProducto from './InformacionProducto';
-import { obtenerUnidadesGravables } from '../../../lib/servicio-api';
-import { obtenerEsquemaUnidadesGravables, obtenerValoresPorDefectoUnidadesGravables }  from './../generador-esquema';
-import FormularioUnidadesGravables from '../FormularioUnidadesGravables';
+import { Button, Modal } from 'semantic-ui-react';
+import { obtenerUnidadesGravables } from '../../lib/servicio-api';
+import { obtenerEsquemaUnidadesGravables, obtenerValoresPorDefectoUnidadesGravables }  from './generador-esquema';
+import FormularioConfirmacionProducto from './FormularioConfirmacionProducto';
 
 class ConfirmacionProducto extends React.Component {
   state = {
@@ -38,7 +37,7 @@ class ConfirmacionProducto extends React.Component {
   }
 
   render() {
-    const { exportacion, producto, onCancelar } = this.props;
+    const { moneda, tipoCambio, exportacion, producto, onCancelar } = this.props;
     const { unidadesGravables } = this.state;
 
     const impuestosDisponiblesProducto = producto.tipo_producto.impuestos.filter(
@@ -46,7 +45,7 @@ class ConfirmacionProducto extends React.Component {
     );
 
     return (
-      <Modal open={true} size='tiny' onClose={onCancelar}>
+      <Modal open={true} size='small' onClose={onCancelar}>
         <Modal.Header>{producto.nombre}</Modal.Header>
         <Formik
           isInitialValid={impuestosDisponiblesProducto.length === 0}
@@ -66,20 +65,13 @@ class ConfirmacionProducto extends React.Component {
           {(props) => (
             <>
               <Modal.Content>
-                <p>{producto.descripcion}</p>
-
-                <Segment vertical>
-                  <InformacionProducto producto={producto} />
-                </Segment>
-
-                <Segment vertical>
-                  <FormularioUnidadesGravables
-                    {...props}
-                    producto={producto}
-                    exportacion={exportacion}
-                    impuestosDisponiblesProducto={impuestosDisponiblesProducto}
-                    unidadesGravables={unidadesGravables} />
-                </Segment>
+                <FormularioConfirmacionProducto
+                  formProps={props}
+                  moneda={moneda}
+                  tipoCambio={tipoCambio}
+                  producto={producto}
+                  exportacion={exportacion}
+                  unidadesGravables={unidadesGravables} />
               </Modal.Content>
               <Modal.Actions>
                 <Button onClick={onCancelar}>
@@ -89,8 +81,8 @@ class ConfirmacionProducto extends React.Component {
                   color='blue'
                   type='submit'
                   disabled={!props.isValid}
-                  form='formulario-unidades-gravables'>
-                  Agregar
+                  form='formulario-confirmacion-producto'>
+                  Confirmar
                 </Button>
               </Modal.Actions>
             </>
@@ -102,6 +94,8 @@ class ConfirmacionProducto extends React.Component {
 }
 
 ConfirmacionProducto.propTypes = {
+  moneda: PropTypes.object.isRequired,
+  tipoCambio: PropTypes.object.isRequired,
   exportacion: PropTypes.bool.isRequired,
   producto: PropTypes.object.isRequired,
   onCancelar: PropTypes.func.isRequired,

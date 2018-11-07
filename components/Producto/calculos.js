@@ -18,13 +18,13 @@ function calcularDetalleProductoPorUnidadGravable({ unidadGravable, precio, desc
 export function calcularDetalleProducto({ tipoCambio, moneda, descuento, producto, unidadesGravables, unidades }) {
   const tasaCambio = tipoCambio.tasa_cambio.find((tasa) => tasa.destino === moneda.id_moneda);
 
-  const precioProducto = (
+  const precioUnitario = (
     producto.id_moneda === moneda.id_moneda ?
       producto.precio :
       producto.precio * tasaCambio.valor
   );
 
-  const precio = (precioProducto * unidades);
+  const precio = (precioUnitario * unidades);
 
   const iniciales = [
     unidadesGravables.length === 0 ? precio - descuento : 0, // cuando no hay unidades gravables, calcular el valor inicial
@@ -43,7 +43,7 @@ export function calcularDetalleProducto({ tipoCambio, moneda, descuento, product
       [
         ...impuestos,
        {
-        montoImpuesto,
+        montoImpuesto: producto.id_moneda === moneda.id_moneda ? montoImpuesto : montoImpuesto * tasaCambio.valor,
         unidadGravable,
        }
       ]
@@ -53,6 +53,7 @@ export function calcularDetalleProducto({ tipoCambio, moneda, descuento, product
   return {
     impuestos,
     tasaCambio,
+    precioUnitario,
     montoGravable,
   };
 }

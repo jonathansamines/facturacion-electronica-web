@@ -30,6 +30,7 @@ const Tabla = (props) => {
       tasaCambio,
       impuestos,
       montoGravable,
+      precioUnitario
     } = calcularDetalleProducto({ moneda, producto, unidades, unidadesGravables, descuento, tipoCambio });
 
     const sumatoriaImpuestos = sumBy(impuestos, 'montoImpuesto');
@@ -48,6 +49,7 @@ const Tabla = (props) => {
       tasaCambio,
       impuestos: sumatoriaImpuestos,
       montoGravable,
+      precioUnitario,
     });
   });
 

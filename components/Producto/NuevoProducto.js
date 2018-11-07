@@ -13,7 +13,7 @@ const esquemaValidacion = Yup.object().shape({
   nombre: Yup.string().required('El nombre del producto es obligatorio'),
   descripcion: Yup.string().required('La descripción del producto es obligatoria'),
   marca: Yup.string().required('La marca es obligatoria'),
-  precio: Yup.number().required('El precio es obligatorio'),
+  precio: Yup.number().required('El precio unitario es obligatorio'),
   id_moneda: Yup.string().nullable().required('La moneda es obligatoria'),
   id_tipo_producto: Yup.number().nullable().required('El tipo de producto es obligatorio'),
   id_unidad_medida: Yup.string().nullable().required('La unidad de medida es obligatoria')
@@ -119,14 +119,14 @@ class NuevoProducto extends React.Component {
                           onChange={handleChange} />
                       </Form.Field>
                       <Form.Field required error={Boolean(errors.precio)}>
-                        <label>Precio</label>
+                        <label>Precio unitario</label>
                         <Input
                           name='precio'
                           type='number'
                           min={0}
                           icon='money bill alternate'
                           step={'0.000001'}
-                          placeholder='Precio'
+                          placeholder='Precio unitario'
                           value={values.precio}
                           onChange={handleChange} />
                       </Form.Field>

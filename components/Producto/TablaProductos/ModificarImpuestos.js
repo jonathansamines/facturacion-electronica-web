@@ -2,12 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import { Segment, Button, Modal } from 'semantic-ui-react';
-import TablaImpuestos from './TablaImpuestos';
-import InformacionProductoFactura from './InformacionProductoFactura';
-import FormularioUnidadesGravables from '../FormularioUnidadesGravables';
+import { Button, Modal } from 'semantic-ui-react';
+import FormularioConfirmacionProducto from '../FormularioConfirmacionProducto';
 import { obtenerUnidadesGravables } from '../../../lib/servicio-api';
-import { calcularDetalleProducto } from './../calculos';
 
 class ModificarImpuestos extends React.Component {
   state = {
@@ -56,8 +53,8 @@ class ModificarImpuestos extends React.Component {
     } = this.props;
 
     return (
-      <Modal open={true} size='tiny' onClose={this.cancelar}>
-        <Modal.Header>Modificar Impuestos</Modal.Header>
+      <Modal open={true} size='small' onClose={this.cancelar}>
+        <Modal.Header>{producto.nombre}</Modal.Header>
         <Formik
           isInitialValid={true}
           enableReinitialize={true}
@@ -85,71 +82,31 @@ class ModificarImpuestos extends React.Component {
           })}
 
           onSubmit={this.confirmar}>
-          {(props) => {
-            const { unidades, descuento, ...unidadesGravablesP } = props.values;
-
-            const unidadesGravablesProd = Object.keys(unidadesGravablesP).map((id_impuesto_unidad_gravable) => (
-              unidadesGravables.find((unidadGravable) => `${unidadGravable.id_unidad_gravable}${unidadGravable.id_impuesto}` === unidadesGravablesP[id_impuesto_unidad_gravable])
-            ))
-            .filter(u => u !== undefined);
-
-            const { impuestos, montoGravable } = calcularDetalleProducto({
-              moneda,
-              producto,
-              unidades,
-              descuento,
-              unidadesGravables: unidadesGravablesProd,
-              tipoCambio
-            });
-
-            const impuestosDisponiblesProducto = producto.tipo_producto.impuestos.filter(
-              (impuesto) => !!unidadesGravables.find((unidadGravable) => unidadGravable.id_impuesto === impuesto.id_impuesto)
-            );
-
-            return (
-              <>
-                <Modal.Content>
-                  <p>{producto.nombre}</p>
-                  <Segment vertical>
-                    <FormularioUnidadesGravables
-                      {...props}
-                      producto={producto}
-                      exportacion={exportacion}
-                      impuestosDisponiblesProducto={impuestosDisponiblesProducto}
-                      unidadesGravables={unidadesGravables} />
-                  </Segment>
-                  <Segment vertical>
-                    <InformacionProductoFactura
-                      moneda={moneda}
-                      producto={producto}
-                      impuestos={impuestos}
-                      montoGravable={montoGravable} />
-                  </Segment>
-                  {
-                    unidadesGravablesProd.length > 0 &&
-                    <Segment vertical>
-                      <TablaImpuestos
-                        moneda={moneda}
-                        producto={producto}
-                        impuestos={impuestos} />
-                    </Segment>
-                  }
-                </Modal.Content>
-                <Modal.Actions>
-                  <Button onClick={this.cancelar}>
-                    Cancelar
-                  </Button>
-                  <Button
-                    color='blue'
-                    type='submit'
-                    disabled={!props.isValid}
-                    form='formulario-unidades-gravables'>
-                    Confirmar
-                  </Button>
-                </Modal.Actions>
-              </>
-            );
-          }}
+          {(props) => (
+            <>
+              <Modal.Content>
+                <FormularioConfirmacionProducto
+                  formProps={props}
+                  moneda={moneda}
+                  tipoCambio={tipoCambio}
+                  producto={producto}
+                  exportacion={exportacion}
+                  unidadesGravables={unidadesGravables} />
+              </Modal.Content>
+              <Modal.Actions>
+                <Button onClick={this.cancelar}>
+                  Cancelar
+                </Button>
+                <Button
+                  color='blue'
+                  type='submit'
+                  disabled={!props.isValid}
+                  form='formulario-confirmacion-producto'>
+                  Actualizar
+                </Button>
+              </Modal.Actions>
+            </>
+          )}
         </Formik>
       </Modal>
     );
@@ -157,6 +114,7 @@ class ModificarImpuestos extends React.Component {
 }
 
 ModificarImpuestos.propTypes = {
+  tipoCambio: PropTypes.object.isRequired,
   descuento: PropTypes.number.isRequired,
   exportacion: PropTypes.bool.isRequired,
   moneda: PropTypes.object.isRequired,
@@ -164,6 +122,8 @@ ModificarImpuestos.propTypes = {
   tipoDocumento: PropTypes.object,
   unidades: PropTypes.number.isRequired,
   unidadesGravables: PropTypes.array.isRequired,
+  onConfirmar: PropTypes.func.isRequired,
+  onCancelar: PropTypes.func.isRequired,
 };
 
 export default ModificarImpuestos;

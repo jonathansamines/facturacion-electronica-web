@@ -44,6 +44,7 @@ class Articulo extends React.Component {
       producto,
       descuento,
       unidades,
+      precioUnitario,
       tipoCambio,
       exportacion,
       tipoDocumento,
@@ -62,10 +63,10 @@ class Articulo extends React.Component {
         <Table.Cell>{unidades}</Table.Cell>
         <Table.Cell>{producto.unidad_medida.descripcion}</Table.Cell>
         <Table.Cell>
-          <FormattedNumber style='currency' value={producto.precio} currency={moneda.id_moneda} />
+          <FormattedNumber style='currency' value={precioUnitario} currency={moneda.id_moneda} />
         </Table.Cell>
         <Table.Cell>
-          <FormattedNumber style='currency' value={producto.precio * unidades} currency={moneda.id_moneda} />
+          <FormattedNumber style='currency' value={precioUnitario * unidades} currency={moneda.id_moneda} />
         </Table.Cell>
         <Table.Cell>
           <FormattedNumber style='currency' value={descuento} currency={moneda.id_moneda} />
@@ -103,6 +104,7 @@ class Articulo extends React.Component {
 }
 
 Articulo.propTypes = {
+  precioUnitario: PropTypes.number.isRequired,
   tipoCambio: PropTypes.object.isRequired,
   producto: PropTypes.object.isRequired,
   moneda: PropTypes.object.isRequired,
