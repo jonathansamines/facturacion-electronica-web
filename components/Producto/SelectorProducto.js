@@ -30,7 +30,7 @@ class SelectorProducto extends React.Component {
           });
       });
     }
-  }, 400)
+  }, 200)
 
   render() {
     const {
