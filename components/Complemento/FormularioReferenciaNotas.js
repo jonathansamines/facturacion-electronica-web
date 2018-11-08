@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input, Select } from 'semantic-ui-react';
+import { Form, Input, Select, Message, TextArea } from 'semantic-ui-react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 
 const opcionesRegimen = [
@@ -19,14 +19,16 @@ const opcionesRegimen = [
 const FormularioReferenciasNotas = ({
   complemento,
   values,
+  errors,
+  isValid,
   handleChange,
   handleSubmit,
   setFieldValue,
 }) => (
-  <Form id='formulario-retenciones-factura-especial' onSubmit={handleSubmit}>
+  <Form id='formulario-complemento' autoComplete='off' error={!isValid} onSubmit={handleSubmit}>
     <h3>{complemento.descripcion}</h3>
     <Form.Group widths='equal'>
-      <Form.Field required={complemento.requerido}>
+      <Form.Field required={complemento.requerido} error={errors.regimen}>
         <label>Régimen del Documento</label>
         <Select
           name='regimen'
@@ -37,7 +39,7 @@ const FormularioReferenciasNotas = ({
           value={values.regimen}
           onChange={(event, data) => setFieldValue('regimen', data.value)} />
       </Form.Field>
-      <Form.Field required={complemento.requerido}>
+      <Form.Field required={complemento.requerido} error={errors.numero_autorizacion}>
         <label>Número de autorización</label>
         <Input
           name='numero_autorizacion'
@@ -48,7 +50,9 @@ const FormularioReferenciasNotas = ({
           value={values.numero_autorizacion}
           onChange={handleChange} />
       </Form.Field>
-      <Form.Field required={complemento.requerido}>
+    </Form.Group>
+    <Form.Group widths='equal'>
+      <Form.Field required={complemento.requerido} errors={errors.fecha_emision}>
         <label>Fecha de emisión</label>
         <DayPickerInput
           placeholder='Seleccione una fecha'
@@ -58,17 +62,8 @@ const FormularioReferenciasNotas = ({
           })}
           onDayChange={(diaSeleccionado) => setFieldValue('fecha_emision', diaSeleccionado)} />
       </Form.Field>
-      <Form.Field required={complemento.requerido}>
-        <label>Motivo del ajuste</label>
-        <Input
-          name='motivo_ajuste'
-          type='text'
-          placeholder='Detalle del motivo del ajuste'
-          value={values.motivo_ajuste}
-          onChange={handleChange} />
-      </Form.Field>
-      <Form.Field required={complemento.requerido}>
-        <label>Número de Serie del documento de orígen</label>
+      <Form.Field required={complemento.requerido} error={Boolean(errors.numero_serie)}>
+        <label>Serie del documento de orígen</label>
         <Input
           name='numero_serie'
           type='text'
@@ -76,8 +71,8 @@ const FormularioReferenciasNotas = ({
           value={values.numero_serie}
           onChange={handleChange} />
       </Form.Field>
-      <Form.Field required={complemento.requerido}>
-        <label>Número de del documento de orígen</label>
+      <Form.Field required={complemento.requerido} error={Boolean(errors.numero_documento)}>
+        <label>Número del documento de orígen</label>
         <Input
           name='numero_documento'
           type='text'
@@ -86,12 +81,31 @@ const FormularioReferenciasNotas = ({
           onChange={handleChange} />
       </Form.Field>
     </Form.Group>
+    <Form.Group widths='equal'>
+      <Form.Field required={complemento.requerido} error={Boolean(errors.motivo_ajuste)}>
+        <label>Motivo del ajuste</label>
+        <TextArea
+          name='motivo_ajuste'
+          placeholder='Detalle del motivo del ajuste'
+          value={values.motivo_ajuste}
+          onChange={handleChange} />
+      </Form.Field>
+    </Form.Group>
+    {
+      Object.keys(errors).length > 0 &&
+      <Message
+        error
+        header='Errores de validación encontrados'
+        list={Object.values(errors)} />
+    }
   </Form>
 );
 
 
 FormularioReferenciasNotas.propTypes = {
   values: PropTypes.object,
+  errors: PropTypes.object,
+  isValid: PropTypes.bool,
   complemento: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   setFieldValue: PropTypes.func.isRequired,

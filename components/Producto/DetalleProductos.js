@@ -1,33 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
-import { Form, Segment } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 import NuevoProducto from './NuevoProducto';
 import TablaProductos from './TablaProductos';
 import SelectorProducto from './SelectorProducto';
 import ConfirmacionProducto from './ConfirmacionProducto';
-import { TiposFrase } from './../Frases';
-import { Complementos } from './../Complemento';
-import { obtenerTipoDocumentoPorId } from './../../lib/servicio-api';
 
 class DetalleProductos extends React.Component {
   state = {
     productos: [],
-    tipoDocumento: null,
     nuevoProducto: null,
     productoPendiente: null,
     productosEnCatalogo: [],
-  }
-
-  componentDidMount() {
-    const parametros = {
-      idTipoDocumento: this.props.tipoDocumento.id_tipo_documento
-    };
-
-    return obtenerTipoDocumentoPorId(parametros)
-      .then((tipoDocumento) => {
-        this.setState({ tipoDocumento });
-      });
   }
 
   agregarProducto = (values, actions) => {
@@ -82,10 +67,9 @@ class DetalleProductos extends React.Component {
   }
 
   render() {
-    const { onTipoFraseSeleccionado, tipoCambio, moneda, exportacion } = this.props;
+    const { tipoDocumento, tipoCambio, moneda, exportacion } = this.props;
     const {
       productos,
-      tipoDocumento,
       nuevoProducto,
       productoPendiente,
       productosEnCatalogo,
@@ -143,22 +127,6 @@ class DetalleProductos extends React.Component {
           exportacion={exportacion}
           tipoDocumento={tipoDocumento}
           onProductosModificados={this.actualizarProductos}/>
-
-        {
-          tipoDocumento &&
-          <Segment vertical padded='very'>
-            <TiposFrase tiposFrase={tipoDocumento.tipos_frase} onSeleccion={onTipoFraseSeleccionado} />
-          </Segment>
-        }
-
-        {
-          tipoDocumento &&
-          <Segment vertical padded='very'>
-            <Complementos
-              exportacion={exportacion}
-              complementos={tipoDocumento.complementos} />
-          </Segment>
-        }
       </>
     );
   }
@@ -169,7 +137,6 @@ DetalleProductos.propTypes = {
   moneda: PropTypes.object.isRequired,
   tipoCambio: PropTypes.object.isRequired,
   tipoDocumento: PropTypes.object,
-  onTipoFraseSeleccionado: PropTypes.func,
 };
 
 export default DetalleProductos

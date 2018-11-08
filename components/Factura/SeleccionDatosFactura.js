@@ -67,8 +67,6 @@ class SeleccionDatosFactura extends React.Component {
     }));
   }
 
-  generarFactura = () => null;
-
   crearVendedor = (event, { value }) => {
     this.setState({ nuevoVendedor: { nombre: value } });
   }
@@ -105,6 +103,7 @@ class SeleccionDatosFactura extends React.Component {
       sucursales,
       exportacion,
       tipoDocumento,
+      onFacturacion,
     } = this.props;
 
     const clientesDisponibles = this.obtenerClientesDisponibles(clientes, exportacion, tipoDocumento);
@@ -140,7 +139,7 @@ class SeleccionDatosFactura extends React.Component {
             id_vendedor: null,
             fecha_factura: startOfToday(new Date()),
           })}
-          onSubmit={this.generarFactura}>
+          onSubmit={onFacturacion}>
           {({ isValid, setFieldValue, handleSubmit, values }) => (
             <Form onSubmit={handleSubmit}>
               <Form.Group>
@@ -190,7 +189,7 @@ class SeleccionDatosFactura extends React.Component {
                 </Form.Field>
                 <Form.Field width='2'>
                   <label>&nbsp;</label>
-                  <Button color='blue'  disabled={!isValid} fluid>Facturar</Button>
+                  <Button color='blue' type='submit' disabled={!isValid} fluid>Facturar</Button>
                 </Form.Field>
               </Form.Group>
             </Form>
@@ -206,7 +205,8 @@ SeleccionDatosFactura.propTypes = {
   exportacion: PropTypes.bool,
   hayProductos: PropTypes.bool,
   sucursales: PropTypes.array,
-  onSeleccion: PropTypes.func.isRequired
+  onSeleccion: PropTypes.func.isRequired,
+  onFacturacion: PropTypes.func.isRequired
 };
 
 export default SeleccionDatosFactura;

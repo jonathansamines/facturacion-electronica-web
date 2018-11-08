@@ -6,6 +6,7 @@ import { Icon, Checkbox, Button, Modal, Form } from 'semantic-ui-react';
 import SelectorMoneda from '../SelectorMoneda';
 import SelectorSucursal from '../SelectorSucursal';
 import SelectorTipoDocumento from './SelectorTipoDocumento';
+import { obtenerTipoDocumentoPorId } from './../../lib/servicio-api';
 
 const esquemaValidacion = Yup.object().shape({
   id_moneda: Yup.string().required(),
@@ -30,15 +31,22 @@ class ConfiguracionFactura extends React.Component {
     const sucursal = sucursales.find((sucursal) => sucursal.id_sucursal === values.id_sucursal);
     const tipoDocumento = tiposDocumentos.find((tipoDocumento) => tipoDocumento.id_tipo_documento === values.id_tipo_documento);
 
-    return this.setState(
-      { abierto: false },
-      () => this.props.onConfirmacion({
-        moneda,
-        sucursal,
-        tipoDocumento,
-        exportacion: values.exportacion
-      })
-    );
+    const parametros = {
+      idTipoDocumento: tipoDocumento.id_tipo_documento,
+    };
+
+    return this.setState({ abierto: false }, () => {
+      return obtenerTipoDocumentoPorId(parametros)
+        .then((tipoDocumento) => {
+
+          this.props.onConfirmacion({
+            moneda,
+            sucursal,
+            tipoDocumento,
+            exportacion: values.exportacion
+          })
+        });
+    });
   }
 
   obtenerTiposDocumentosValidos = (tiposDocumentos, exportacion) => {

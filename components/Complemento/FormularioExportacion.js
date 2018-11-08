@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input } from 'semantic-ui-react';
+import { Form, Input, Message, TextArea } from 'semantic-ui-react';
 import SelectorCondicionesEntrega from './SelectorCondicionesEntrega';
 import { obtenerCondicionesEntrega } from '../../lib/servicio-api';
 
@@ -19,16 +19,18 @@ class FormularioExportacion extends React.Component {
     const {
       complemento,
       values,
+      errors,
+      isValid,
       handleChange,
       handleSubmit,
       setFieldValue
     } = this.props;
 
     return (
-      <Form id='formulario-exportacion' onSubmit={handleSubmit}>
+      <Form id='formulario-complemento' autoComplete='off' errors={!isValid} onSubmit={handleSubmit}>
         <h3>{complemento.descripcion}</h3>
         <Form.Group widths='equal'>
-          <Form.Field required={complemento.requerido}>
+          <Form.Field required={complemento.requerido} error={Boolean(errors.nombre_consignatario)}>
             <label>Nombre consignatario</label>
             <Input
               name='nombre_consignatario'
@@ -37,7 +39,7 @@ class FormularioExportacion extends React.Component {
               value={values.nombre_consignatario}
               onChange={handleChange} />
           </Form.Field>
-          <Form.Field required={complemento.requerido}>
+          <Form.Field required={complemento.requerido} error={Boolean(errors.codigo_consignatario)}>
             <label>Código consignatario</label>
             <Input
               name='codigo_consignatario'
@@ -46,18 +48,19 @@ class FormularioExportacion extends React.Component {
               value={values.codigo_consignatario}
               onChange={handleChange} />
           </Form.Field>
-          <Form.Field required={complemento.requerido}>
+        </Form.Group>
+        <Form.Group widths='equal'>
+          <Form.Field required={complemento.requerido} error={Boolean(errors.direccion_consignatario)}>
             <label>Dirección consignatario</label>
-            <Input
+            <TextArea
               name='direccion_consignatario'
-              type='text'
               placeholder='Dirección del consignatario'
               value={values.direccion_consignatario}
               onChange={handleChange} />
           </Form.Field>
         </Form.Group>
         <Form.Group widths='equal'>
-          <Form.Field required={complemento.requerido}>
+          <Form.Field required={complemento.requerido} error={Boolean(errors.nombre_comprador)}>
             <label>Nombre del comprador</label>
             <Input
               name='nombre_comprador'
@@ -66,16 +69,7 @@ class FormularioExportacion extends React.Component {
               value={values.nombre_comprador}
               onChange={handleChange} />
           </Form.Field>
-          <Form.Field required={complemento.requerido}>
-            <label>Dirección del Comprador</label>
-            <Input
-              name='direccion_comprador'
-              type='text'
-              placeholder='Dirección del comprador'
-              value={values.direccion_comprador}
-              onChange={handleChange} />
-          </Form.Field>
-          <Form.Field required={complemento.requerido}>
+          <Form.Field required={complemento.requerido} error={Boolean(errors.codigo_comprador)}>
             <label>Código del comprador</label>
             <Input
               name='codigo_comprador'
@@ -84,7 +78,9 @@ class FormularioExportacion extends React.Component {
               value={values.codigo_comprador}
               onChange={handleChange} />
           </Form.Field>
-          <Form.Field required={complemento.requerido}>
+        </Form.Group>
+        <Form.Group widths='equal'>
+          <Form.Field required={complemento.requerido} error={Boolean(errors.otra_referencia)}>
             <label>Otra referencia</label>
             <Input
               name='otra_referencia'
@@ -95,7 +91,17 @@ class FormularioExportacion extends React.Component {
           </Form.Field>
         </Form.Group>
         <Form.Group widths='equal'>
-          <Form.Field required={complemento.requerido}>
+          <Form.Field required={complemento.requerido} error={Boolean(errors.direccion_comprador)}>
+            <label>Dirección del Comprador</label>
+            <TextArea
+              name='direccion_comprador'
+              placeholder='Dirección del comprador'
+              value={values.direccion_comprador}
+              onChange={handleChange} />
+          </Form.Field>
+        </Form.Group>
+        <Form.Group widths='equal'>
+          <Form.Field required={complemento.requerido} error={Boolean(errors.nombre_exportador)}>
             <label>Nombre exportador</label>
             <Input
               name='nombre_exportador'
@@ -104,7 +110,7 @@ class FormularioExportacion extends React.Component {
               value={values.nombre_exportador}
               onChange={handleChange} />
           </Form.Field>
-          <Form.Field required={complemento.requerido}>
+          <Form.Field required={complemento.requerido} error={Boolean(errors.codigo_exportador)}>
             <label>Código exportador</label>
             <Input
               name='codigo_exportador'
@@ -113,7 +119,9 @@ class FormularioExportacion extends React.Component {
               value={values.codigo_exportador}
               onChange={handleChange} />
           </Form.Field>
-          <Form.Field required={complemento.requerido}>
+        </Form.Group>
+        <Form.Group widths='equal'>
+          <Form.Field required={complemento.requerido} error={Boolean(errors.condicion_entrega)}>
             <label>Condición de entrega</label>
             <SelectorCondicionesEntrega
               name='condicion_entrega'
@@ -122,6 +130,13 @@ class FormularioExportacion extends React.Component {
               onSeleccion={() => setFieldValue('condicion_entrega', values.condicion_entrega)} />
           </Form.Field>
         </Form.Group>
+        {
+          Object.keys(errors).length > 0 &&
+          <Message
+            error
+            header='Errores de validación encontrados'
+            list={Object.values(errors)} />
+        }
       </Form>
     );
   }
@@ -129,6 +144,8 @@ class FormularioExportacion extends React.Component {
 
 FormularioExportacion.propTypes = {
   values: PropTypes.object,
+  errors: PropTypes.object,
+  isValid: PropTypes.bool,
   complemento: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,

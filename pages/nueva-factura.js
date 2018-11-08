@@ -9,7 +9,7 @@ import { DatosCliente } from './../components/Cliente';
 import { DatosVendedor } from './../components/Vendedor';
 import { DetalleProductos } from '../components/Producto';
 import { ConfiguracionFactura } from './../components/ConfiguracionFactura';
-import { DatosFactura, SeleccionDatosFactura } from './../components/Factura';
+import { ConfirmacionFactura, DatosFactura, SeleccionDatosFactura } from './../components/Factura';
 import { esSesionValida } from './../lib/credenciales';
 import { obtenerMonedas, obtenerUsuarioLogueado, obtenerAfiliacionIva, obtenerTipoCambioDia } from './../lib/servicio-api';
 
@@ -19,6 +19,7 @@ class PaginaNuevaFactura extends React.Component {
     cliente: null,
     vendedor: null,
     tiposFrase: null,
+    confirmandoFacturacion: false
   }
 
   static async getInitialProps({ req, res }) {
@@ -47,11 +48,15 @@ class PaginaNuevaFactura extends React.Component {
 
   configurarSeleccion = ({ cliente, vendedor }) => this.setState({ cliente, vendedor });
 
-  configurarTiposFrase = (tiposFrase) => this.setState({ tiposFrase });
+  iniciarFacturacion = () => this.setState({ confirmandoFacturacion: true })
+
+  cancelarFacturacion = () => this.setState({ confirmandoFacturacion: false })
+
+  confirmarFacturacion = () => null
 
   render() {
     const { usuario, monedas, afiliacionIVA, tipoCambio } = this.props;
-    const { opciones, vendedor, cliente } = this.state;
+    const { opciones, vendedor, cliente, confirmandoFacturacion } = this.state;
 
     return (
       <>
@@ -64,11 +69,21 @@ class PaginaNuevaFactura extends React.Component {
             {
               opciones &&
               <SeleccionDatosFactura
-                hayProductos={false}
+                hayProductos={true}
                 tipoDocumento={opciones.tipoDocumento}
                 exportacion={opciones.exportacion}
                 sucursales={usuario.empresa.sucursales}
-                onSeleccion={this.configurarSeleccion} />
+                onSeleccion={this.configurarSeleccion}
+                onFacturacion={this.iniciarFacturacion} />
+            }
+
+            {
+              confirmandoFacturacion &&
+              <ConfirmacionFactura
+                tipoDocumento={opciones.tipoDocumento}
+                exportacion={opciones.exportacion}
+                onCancelar={this.cancelarFacturacion}
+                onConfirmacion={this.confirmarFacturacion} />
             }
           </Segment>
 
@@ -100,11 +115,14 @@ class PaginaNuevaFactura extends React.Component {
                 tipoCambio={tipoCambio}
                 moneda={opciones.moneda}
                 exportacion={opciones.exportacion}
-                tipoDocumento={opciones.tipoDocumento}
-                onTipoFraseSeleccionado={this.configurarTiposFrase} />
+                tipoDocumento={opciones.tipoDocumento} />
             }
           </Segment>
         </Main>
+
+        {
+
+        }
 
         <ConfiguracionFactura
           monedas={monedas}

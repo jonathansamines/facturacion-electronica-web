@@ -12,7 +12,7 @@ class TiposFrase extends React.Component {
     return Yup.object().shape({
       ...(tiposFrase.reduce((resultado, tipoFrase) => ({
         ...resultado,
-        [tipoFrase.id_tipo_frase]: Yup.number().required(),
+        [tipoFrase.id_tipo_frase]: tipoFrase.requerido ? Yup.number().nullable().required() : Yup.number().nullable(),
       }), {}))
     });
   }
@@ -28,8 +28,7 @@ class TiposFrase extends React.Component {
     }
   }
 
-  seleccionarTipoFrase(values) {
-
+  seleccionarTipoFrase = (values) => {
     const { tiposFrase, onSeleccion } = this.props;
 
     const tiposFraseSeleccionados = Object.keys(values).map((idTipoFrase) => (
@@ -47,21 +46,22 @@ class TiposFrase extends React.Component {
         validationSchema={this.obtenerEsquemaValidacion()}
         initialValues={this.obtenerValoresPorDefecto()}
         onSubmit={this.seleccionarTipoFrase}>
-          {({ values, handleSubmit, setFieldValue }) => (
-          <Form onSubmit={handleSubmit}>
-            <Form.Group widths='equal'>
-              {tiposFrase.map((tipoFrase) => (
-                <Form.Field key={tipoFrase.id_tipo_frase} required={tipoFrase.requerido}>
-                  <label>{tipoFrase.descripcion}</label>
-                  <SelectorFrase
-                    name={`${tipoFrase.id_tipo_frase}`}
-                    tipoFrase={tipoFrase}
-                    frases={tipoFrase.frases}
-                    fraseSeleccionada={values[tipoFrase.id_tipo_frase]}
-                    onSeleccion={(event, data) => setFieldValue(`${tipoFrase.id_tipo_frase}`, data.value)} />
-                </Form.Field>
-              ))}
-            </Form.Group>
+          {({ values, errors, isValid, handleSubmit, setFieldValue }) => (
+          <Form id='formulario-seleccion-frase' errors={!isValid} onSubmit={handleSubmit}>
+            {tiposFrase.map((tipoFrase) => (
+              <Form.Field
+                key={tipoFrase.id_tipo_frase}
+                required={tipoFrase.requerido}
+                error={Boolean(errors[`${tipoFrase.id_tipo_frase}`])}>
+                <label>{tipoFrase.descripcion}</label>
+                <SelectorFrase
+                  name={`${tipoFrase.id_tipo_frase}`}
+                  tipoFrase={tipoFrase}
+                  frases={tipoFrase.frases}
+                  fraseSeleccionada={values[tipoFrase.id_tipo_frase]}
+                  onSeleccion={(event, data) => setFieldValue(`${tipoFrase.id_tipo_frase}`, data.value)} />
+              </Form.Field>
+            ))}
           </Form>
         )}
       </Formik>
