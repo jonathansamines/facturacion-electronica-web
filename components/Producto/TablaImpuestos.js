@@ -11,7 +11,6 @@ const TablaImpuestos = ({
     <Table.Body>
       {
         impuestos
-          .filter((impuesto) => impuesto.unidadGravable !== null)
           .map(({ unidadGravable, montoImpuesto }) => (
           <Table.Row key={`${unidadGravable.id_impuesto}${unidadGravable.id_unidad_gravable}`}>
             <Table.Cell>{unidadGravable.nombre_corto}:</Table.Cell>

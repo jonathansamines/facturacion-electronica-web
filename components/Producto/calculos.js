@@ -28,10 +28,7 @@ export function calcularDetalleProducto({ tipoCambio, moneda, descuento, product
 
   const iniciales = [
     unidadesGravables.length === 0 ? precio - descuento : 0, // cuando no hay unidades gravables, calcular el valor inicial
-    [{
-      montoImpuesto: 0,
-      unidadGravable: null
-    }]
+    []
   ];
 
   let [montoGravable, impuestos] = unidadesGravables.reduce(([, impuestos], unidadGravable) => {
