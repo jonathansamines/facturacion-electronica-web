@@ -19,13 +19,13 @@ class ConfirmacionFactura extends React.Component {
 
   configurarFrases = (next) => {
     return (frases) => {
-      this.setState({ frases }, () => next());
+      this.setState({ frases, errores: [] }, () => next());
     };
   };
 
   configurarComplemento = (next) => {
     return (complemento) => {
-      this.setState({ complemento }, () => next());
+      this.setState({ complemento, errores: [] }, () => next());
     };
   };
 
@@ -146,6 +146,8 @@ class ConfirmacionFactura extends React.Component {
         id_moneda: factura.moneda.id_moneda,
         id_cliente: factura.cliente.id_cliente,
         id_tipo_documento: tipoDocumento.id_tipo_documento,
+        id_vendedor: factura.vendedor.id_vendedor,
+        id_sucursal: factura.sucursal.id_sucursal,
         exportacion,
         fecha_emision: factura.fechaEmision,
         frases,
@@ -153,7 +155,7 @@ class ConfirmacionFactura extends React.Component {
         complementos
       };
 
-      this.setState({ creando: true }, () => {
+      this.setState({ creando: true, errores: [] }, () => {
 
         return generarFactura({ factura: recurso })
           .then(() => (
@@ -185,8 +187,10 @@ class ConfirmacionFactura extends React.Component {
     };
   }
 
+  resetear = () => this.setState({ creando: false, errores: [] })
+
   render() {
-    const { onConfirmar, onCancelar }  = this.props;
+    const { onConfirmacion, onCancelar }  = this.props;
     const { creando } = this.state;
 
     return (
@@ -238,7 +242,7 @@ class ConfirmacionFactura extends React.Component {
                 {/* Boton terminar */}
                 {
                   steps.indexOf(step) === steps.length - 1 && (
-                    <Button color='blue' loading={creando} onClick={onConfirmar}>
+                    <Button color='blue' loading={creando} onClick={onConfirmacion}>
                       Aceptar
                     </Button>
                   )
@@ -258,7 +262,7 @@ ConfirmacionFactura.propTypes = {
   tipoDocumento: PropTypes.object.isRequired,
   tipoCambio: PropTypes.object.isRequired,
   onCancelar: PropTypes.func.isRequired,
-  onConfirmar: PropTypes.func.isRequired,
+  onConfirmacion: PropTypes.func.isRequired,
 };
 
 export default ConfirmacionFactura;

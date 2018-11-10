@@ -53,9 +53,6 @@ const FormularioReferenciasNotas = ({
         <label>Número de autorización</label>
         <Input
           name='numero_autorizacion'
-          type='number'
-          min={1}
-          step={0.00001}
           placeholder='Ingrese el número de autorización del documento'
           value={values.numero_autorizacion}
           onChange={handleChange} />

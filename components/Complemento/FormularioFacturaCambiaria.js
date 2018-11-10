@@ -15,6 +15,16 @@ const FormularioFacturaCambiaria = ({
   <Form id='formulario-complemento' autoComplete='off' error={!isValid} onSubmit={handleSubmit}>
     <h3>{complemento.descripcion}</h3>
     <Form.Group widths='equal'>
+      <Form.Field required={complemento.requerido} error={Boolean(errors.numero_abono)}>
+        <label>Número de abono</label>
+        <Input
+          name='numero_abono'
+          type='number'
+          min={1}
+          placeholder='Número de abono'
+          value={values.numero_abono}
+          onChange={handleChange} />
+      </Form.Field>
       <Form.Field required={complemento.requerido} error={Boolean(errors.monto_abono)}>
         <label>Monto abono</label>
         <Input

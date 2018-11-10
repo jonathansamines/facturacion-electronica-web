@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
-import { Icon, Menu, Container, Header, Segment, Dropdown } from 'semantic-ui-react';
+import { Menu, Container, Header, Segment, Dropdown } from 'semantic-ui-react';
 import Logo from './../components/Logo';
 
 const Main = ({ router, children, usuario }) => {

@@ -112,6 +112,7 @@ class Complementos extends React.Component {
                   key={complemento.id_complemento}
                   validationSchema={
                     Yup.object().shape({
+                      numero_abono: Yup.number(),
                       monto_abono: Yup.number(),
                       fecha_vencimiento: Yup.string(),
                     })
@@ -120,6 +121,7 @@ class Complementos extends React.Component {
                     Object.assign(
                       {},
                       {
+                        numero_abono: 0,
                         monto_abono: 0,
                         fecha_vencimiento: startOfToday(),
                       },

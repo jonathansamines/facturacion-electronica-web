@@ -52,7 +52,10 @@ class PaginaNuevaFactura extends React.Component {
 
   cancelarFacturacion = () => this.setState({ confirmandoFacturacion: false })
 
-  confirmarFacturacion = () => null
+  confirmarFacturacion = () => {
+
+    return Router.push('/');
+  }
 
   actualizarProductos = ({ productos }) => this.setState({ productos });
 
@@ -95,6 +98,7 @@ class PaginaNuevaFactura extends React.Component {
                   vendedor,
                   cliente,
                   fechaEmision,
+                  sucursal: opciones.sucursal
                 }}
                 tipoCambio={tipoCambio}
                 tipoDocumento={opciones.tipoDocumento}

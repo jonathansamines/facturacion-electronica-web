@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import Main from './../layouts/Main';
+import pProps from 'p-props';
 import { Formik } from 'formik';
-import { Form, Select, Button } from 'semantic-ui-react';
+import { Form, Input, Button } from 'semantic-ui-react';
 import { startOfToday } from 'date-fns';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { esSesionValida } from './../lib/credenciales';
-import { obtenerUsuarioLogueado } from './../lib/servicio-api'
+import { obtenerUsuarioLogueado, obtenerFacturas } from './../lib/servicio-api'
 import { TablaFacturas } from './../components/Factura';
 
 class App extends React.Component {
@@ -16,13 +17,14 @@ class App extends React.Component {
       return res.redirect('/iniciar-sesion');
     }
 
-    return {
-      usuario: await obtenerUsuarioLogueado({ req })
-    };
+    return pProps({
+      usuario: obtenerUsuarioLogueado({ req }),
+      facturas: obtenerFacturas({ req }),
+    });
   }
 
   render() {
-    const { usuario } = this.props;
+    const { facturas, usuario } = this.props;
 
     return (
       <>
@@ -32,12 +34,12 @@ class App extends React.Component {
         <Main usuario={usuario}>
           <Formik
             initialValues={({
-              busqueda: null,
+              busqueda: '',
               fecha_factura: startOfToday(new Date()),
             })}
             onSubmit={this.seleccionarInformacion}>
-            {({ setFieldValue, handleSubmit, values }) => (
-              <Form onSubmit={handleSubmit}>
+            {({ setFieldValue, handleChange, handleSubmit, values }) => (
+              <Form onSubmit={handleSubmit} autoComplete='off'>
                 <Form.Group>
                   <Form.Field width='3'>
                     <label>Fecha Factura</label>
@@ -51,25 +53,23 @@ class App extends React.Component {
                   </Form.Field>
                   <Form.Field width='10'>
                     <label>Busqueda</label>
-                    <Select
-                      search
+
+                    <Input
                       name='busqueda'
-                      selectOnBlur={false}
-                      selectOnNavigation={false}
-                      placeholder='Buscar factura (Número de autorización, descripción o cliente'
-                      noResultsMessage='Factura no encontrada'
-                      options={[]}
-                      value={null} />
+                      icon='search'
+                      placeholder='Buscar factura (Número de autorización o cliente)'
+                      value={values.busqueda}
+                      onChange={handleChange} />
                   </Form.Field>
                   <Form.Field width='3'>
                     <label>&nbsp;</label>
-                    <Button color='blue' fluid>Buscar</Button>
+                    <Button color='blue' type='submit' fluid>Buscar</Button>
                   </Form.Field>
                 </Form.Group>
               </Form>
             )}
           </Formik>
-          <TablaFacturas />
+          <TablaFacturas facturas={facturas} />
         </Main>
       </>
     );
@@ -77,7 +77,8 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  usuario: PropTypes.object
+  usuario: PropTypes.object,
+  facturas: PropTypes.array,
 };
 
 export default App;

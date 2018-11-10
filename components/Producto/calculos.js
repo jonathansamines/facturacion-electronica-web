@@ -1,11 +1,15 @@
-function calcularDetalleProductoPorUnidadGravable({ unidadGravable, precio, descuento, unidades }) {
+function calcularDetalleProductoPorUnidadGravable({ unidadGravable, precio, descuento, unidades, moneda, tasaCambio }) {
   // 1.12 es un factor independiente del impuesto (ya que todos incluyen el iva)
   // Cuando el valor de la unidad gravable es 0, es porque el producto no incluye el valor del impuesto en su precio
   const montoGravable = unidadGravable.valor === 0 ? (precio - descuento) : (precio - descuento) / 1.12;
 
   const montoImpuesto = (
     unidadGravable.tipo_valor === 'FIJO' ?
-      unidades * unidadGravable.valor :
+
+      // Para montos fijos, tenemos que convertir el valor
+      unidades * (moneda.id_moneda === unidadGravable.id_moneda ? unidadGravable.valor : unidadGravable.valor * tasaCambio.valor) :
+
+      // Para porcentajes, está bien utilizar el valor original
       montoGravable * unidadGravable.valor / 100
   );
 
@@ -33,14 +37,14 @@ export function calcularDetalleProducto({ tipoCambio, moneda, descuento, product
 
   let [montoGravable, impuestos] = unidadesGravables.reduce(([, impuestos], unidadGravable) => {
 
-    const { montoGravable, montoImpuesto } = calcularDetalleProductoPorUnidadGravable({ unidadGravable, precio, descuento, unidades });
+    const { montoGravable, montoImpuesto } = calcularDetalleProductoPorUnidadGravable({ unidadGravable, precio, descuento, unidades, moneda, tasaCambio });
 
     return [
       montoGravable,
       [
         ...impuestos,
        {
-        montoImpuesto: producto.id_moneda === moneda.id_moneda ? montoImpuesto : montoImpuesto * tasaCambio.valor,
+        montoImpuesto,
         unidadGravable,
        }
       ]
