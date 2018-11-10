@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import sumBy from 'lodash/sumBy';
 import { Wizard, Steps, Step } from 'react-albus';
-import { Button, Modal } from 'semantic-ui-react';
+import { Message, Button, Modal } from 'semantic-ui-react';
 import { TiposFrase } from './../Frases';
 import { Complementos } from './../Complemento';
 import ResumenFactura from './ResumenFactura';
@@ -11,8 +11,10 @@ import { generarFactura } from './../../lib/servicio-api';
 
 class ConfirmacionFactura extends React.Component {
   state = {
-    frases: null,
+    frases: [],
     complemento: null,
+    creando: false,
+    errores: []
   }
 
   configurarFrases = (next) => {
@@ -30,6 +32,8 @@ class ConfirmacionFactura extends React.Component {
   obtenerPasos = ({ next }) => {
     const pasos = [];
 
+    const { frases, complemento, errores } = this.state;
+
     const { factura, tipoDocumento, exportacion, tipoCambio }  = this.props;
     const complementos = tipoDocumento.complementos.filter((complemento) => {
       if (complemento.id_complemento === 1 && !exportacion) return false;
@@ -42,6 +46,7 @@ class ConfirmacionFactura extends React.Component {
         <Step key='seleccion-frase' id='formulario-seleccion-frase' siguiente='Confirmar frase'>
           <h3>Selección de Frase</h3>
           <TiposFrase
+            frasesSeleccionadas={frases}
             tiposFrase={tipoDocumento.tipos_frase}
             onSeleccion={this.configurarFrases(next)} />
         </Step>
@@ -52,6 +57,7 @@ class ConfirmacionFactura extends React.Component {
       pasos.push(
         <Step key='complemento' id='formulario-complemento' siguiente='Confirmar complemento'>
           <Complementos
+            complementoSeleccionado={complemento}
             complementos={complementos}
             onConfirmar={this.configurarComplemento(next)} />
         </Step>
@@ -78,18 +84,24 @@ class ConfirmacionFactura extends React.Component {
     pasos.push(
       <Step key='previsualizacion' id='formulario-confirmacion' siguiente='Generar Factura'>
         Estamos a punto de terminar, por favor revise la información:
+
         <ResumenFactura
           moneda={factura.moneda}
           totalMontoGravable={totalMontoGravable}
           totalImpuestos={totalImpuestos}
           totalDescuento={totalDescuento}
           onConfirmacion={this.generarFactura(next)} />
+
+        {
+          errores.length > 0 &&
+          <Message header='Hubo un error al crear el documento' list={errores} error />
+        }
       </Step>
     );
 
     pasos.push(
       <Step key='resultado' id='resultado'>
-        Finalizado con errores o exito rotundo
+        Documento creando correctamente
       </Step>
     );
 
@@ -102,7 +114,7 @@ class ConfirmacionFactura extends React.Component {
       event.preventDefault();
 
       const { exportacion, factura, tipoDocumento } = this.props;
-      const { frases: frasesSeleccionadas, complementos: complementosSeleccionados } = this.state;
+      const { frases: frasesSeleccionadas, complemento: complementoSeleccionado } = this.state;
 
       const frases = frasesSeleccionadas.map((frase) => {
 
@@ -122,6 +134,14 @@ class ConfirmacionFactura extends React.Component {
         };
       });
 
+      const complementos = (
+        complementoSeleccionado !== null ?
+          [{
+            id_complemento: complementoSeleccionado.idComplemento,
+            datos: complementoSeleccionado.datos
+          }] : []
+      );
+
       const recurso = {
         id_moneda: factura.moneda.id_moneda,
         id_cliente: factura.cliente.id_cliente,
@@ -130,24 +150,53 @@ class ConfirmacionFactura extends React.Component {
         fecha_emision: factura.fechaEmision,
         frases,
         productos,
+        complementos
       };
 
-      this.setState({ generando: true }, () => {
+      this.setState({ creando: true }, () => {
 
         return generarFactura({ factura: recurso })
-          .then(() => this.setState({ generando: false }, () => next()))
-          .catch(() => (
-            this.setState({ generando: false, error: 'Todo se fue al carajo' }, () => next())
-          ));
+          .then(() => (
+            this.setState({ creando: false, errores: [] }, () => next())
+          ))
+          .catch((error) => {
+            if (error.response) {
+              if (error.response.status === 422) {
+                return this.setState({
+                  creando: false,
+                  errores: error.response.data.errors.map((e) => e.message)
+                });
+              }
+
+              if (error.response.status === 400) {
+                return this.setState({
+                  creando: false,
+                  errores: [error.response.data.message]
+                });
+              }
+            }
+
+            return this.setState({
+              creando: false,
+              errores: ['Hubo un error al crear el documento. Por favor revise su información e intentelo de nuevo más tarde']
+            });
+          });
       });
     };
   }
 
   render() {
     const { onConfirmar, onCancelar }  = this.props;
+    const { creando } = this.state;
 
     return (
-      <Modal open={true} size='small' onClose={onCancelar}>
+      <Modal
+        open={true}
+        size='small'
+        closeOnDimmerClick={false}
+        closeOnDocumentClick={false}
+        closeOnEscape={false}
+        onClose={onCancelar}>
         <Wizard render={(wizard) => {
           const { previous, step, steps } = wizard;
 
@@ -189,7 +238,7 @@ class ConfirmacionFactura extends React.Component {
                 {/* Boton terminar */}
                 {
                   steps.indexOf(step) === steps.length - 1 && (
-                    <Button color='blue' onClick={onConfirmar}>
+                    <Button color='blue' loading={creando} onClick={onConfirmar}>
                       Aceptar
                     </Button>
                   )

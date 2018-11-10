@@ -28,6 +28,16 @@ const FormularioReferenciasNotas = ({
   <Form id='formulario-complemento' autoComplete='off' error={!isValid} onSubmit={handleSubmit}>
     <h3>{complemento.descripcion}</h3>
     <Form.Group widths='equal'>
+      <Form.Field required={complemento.requerido} error={errors.version}>
+        <label>Régimen del Documento</label>
+        <Input
+          name='version'
+          type='number'
+          min={1}
+          placeholder='Version del complemento?'
+          value={values.version}
+          onChange={handleChange} />
+      </Form.Field>
       <Form.Field required={complemento.requerido} error={errors.regimen}>
         <label>Régimen del Documento</label>
         <Select
@@ -52,7 +62,7 @@ const FormularioReferenciasNotas = ({
       </Form.Field>
     </Form.Group>
     <Form.Group widths='equal'>
-      <Form.Field required={complemento.requerido} errors={errors.fecha_emision}>
+      <Form.Field required={complemento.requerido} error={errors.fecha_emision}>
         <label>Fecha de emisión</label>
         <DayPickerInput
           placeholder='Seleccione una fecha'

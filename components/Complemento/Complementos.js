@@ -9,8 +9,16 @@ import FormularioFacturaCambiaria from './FormularioFacturaCambiaria';
 import FormularioReferenciaNotas from './FormularioReferenciaNotas';
 
 class Complementos extends React.Component {
+  confirmarComplemento = (idComplemento) => {
+    return (values) => {
+      const { onConfirmar } = this.props;
+
+      return onConfirmar({ idComplemento, datos: values })
+    };
+  }
+
   render() {
-    const { onConfirmar, complementos } = this.props;
+    const { complementos, complementoSeleccionado } = this.props;
 
     return (
       <>
@@ -36,19 +44,25 @@ class Complementos extends React.Component {
                       codigo_exportador: Yup.string(),
                     })
                   }
-                  initialValues={{
-                    condicion_entrega: null,
-                    nombre_consignatario: '',
-                    direccion_consignatario: '',
-                    codigo_consignatario: '',
-                    nombre_comprador: '',
-                    direccion_comprador: '',
-                    codigo_comprador: '',
-                    otra_referencia: '',
-                    nombre_exportador: '',
-                    codigo_exportador: '',
-                  }}
-                  onSubmit={onConfirmar}>
+                  initialValues={
+                    Object.assign(
+                      {},
+                      {
+                        condicion_entrega: null,
+                        nombre_consignatario: '',
+                        direccion_consignatario: '',
+                        codigo_consignatario: '',
+                        nombre_comprador: '',
+                        direccion_comprador: '',
+                        codigo_comprador: '',
+                        otra_referencia: '',
+                        nombre_exportador: '',
+                        codigo_exportador: '',
+                      },
+                      complementoSeleccionado && complementoSeleccionado.datos
+                    )
+                  }
+                  onSubmit={this.confirmarComplemento(complemento.id_complemento)}>
                   {(props) => (
                     <FormularioExportacion
                       key={complemento.id_complemento}
@@ -70,12 +84,18 @@ class Complementos extends React.Component {
                       total_menos_retenciones: Yup.number()
                     })
                   }
-                  initialValues={{
-                    retencion_isr: 0,
-                    retencion_iva: 0,
-                    total_menos_retenciones: 0
-                  }}
-                  onSubmit={onConfirmar}>
+                  initialValues={
+                    Object.assign(
+                      {},
+                      {
+                        retencion_isr: 0,
+                        retencion_iva: 0,
+                        total_menos_retenciones: 0
+                      },
+                      complementoSeleccionado && complementoSeleccionado.datos
+                    )
+                  }
+                  onSubmit={this.confirmarComplemento(complemento.id_complemento)}>
                   {(props) => (
                     <FormularioRetencionesFacturaEspecial
                       key={complemento.id_complemento}
@@ -96,11 +116,17 @@ class Complementos extends React.Component {
                       fecha_vencimiento: Yup.string(),
                     })
                   }
-                  initialValues={{
-                    monto_abono: 0,
-                    fecha_vencimiento: startOfToday(),
-                  }}
-                  onSubmit={onConfirmar}>
+                  initialValues={
+                    Object.assign(
+                      {},
+                      {
+                        monto_abono: 0,
+                        fecha_vencimiento: startOfToday(),
+                      },
+                      complementoSeleccionado && complementoSeleccionado.datos
+                    )
+                  }
+                  onSubmit={this.confirmarComplemento(complemento.id_complemento)}>
                   {(props) => (
                     <FormularioFacturaCambiaria
                       key={complemento.id_complemento}
@@ -117,6 +143,7 @@ class Complementos extends React.Component {
                   key={complemento.id_complemento}
                   validationSchema={
                     Yup.object().shape({
+                      version: Yup.number(),
                       regimen: Yup.string().nullable(),
                       numero_autorizacion: Yup.string(),
                       fecha_emision: Yup.string(),
@@ -125,15 +152,22 @@ class Complementos extends React.Component {
                       numero_serie: Yup.string(),
                     })
                   }
-                  initialValues={{
-                    regimen: null,
-                    numero_autorizacion: '',
-                    fecha_emision: startOfToday(),
-                    motivo_ajuste: '',
-                    numero_documento: '',
-                    numero_serie: '',
-                  }}
-                  onSubmit={onConfirmar}>
+                  initialValues={
+                    Object.assign(
+                      {},
+                      {
+                        version: 1,
+                        regimen: null,
+                        numero_autorizacion: '',
+                        fecha_emision: startOfToday(),
+                        motivo_ajuste: '',
+                        numero_documento: '',
+                        numero_serie: '',
+                      },
+                      complementoSeleccionado && complementoSeleccionado.datos
+                    )
+                  }
+                  onSubmit={this.confirmarComplemento(complemento.id_complemento)}>
                   {(props) => (
                     <FormularioReferenciaNotas
                       key={complemento.id_complemento}
@@ -152,6 +186,7 @@ class Complementos extends React.Component {
 
 Complementos.propTypes = {
   complementos: PropTypes.array.isRequired,
+  complementoSeleccionado: PropTypes.object,
   onConfirmar: PropTypes.func.isRequired,
 };
 

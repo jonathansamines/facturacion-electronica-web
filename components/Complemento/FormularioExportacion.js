@@ -27,7 +27,7 @@ class FormularioExportacion extends React.Component {
     } = this.props;
 
     return (
-      <Form id='formulario-complemento' autoComplete='off' errors={!isValid} onSubmit={handleSubmit}>
+      <Form id='formulario-complemento' autoComplete='off' error={!isValid} onSubmit={handleSubmit}>
         <h3>{complemento.descripcion}</h3>
         <Form.Group widths='equal'>
           <Form.Field required={complemento.requerido} error={Boolean(errors.nombre_consignatario)}>
@@ -127,7 +127,7 @@ class FormularioExportacion extends React.Component {
               name='condicion_entrega'
               condicionesEntrega={condicionesEntrega}
               condicionEntregaSeleccionada={values.condicion_entrega}
-              onSeleccion={() => setFieldValue('condicion_entrega', values.condicion_entrega)} />
+              onSeleccion={(event, data) => setFieldValue('condicion_entrega', data.value)} />
           </Form.Field>
         </Form.Group>
         {

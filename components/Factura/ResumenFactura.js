@@ -38,7 +38,7 @@ ResumenFactura.propTypes = {
   totalMontoGravable: PropTypes.number.isRequired,
   totalImpuestos: PropTypes.number.isRequired,
   totalDescuento: PropTypes.number.isRequired,
-  onConfirmacion: PropTypes.number.isRequired,
+  onConfirmacion: PropTypes.func.isRequired,
 };
 
 export default ResumenFactura;

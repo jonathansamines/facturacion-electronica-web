@@ -18,13 +18,18 @@ class TiposFrase extends React.Component {
   }
 
   obtenerValoresPorDefecto() {
-    const { tiposFrase } = this.props;
+    const { tiposFrase, frasesSeleccionadas } = this.props;
 
     return {
-      ...(tiposFrase.reduce((resultado, tipoFrase) => ({
-        ...resultado,
-        [tipoFrase.id_tipo_frase]: null,
-      }), {}))
+      ...(tiposFrase.reduce((resultado, tipoFrase) => {
+
+        const fraseSeleccionada = frasesSeleccionadas.find((frase) => frase.id_tipo_frase === tipoFrase.id_tipo_frase);
+
+        return {
+          ...resultado,
+          [tipoFrase.id_tipo_frase]: fraseSeleccionada ? fraseSeleccionada.id_frase : null,
+        };
+      }, {}))
     }
   }
 
@@ -45,11 +50,12 @@ class TiposFrase extends React.Component {
 
     return (
       <Formik
+        enableReinitialize={true}
         validationSchema={this.obtenerEsquemaValidacion()}
         initialValues={this.obtenerValoresPorDefecto()}
         onSubmit={this.seleccionarFrasePorTipoFrase}>
           {({ values, errors, isValid, handleSubmit, setFieldValue }) => (
-          <Form id='formulario-seleccion-frase' errors={!isValid} onSubmit={handleSubmit}>
+          <Form id='formulario-seleccion-frase' error={!isValid} onSubmit={handleSubmit}>
             {tiposFrase.map((tipoFrase) => (
               <Form.Field
                 key={tipoFrase.id_tipo_frase}
@@ -72,6 +78,7 @@ class TiposFrase extends React.Component {
 }
 
 TiposFrase.propTypes = {
+  frasesSeleccionadas: PropTypes.array.isRequired,
   tiposFrase: PropTypes.array.isRequired,
   onSeleccion: PropTypes.func.isRequired
 };

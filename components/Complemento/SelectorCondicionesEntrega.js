@@ -34,7 +34,7 @@ const SelectorCondicionesEntrega = (props) => {
 SelectorCondicionesEntrega.propTypes = {
   name: PropTypes.string.isRequired,
   condicionesEntrega: PropTypes.array.isRequired,
-  condicionEntregaSeleccionada: PropTypes.number,
+  condicionEntregaSeleccionada: PropTypes.string,
   onSeleccion: PropTypes.func.isRequired,
 };
 
