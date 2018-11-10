@@ -55,11 +55,22 @@ const FormularioCliente = ({
             onChange={handleChange} />
         </Form.Field>
         <Form.Field required error={Boolean(errors.apellido)}>
-        <label>Apellido del cliente</label>
+          <label>Apellido del cliente</label>
           <Input
             name='apellido'
             placeholder='Apellido del cliente'
             value={values.apellido}
+            onChange={handleChange} />
+        </Form.Field>
+      </Form.Group>
+      <Form.Group widths='equal'>
+        <Form.Field error={Boolean(errors.correo)}>
+          <label>Correo electrónico</label>
+          <Input
+            type='email'
+            name='correo_electronico'
+            placeholder='ej. correo@miempresa.com'
+            value={values.correo_electronico}
             onChange={handleChange} />
         </Form.Field>
       </Form.Group>

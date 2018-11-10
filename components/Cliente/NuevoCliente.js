@@ -26,6 +26,7 @@ class NuevoCliente extends React.Component {
       nombre: values.nombre,
       apellido: values.apellido,
       direccion: values.direccion,
+      correo_electronico: values.correo_electronico
     };
 
     // validaciones locales
@@ -85,6 +86,7 @@ class NuevoCliente extends React.Component {
             direccion: '',
             id_departamento: null,
             id_municipio: null,
+            correo_electronico: ''
           })}
           onSubmit={this.crearCliente}>
           {(props) => (

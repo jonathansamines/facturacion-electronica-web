@@ -26,6 +26,7 @@ class EditarCliente extends React.Component {
       nombre: values.nombre,
       apellido: values.apellido,
       direccion: values.direccion,
+      correo_electronico: values.correo_electronico
     };
 
     // validaciones locales
@@ -89,6 +90,7 @@ class EditarCliente extends React.Component {
             nombre: cliente.nombre,
             apellido: cliente.apellido,
             direccion: cliente.direccion,
+            correo_electronico: cliente.correo_electronico
           }}
           validationSchema={esquemaValidacion}
           onSubmit={this.editarCliente}>
