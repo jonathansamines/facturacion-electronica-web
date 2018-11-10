@@ -28,14 +28,16 @@ class TiposFrase extends React.Component {
     }
   }
 
-  seleccionarTipoFrase = (values) => {
+  seleccionarFrasePorTipoFrase = (values) => {
     const { tiposFrase, onSeleccion } = this.props;
 
-    const tiposFraseSeleccionados = Object.keys(values).map((idTipoFrase) => (
-      tiposFrase.find((tipoFrase) => tipoFrase.id_tipo_frase === values[idTipoFrase])
-    ));
+    const frasesSeleccionadas = Object.keys(values).filter((key) => values[key] !== null).map((idTipoFrase) => {
+      const tipo = tiposFrase.find((tipoFrase) => tipoFrase.id_tipo_frase === Number.parseInt(idTipoFrase));
 
-    return onSeleccion && onSeleccion(tiposFraseSeleccionados);
+      return tipo.frases.find((frase) => frase.id_frase === values[idTipoFrase]);
+    });
+
+    return onSeleccion && onSeleccion(frasesSeleccionadas);
   }
 
   render() {
@@ -45,7 +47,7 @@ class TiposFrase extends React.Component {
       <Formik
         validationSchema={this.obtenerEsquemaValidacion()}
         initialValues={this.obtenerValoresPorDefecto()}
-        onSubmit={this.seleccionarTipoFrase}>
+        onSubmit={this.seleccionarFrasePorTipoFrase}>
           {({ values, errors, isValid, handleSubmit, setFieldValue }) => (
           <Form id='formulario-seleccion-frase' errors={!isValid} onSubmit={handleSubmit}>
             {tiposFrase.map((tipoFrase) => (

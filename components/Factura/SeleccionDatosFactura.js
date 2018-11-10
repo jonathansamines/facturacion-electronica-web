@@ -43,8 +43,9 @@ class SeleccionDatosFactura extends React.Component {
 
     const cliente = clientes.find((cliente) => cliente.id_cliente === values.id_cliente) || null;
     const vendedor = vendedores.find((vendedor) => vendedor.id_vendedor === values.id_vendedor) || null;
+    const fechaEmision = values.fecha_factura;
 
-    return this.props.onSeleccion({ cliente, vendedor });
+    return this.props.onSeleccion({ cliente, vendedor, fechaEmision });
   }
 
   agregarCliente = (cliente) => {

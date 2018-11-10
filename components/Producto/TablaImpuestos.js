@@ -30,7 +30,6 @@ const TablaImpuestos = ({
 
 TablaImpuestos.propTypes = {
   moneda: PropTypes.object.isRequired,
-  producto: PropTypes.object.isRequired,
   impuestos: PropTypes.array.isRequired,
 };
 

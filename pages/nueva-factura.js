@@ -18,8 +18,8 @@ class PaginaNuevaFactura extends React.Component {
     opciones: null,
     cliente: null,
     vendedor: null,
-    tiposFrase: null,
-    confirmandoFacturacion: false
+    confirmandoFacturacion: false,
+    productos: []
   }
 
   static async getInitialProps({ req, res }) {
@@ -46,7 +46,7 @@ class PaginaNuevaFactura extends React.Component {
 
   configurarVendedor = (vendedor) => this.setState({ vendedor });
 
-  configurarSeleccion = ({ cliente, vendedor }) => this.setState({ cliente, vendedor });
+  configurarSeleccion = ({ cliente, vendedor, fechaEmision }) => this.setState({ cliente, vendedor, fechaEmision });
 
   iniciarFacturacion = () => this.setState({ confirmandoFacturacion: true })
 
@@ -54,9 +54,18 @@ class PaginaNuevaFactura extends React.Component {
 
   confirmarFacturacion = () => null
 
+  actualizarProductos = ({ productos }) => this.setState({ productos });
+
   render() {
     const { usuario, monedas, afiliacionIVA, tipoCambio } = this.props;
-    const { opciones, vendedor, cliente, confirmandoFacturacion } = this.state;
+    const {
+      productos,
+      opciones,
+      vendedor,
+      cliente,
+      fechaEmision,
+      confirmandoFacturacion
+    } = this.state;
 
     return (
       <>
@@ -80,6 +89,14 @@ class PaginaNuevaFactura extends React.Component {
             {
               confirmandoFacturacion &&
               <ConfirmacionFactura
+                factura={{
+                  productos,
+                  moneda: opciones.moneda,
+                  vendedor,
+                  cliente,
+                  fechaEmision,
+                }}
+                tipoCambio={tipoCambio}
                 tipoDocumento={opciones.tipoDocumento}
                 exportacion={opciones.exportacion}
                 onCancelar={this.cancelarFacturacion}
@@ -112,17 +129,15 @@ class PaginaNuevaFactura extends React.Component {
             {
               opciones &&
               <DetalleProductos
+                productos={productos}
                 tipoCambio={tipoCambio}
                 moneda={opciones.moneda}
                 exportacion={opciones.exportacion}
-                tipoDocumento={opciones.tipoDocumento} />
+                tipoDocumento={opciones.tipoDocumento}
+                onProductosActualizados={this.actualizarProductos} />
             }
           </Segment>
         </Main>
-
-        {
-
-        }
 
         <ConfiguracionFactura
           monedas={monedas}

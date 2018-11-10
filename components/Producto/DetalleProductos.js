@@ -9,7 +9,6 @@ import ConfirmacionProducto from './ConfirmacionProducto';
 
 class DetalleProductos extends React.Component {
   state = {
-    productos: [],
     nuevoProducto: null,
     productoPendiente: null,
     productosEnCatalogo: [],
@@ -27,19 +26,20 @@ class DetalleProductos extends React.Component {
   }
 
   confirmarProductoPendiente = ({ producto, descuento, unidades, unidadesGravables }) => {
-    this.setState(({ productos }) => {
-      const productoExistente = productos.find((p) => p.producto.id_producto === producto.id_producto);
-      const nuevosProductos = productoExistente === undefined ? [...productos, { producto, unidades, unidadesGravables, descuento }] : productos;
+    const { productos, onProductosActualizados } = this.props;
 
-      return {
-        productoPendiente: null,
-        productos: nuevosProductos
-      };
+    const productoExistente = productos.find((p) => p.producto.id_producto === producto.id_producto);
+    const nuevosProductos = productoExistente === undefined ? [...productos, { producto, unidades, unidadesGravables, descuento }] : productos;
+
+    onProductosActualizados({ productos: nuevosProductos });
+
+    this.setState({
+      productoPendiente: null,
     });
   }
 
   actualizarProductos = (productos) => {
-    this.setState({ productos });
+    this.props.onProductosActualizados({ productos });
   }
 
   actualizarCatalogoProductos = ({ productos }) => {
@@ -67,9 +67,8 @@ class DetalleProductos extends React.Component {
   }
 
   render() {
-    const { tipoDocumento, tipoCambio, moneda, exportacion } = this.props;
+    const { productos, tipoDocumento, tipoCambio, moneda, exportacion } = this.props;
     const {
-      productos,
       nuevoProducto,
       productoPendiente,
       productosEnCatalogo,
@@ -133,10 +132,12 @@ class DetalleProductos extends React.Component {
 }
 
 DetalleProductos.propTypes = {
+  productos: PropTypes.array.isRequired,
   exportacion: PropTypes.bool.isRequired,
   moneda: PropTypes.object.isRequired,
   tipoCambio: PropTypes.object.isRequired,
   tipoDocumento: PropTypes.object,
+  onProductosActualizados: PropTypes.func.isRequired,
 };
 
 export default DetalleProductos
